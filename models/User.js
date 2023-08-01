@@ -1,3 +1,4 @@
+const { hash, compare } = require("bcryptjs");
 const { Schema, model } = require("mongoose");
 const { default: isEmail } = require("validator/lib/isemail");
 
@@ -40,7 +41,24 @@ const userSchema = new Schema({
     select: false,
     default: true,
   },
+  passwordChangedAt: Date,
 });
 
+userSchema.pre("save", async function (next) {
+  this.password = await hash(this.password, 12);
+  this.confirmPassword = undefined;
+  next();
+});
+
+userSchema.methods.comparePassword = async function (password) {
+  return await compare(password, this.password);
+};
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    console.log(JWTTimestamp, this.passwordChangedAt);
+    return true;
+  }
+  return false;
+};
 const User = model("User", userSchema);
 module.exports = User;

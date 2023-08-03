@@ -7,7 +7,7 @@ const categorySchema = new Schema({
     required: [true, "Category must have a name!"],
     trim: true,
     maxlength: [40, "name must be lower than 40"],
-    minlength: [10, "name must be grater than 10"],
+    minlength: [2, "name must be grater than 2"],
   },
   parentCategory: {
     type: Schema.ObjectId,
@@ -21,10 +21,9 @@ const categorySchema = new Schema({
     {
       name: {
         type: String,
-        unique: true,
         trim: true,
         maxlength: [40, "name must be lower than 40"],
-        minlength: [10, "name must be grater than 10"],
+        minlength: [2, "name must be grater than 2"],
       },
       value: [
         {

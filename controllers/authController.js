@@ -50,8 +50,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
   if (!user) throw new AppError("The token's user no longer exists", 401);
-  if (user.passwordChangedAfter(decoded.iat))
-    throw new AppError("User changed password");
+  if (user.changedPasswordAfter(decoded.iat))
+    throw new AppError("User changed password",400);
 
   req.user = user;
   next();
@@ -67,3 +67,34 @@ exports.restrectTo = (...roles) => {
     next();
   };
 };
+
+exports.createAdminUser = catchAsync(async (req, res, next) => {
+  const { email, password, confirmPassword, name, photo } = req.body;
+
+  const user = await User.create({
+    role: "admin",
+    email,
+    password,
+    confirmPassword,
+    name,
+    photo,
+  });
+  res.json(201).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
+
+exports.getUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find(req.params);
+
+  res.status(200).json({
+    status: "success",
+    results: users.length,
+    data: {
+      users,
+    },
+  });
+});

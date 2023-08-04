@@ -44,6 +44,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {
+  console.log("fuck");
   const featuredProduct = await Product.findOne({ featured: true });
   if (!featuredProduct) throw new AppError("There is no featured product", 404);
 

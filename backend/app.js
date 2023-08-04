@@ -1,5 +1,5 @@
 const express = require("express");
-const app = express();
+const cors = require('cors')
 const productRouter = require("./routes/productRoutes");
 const userRouter = require("./routes/userRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
@@ -7,9 +7,10 @@ const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
 const reviewRouter = require("./routes/reviewRoutes");
 
+const app = express();
 //middlewares
+app.use(cors())
 app.use(express.json());
-
 //routes
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);

@@ -1,12 +1,15 @@
 import React from "react";
 
-export default function SubmitBtn({ isLoading,text }) {
+export default function SubmitBtn({ className, isLoading, text }) {
   if (isLoading)
     return (
       <button
         disabled
         type="button"
-        class="py-2.5 px-5 mr-2 text-sm font-semibold text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center"
+        class={
+          "py-2.5 px-5 mr-2  font-semibold text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center w-full justify-center text-sm " +
+          className
+        }
       >
         <svg
           aria-hidden="true"
@@ -31,7 +34,10 @@ export default function SubmitBtn({ isLoading,text }) {
   return (
     <button
       type="submit"
-      className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full"
+      className={
+        "text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-semibold rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full " +
+        className
+      }
     >
       {text}
     </button>

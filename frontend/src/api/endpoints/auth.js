@@ -1,8 +1,8 @@
 import { useAuth } from "../../context/Auth";
-import api from "../api";
+import API from "../API";
 
 export const loginUser = async (email, password) => {
-  const {data} = await api.post("/users/login", { email, password });
+  const {data} = await API.post("/users/login", { email, password });
 
   return data;
 };

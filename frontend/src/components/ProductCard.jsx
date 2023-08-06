@@ -1,10 +1,11 @@
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ data }) {
-  const { price, name, images } = data;
+  const { price, name, images, id } = data;
   return (
-    <div className="w-[200px] ">
+    <Link className="w-[200px] " to={`/products/${id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
           <AiOutlineHeart size={20} />
@@ -30,6 +31,6 @@ export default function ProductCard({ data }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -11,7 +11,7 @@ export default function ProductsPage() {
     <section>
       <div className="max-w-7xl mx-auto py-10">
         <h2 className="text-2xl font-bold mb-5">All Products</h2>
-        <div className="flex gap-5">
+        <div className="flex gap-5 flex-wrap">
           {data.map((prod) => (
             <ProductCard key={prod.id} data={prod} />
           ))}

@@ -28,12 +28,13 @@ exports.getProductById = catchAsync(async (req, res, next) => {
 });
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-  const { name, price, brand, images } = req.body;
+  const { name, price, brand, images ,description} = req.body;
   const newProduct = await Product.create({
     name,
     price,
     brand,
     images,
+    description,
     creator: req.user.id,
   });
 

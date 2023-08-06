@@ -1,8 +1,8 @@
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-export default function ProductCard({data}) {
-  const {price,name} = data
+export default function ProductCard({ data }) {
+  const { price, name, images } = data;
   return (
     <div className="w-[200px] ">
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
@@ -12,7 +12,11 @@ export default function ProductCard({data}) {
         <div className=" h-full grid place-items-center">
           <img
             className="w-5/6 h-5/6 object-contain"
-            src="https://btech.com/cdn-cgi/image/quality=50,format=auto/media/catalog/product/cache/22b1bed05f04d71c4a848d770186c3c4/a/p/apple-iphone-13-starlight_3.jpg"
+            src={
+              images.length > 0
+                ? images[0]
+                : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png"
+            }
             alt=""
           />
         </div>

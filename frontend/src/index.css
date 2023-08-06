@@ -7,3 +7,9 @@
         background-color: rgb(230, 230, 230);
     }
 }
+@layer components {
+    .input-style{
+        @apply border border-gray-300 rounded-md  outline-none px-2 py-1;
+        
+    }
+  }

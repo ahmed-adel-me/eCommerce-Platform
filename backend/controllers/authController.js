@@ -8,6 +8,14 @@ function createAndSendToken(user, res, statusCode = 201) {
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+  res.cookie("jwt", token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    // secure: true,
+    // httpOnly: true,
+  });
+
   user.password = undefined;
   res.status(statusCode).json({
     status: "success",
@@ -38,7 +46,6 @@ exports.login = catchAsync(async (req, res, next) => {
   const correct = user && (await user.comparePassword(password));
   if (!user || !correct)
     throw new AppError("Incorrect email or password!", 401);
-
   createAndSendToken(user, res, 200);
 });
 
@@ -51,7 +58,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   const user = await User.findById(decoded.id);
   if (!user) throw new AppError("The token's user no longer exists", 401);
   if (user.changedPasswordAfter(decoded.iat))
-    throw new AppError("User changed password",400);
+    throw new AppError("User changed password", 400);
 
   req.user = user;
   next();

@@ -3,6 +3,7 @@ const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getProducts = catchAsync(async (req, res, next) => {
+  console.log(req.cookies);
   const products = await Product.find().populate("reviews", "-__v");
 
   res.status(200).json({
@@ -27,11 +28,12 @@ exports.getProductById = catchAsync(async (req, res, next) => {
 });
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-  const { name, price, brand } = req.body;
+  const { name, price, brand, images } = req.body;
   const newProduct = await Product.create({
     name,
     price,
     brand,
+    images,
     creator: req.user.id,
   });
 

@@ -2,7 +2,6 @@ import React from "react";
 import Star from "../../components/Star";
 
 export default function ProductsReviews({ reviews }) {
-  console.log(reviews);
   return (
     <div className="bg-white rounded-xl p-5 flex-1">
       <h4 className="font-extrabold text-lg mb-5">All reviews</h4>

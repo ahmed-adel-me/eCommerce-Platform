@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function ProductCard({ data }) {
   const { price, name, images, id } = data;
   return (
-    <Link className="w-[200px] " to={`/products/${id}`}>
+    <Link className=" " to={`/products/${id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
           <AiOutlineHeart size={20} />

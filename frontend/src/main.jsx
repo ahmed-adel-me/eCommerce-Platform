@@ -13,6 +13,8 @@ import Protect from "./components/Protect.jsx";
 import AccountPage from "./routes/account/AccountPage.jsx";
 import ProductsPage from "./routes/products/ProductsPage.jsx";
 import ProductInfo from "./routes/products/ProductInfo.jsx";
+import CategoriesPage from "./routes/categories/CategoriesPage.jsx";
+import CategoryProductsPage from "./routes/categories/CategoryProductsPage.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +44,14 @@ const router = createBrowserRouter([
           <ProductsPage />
           // </Protect>
         ),
+      },
+      {
+        path: "/categories",
+        element: <CategoriesPage />,
+      },
+      {
+        path: "/categories/:categoryId",
+        element: <CategoryProductsPage />,
       },
       {
         path: "/products/:productId",

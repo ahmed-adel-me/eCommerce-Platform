@@ -4,7 +4,6 @@ import SubmitBtn from "../../components/SubmitBtn";
 export default function AccountDetails({ userData }) {
   const [user, setUser] = useState(userData);
   function handleChange({ target }) {
-    console.log(target.name);
     setUser((prev) => {
       return { ...prev, [target.name]: target.value };
     });

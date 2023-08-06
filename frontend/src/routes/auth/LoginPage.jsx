@@ -20,7 +20,6 @@ export default function LoginPage() {
   };
   // if (loginMutation.isLoading) return;
   if (loginMutation.isSuccess) {
-    console.log(loginMutation.data);
     login(loginMutation.data.token, loginMutation.data.data.user);
     navigate("/home");
   }

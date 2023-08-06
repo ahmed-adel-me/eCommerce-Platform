@@ -6,7 +6,6 @@ import ProductCard from "../../components/ProductCard";
 export default function ProductsPage() {
   const { data, isLoading } = useQuery("products", getAllProducts);
   if (isLoading) return;
-  console.log(data);
   return (
     <section>
       <div className="max-w-7xl mx-auto py-10">

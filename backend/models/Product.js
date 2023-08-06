@@ -10,9 +10,6 @@ const productSchema = new Schema(
       type: String,
       required: "Product must have a brand!",
     },
-    categories: [{ type: Schema.ObjectId, ref: "Category" }],
-    color: String,
-
     price: {
       type: Number,
       required: [true, "Product must have a price!"],
@@ -29,8 +26,8 @@ const productSchema = new Schema(
       default: Date.now(),
     },
     category: {
-      type: Schema.ObjectId,
-      ref: "Category",
+      name: String,
+      properties: [Object],
     },
     creator: {
       type: Schema.ObjectId,

@@ -13,7 +13,6 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
 });
 
 exports.createReview = catchAsync(async (req, res, next) => {
-  console.log(req.body);
   const { title, description, rating } = req.body;
   const newReview = await Review.create({
     title,

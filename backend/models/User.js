@@ -46,6 +46,7 @@ const userSchema = new Schema(
       {
         type: Schema.ObjectId,
         ref: "Product",
+        required: [true, "product is required"],
       },
     ],
     passwordChangedAt: Date,
@@ -54,6 +55,8 @@ const userSchema = new Schema(
 );
 
 userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
   this.password = await hash(this.password, 12);
   this.confirmPassword = undefined;
   next();

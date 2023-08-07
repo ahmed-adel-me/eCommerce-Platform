@@ -1,19 +1,71 @@
+const { default: mongoose } = require("mongoose");
 const Category = require("../models/Category");
 const Product = require("../models/Product");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+// exports.getProducts = catchAsync(async (req, res, next) => {
+//   const products = await Product.find()
+
+//   res.status(200).json({
+//     status: "success",
+//     results: products.length,
+//     data: {
+//       products,
+//     },
+//   });
+// });
+
 exports.getProducts = catchAsync(async (req, res, next) => {
-  const products = await Product.find().populate("reviews", "-__v");
+  const userId = req.user._id;
+
+  const productsWithWishedStatus = await Product.aggregate([
+    // Add wished field using $lookup and $in
+    {
+      $lookup: {
+        from: "users", // Replace with the actual name of the users collection
+        let: { product_id: "$_id" },
+        pipeline: [
+          { $match: { _id: userId } },
+          { $project: { _id: 0, wishList: 1 } },
+          { $unwind: "$wishList" },
+          { $match: { $expr: { $eq: ["$$product_id", "$wishList"] } } },
+        ],
+        as: "wishedProducts",
+      },
+    },
+    {
+      $addFields: {
+        wished: { $gt: [{ $size: "$wishedProducts" }, 0] },
+      },
+    },
+    // Project only required fields
+    {
+      $project: {
+        _id: 1,
+        name: 1,
+        brand: 1,
+        price: 1,
+        description: 1,
+        images: 1,
+        createdAt: 1,
+        category: 1,
+        creator: 1,
+        featured: 1,
+        wished: 1,
+      },
+    },
+  ]);
 
   res.status(200).json({
     status: "success",
-    results: products.length,
+    results: productsWithWishedStatus.length,
     data: {
-      products,
+      products: productsWithWishedStatus,
     },
   });
 });
+
 exports.getProductById = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.productId).populate(
     "reviews",
@@ -48,8 +100,8 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {
-  const featuredProduct = await Product.findOne({ featured: true });
-  if (!featuredProduct) throw new AppError("There is no featured product", 404);
+  let featuredProduct = await Product.findOne({ featured: true });
+  if (!featuredProduct) featuredProduct =await Product.findOne();
 
   res.status(200).json({
     status: "success",

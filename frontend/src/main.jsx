@@ -15,6 +15,8 @@ import ProductsPage from "./routes/products/ProductsPage.jsx";
 import ProductInfo from "./routes/products/ProductInfo.jsx";
 import CategoriesPage from "./routes/categories/CategoriesPage.jsx";
 import CategoryProductsPage from "./routes/categories/CategoryProductsPage.jsx";
+import WishList from "./routes/account/WishList.jsx";
+import OrderList from "./routes/account/OrderList.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,30 +34,53 @@ const router = createBrowserRouter([
       {
         path: "/account",
         element: (
-          // <Protect>
-          <AccountPage />
-          // </Protect>
+          <Protect>
+            <AccountPage />
+          </Protect>
         ),
+        children: [
+          {
+            // path: "/account/wishlist",
+            index: true,
+            element: <WishList />,
+          },
+          {
+            path: "/account/orders",
+            element: <OrderList />,
+          },
+        ],
       },
       {
         path: "/products",
         element: (
-          // <Protect>
-          <ProductsPage />
-          // </Protect>
+          <Protect>
+            <ProductsPage />
+          </Protect>
         ),
       },
       {
         path: "/categories",
-        element: <CategoriesPage />,
+        element: (
+          <Protect>
+            <CategoriesPage />
+          </Protect>
+        ),
       },
       {
         path: "/categories/:categoryId",
-        element: <CategoryProductsPage />,
+        element: (
+          <Protect>
+            <CategoryProductsPage />
+          </Protect>
+        ),
       },
       {
         path: "/products/:productId",
-        element: <ProductInfo />,
+        element: (
+          <Protect>
+            <ProductInfo />
+          </Protect>
+        ),
       },
     ],
   },

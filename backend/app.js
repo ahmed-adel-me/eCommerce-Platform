@@ -10,8 +10,9 @@ const cookieParser = require("cookie-parser");
 
 const app = express();
 //middlewares
-app.use(cookieParser());
 app.use(cors());
+app.use(cookieParser());
+
 app.use(express.json());
 //routes
 app.use("/api/products", productRouter);

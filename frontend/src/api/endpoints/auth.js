@@ -9,5 +9,5 @@ export const loginUser = async (email, password) => {
 
 export const signupUser = async (props) => {
   const { data } = await API.post("/users/signup", props);
-  return data
+  return data;
 };

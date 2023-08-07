@@ -15,9 +15,9 @@ export default function NewArrival() {
     <div>
       <div className="max-w-7xl mx-auto py-10">
         <h2 className="text-3xl font-semibold mb-10">New Arrivals</h2>
-        <div className="flex gap-6">
+        <div className="grid grid-cols-4  gap-10">
           {products.map((prod) => (
-            <ProductCard key={prod.id} data={prod} />
+            <ProductCard key={prod._id} data={prod} />
           ))}
         </div>
       </div>

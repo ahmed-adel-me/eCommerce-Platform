@@ -3,12 +3,14 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 export default function ProductCard({ data }) {
-  const { price, name, images, id } = data;
+  const { price, name, images, id, wished } = data;
   return (
     <Link className=" " to={`/products/${id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
-          <AiOutlineHeart size={20} />
+          <button>
+            {wished ? <AiFillHeart size={20} color="red" /> : <AiOutlineHeart size={20} />}
+          </button>
         </div>
         <div className=" h-full grid place-items-center">
           <img

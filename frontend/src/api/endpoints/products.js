@@ -17,3 +17,8 @@ export const getProductsByCategory = async (limit) => {
   );
   return data.data;
 };
+
+export const getFeaturedProduct = async () => {
+  const { data } = await API.get("/products/featured");
+  return data.data.featuredProduct;
+};

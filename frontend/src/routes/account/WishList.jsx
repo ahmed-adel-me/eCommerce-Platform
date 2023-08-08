@@ -7,7 +7,10 @@ import { getWishlist } from "../../api/endpoints/wishlist";
 export default function WishList() {
   const { user } = useAuth();
   // const { wishList } = user;
-  const { data: wishList, isLoading } = useQuery("wishlist", getWishlist);
+  const { data: wishList, isLoading } = useQuery(
+    ["products", "wishlist"],
+    getWishlist
+  );
   if (isLoading) return;
   console.log(wishList);
   return (

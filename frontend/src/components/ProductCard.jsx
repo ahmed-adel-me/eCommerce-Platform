@@ -1,15 +1,49 @@
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-
+import { useMutation, useQueryClient } from "react-query";
+import {
+  addWishlistProduct,
+  deleteWishlistProduct,
+} from "../api/endpoints/wishlist";
 export default function ProductCard({ data }) {
-  const { price, name, images, id, wished } = data;
+  const { price, name, images, _id, wished } = data;
+  const queryClient = useQueryClient();
+
+  const toggleWishMutation = useMutation(
+    () => {
+      if (wished) {
+        return deleteWishlistProduct(_id);
+      } else {
+        return addWishlistProduct(_id);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("products");
+
+      },
+    }
+  );
+
+  const handleToggleWish = (event) => {
+    event.preventDefault(); // Prevent the default link navigation behavior
+    toggleWishMutation.mutate();
+  };
+  console.log(toggleWishMutation.data);
   return (
-    <Link className=" " to={`/products/${id}`}>
+    <Link className=" " to={`/products/${_id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
-          <button>
-            {wished ? <AiFillHeart size={20} color="red" /> : <AiOutlineHeart size={20} />}
+          <button
+            disabled={toggleWishMutation.isLoading}
+            onClick={handleToggleWish}
+          >
+            {wished ? (
+              <AiFillHeart size={20} color="red" />
+            ) : (
+              <AiOutlineHeart size={20} />
+            )}
           </button>
         </div>
         <div className=" h-full grid place-items-center">

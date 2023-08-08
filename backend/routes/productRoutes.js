@@ -13,6 +13,7 @@ const reviewRouter = require("./reviewRoutes");
 const {
   addProductToWishlist,
   getWishlist,
+  deleteWishlistProduct,
 } = require("../controllers/wishlistController");
 
 const router = Router({ mergeParams: true });
@@ -24,6 +25,9 @@ router.route("/").get(getProducts).post(restrectTo("admin"), createProduct);
 
 router.route("/featured").get(getFeaturedProduct).post(setFeaturedProduct);
 router.use("/:productId/reviews", reviewRouter);
-router.post("/:productId/wishlist", addProductToWishlist);
+router
+  .route("/:productId/wishlist")
+  .post(addProductToWishlist)
+  .delete(deleteWishlistProduct);
 router.route("/:productId").get(getProductById);
 module.exports = router;

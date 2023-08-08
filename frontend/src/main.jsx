@@ -17,6 +17,8 @@ import CategoriesPage from "./routes/categories/CategoriesPage.jsx";
 import CategoryProductsPage from "./routes/categories/CategoryProductsPage.jsx";
 import WishList from "./routes/account/WishList.jsx";
 import OrderList from "./routes/account/OrderList.jsx";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -100,6 +102,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Auth>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Auth>
   </React.StrictMode>

@@ -24,7 +24,7 @@ function ReviewCard({ review }) {
       <div className="flex justify-between">
         <div className="flex">
           {[...Array(5)].map((_, index) => (
-            <Star filled={index < review.rating} />
+            <Star key={index} filled={index < review.rating} />
           ))}
         </div>
         <span className="text-gray-500">{review.createdAt}</span>

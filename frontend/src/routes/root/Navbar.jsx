@@ -10,7 +10,7 @@ export default function Navbar() {
         <ul className="flex font-semibold gap-4 text-lg text-[#ffffffb6]">
           <li>
             <NavLink
-              to={"/home"}
+              to={"/"}
               className={({ isActive }) => ` ${isActive ? "text-white" : ""}`}
             >
               Home

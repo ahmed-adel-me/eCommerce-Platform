@@ -21,7 +21,7 @@ export default function LoginPage() {
   // if (loginMutation.isLoading) return;
   if (loginMutation.isSuccess) {
     login(loginMutation.data.token, loginMutation.data.data.user);
-    navigate("/home");
+    navigate("/");
   }
   return (
     <section className="grid place-items-center h-screen">

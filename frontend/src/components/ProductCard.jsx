@@ -6,9 +6,11 @@ import {
   addWishlistProduct,
   deleteWishlistProduct,
 } from "../api/endpoints/wishlist";
+import { useCart } from "../context/Cart";
 export default function ProductCard({ data }) {
-  const { price, name, images, _id, wished } = data;
   const queryClient = useQueryClient();
+  const { dispatch } = useCart();
+  const { price, name, images, _id, wished } = data;
 
   const toggleWishMutation = useMutation(
     () => {
@@ -21,7 +23,6 @@ export default function ProductCard({ data }) {
     {
       onSuccess: () => {
         queryClient.invalidateQueries("products");
-
       },
     }
   );
@@ -30,7 +31,10 @@ export default function ProductCard({ data }) {
     event.preventDefault(); // Prevent the default link navigation behavior
     toggleWishMutation.mutate();
   };
-  console.log(toggleWishMutation.data);
+  const addToCart = (event) => {
+    event.preventDefault();
+    dispatch({ type: "ADD", product: data });
+  };
   return (
     <Link className=" " to={`/products/${_id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
@@ -62,7 +66,10 @@ export default function ProductCard({ data }) {
         <h5 className="mt-1 capitalize text-lg font-semibold">{name}</h5>
         <div className="flex justify-between items-center">
           <span className="font-extrabold text-xl">${price}</span>
-          <button className="py-1 px-3 border-2 rounded-md text-lg border-gray-700">
+          <button
+            onClick={addToCart}
+            className="py-1 px-3 border-2 rounded-md text-lg border-gray-700"
+          >
             Add to cart
           </button>
         </div>

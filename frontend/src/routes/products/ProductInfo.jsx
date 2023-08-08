@@ -5,12 +5,18 @@ import { getProductById } from "../../api/endpoints/products";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import CreateReview from "./CreateReview";
 import ProductReviews from "./ProductReviews";
+import { useCart } from "../../context/Cart";
 
 export default function ProductInfo() {
   const { productId } = useParams();
+  const { dispatch, cart } = useCart();
   const { isLoading, data: product } = useQuery("product", () =>
     getProductById(productId)
   );
+  function addToCart() {
+    dispatch({ type: "ADD", product });
+  }
+  console.log(cart);
   if (isLoading) return;
   return (
     <section>
@@ -33,7 +39,10 @@ export default function ProductInfo() {
 
             <div className="flex gap-5">
               <span className="font-semibold text-3xl">${product.price}</span>
-              <button className="input-style bg-green-800 text-white flex justify-center items-center gap-2 text-lg px-4 rounded-lg border-none">
+              <button
+                onClick={addToCart}
+                className="input-style bg-green-800 text-white flex justify-center items-center gap-2 text-lg px-4 rounded-lg border-none"
+              >
                 <AiOutlineShoppingCart />
                 <span>Add to cart</span>
               </button>

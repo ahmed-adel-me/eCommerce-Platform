@@ -1,8 +1,11 @@
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
+import { useCart } from "../../context/Cart";
 
 export default function Navbar() {
+  const { cart } = useCart();
+
   return (
     <nav className="py-4 sticky w-full bg-[#201F20]">
       <div className="flex justify-between max-w-7xl mx-auto">
@@ -46,6 +49,7 @@ export default function Navbar() {
               className={({ isActive }) => ` ${isActive ? "text-white" : ""}`}
             >
               Cart
+              {cart.productsTotal > 0 && <span className=" mx-1">({cart.productsTotal})</span>}
             </NavLink>
           </li>
         </ul>

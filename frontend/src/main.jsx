@@ -18,6 +18,8 @@ import CategoryProductsPage from "./routes/categories/CategoryProductsPage.jsx";
 import WishList from "./routes/account/WishList.jsx";
 import OrderList from "./routes/account/OrderList.jsx";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Cart from "./context/Cart.jsx";
+import CartPage from "./routes/cart/CartPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +28,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        // path: "/home",
-        index:true,
+        index: true,
         element: (
           <Protect>
             <Home />
@@ -85,6 +86,14 @@ const router = createBrowserRouter([
           </Protect>
         ),
       },
+      {
+        path: "/cart",
+        element: (
+          <Protect>
+            <CartPage />
+          </Protect>
+        ),
+      },
     ],
   },
   {
@@ -101,10 +110,12 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Auth>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <Cart>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </Cart>
     </Auth>
   </React.StrictMode>
 );

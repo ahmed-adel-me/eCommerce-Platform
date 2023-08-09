@@ -8,7 +8,7 @@ export default function ProductsReviews({ reviews }) {
       {reviews.length > 0 ? (
         <div className="overflow-y-scroll">
           {reviews.map((review) => (
-            <ReviewCard key={review._id} review={review} />
+            <ReviewCard key={review.id} review={review} />
           ))}
         </div>
       ) : (
@@ -19,6 +19,7 @@ export default function ProductsReviews({ reviews }) {
 }
 
 function ReviewCard({ review }) {
+  console.log(review);
   return (
     <div className="border-y py-3 space-y-2">
       <div className="flex justify-between">
@@ -30,7 +31,7 @@ function ReviewCard({ review }) {
         <span className="text-gray-500">{review.createdAt}</span>
       </div>
       <h4 className="text-2xl">{review.title}</h4>
-      <p>{review.description  }</p>
+      <p>{review.description}</p>
     </div>
   );
 }

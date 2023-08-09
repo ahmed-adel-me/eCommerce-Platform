@@ -7,7 +7,7 @@ export default function Navbar() {
   const { cart } = useCart();
 
   return (
-    <nav className="py-4 sticky w-full bg-[#201F20]">
+    <nav className="py-4 sticky top-0 z-50 w-full bg-[#201F20]">
       <div className="flex justify-between max-w-7xl mx-auto">
         <h2 className="text-xl font-semibold text-[#ffffffd4]">Ecommerce</h2>
         <ul className="flex font-semibold gap-4 text-lg text-[#ffffffb6]">

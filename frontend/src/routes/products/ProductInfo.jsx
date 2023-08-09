@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/endpoints/products";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import CreateReview from "./CreateReview";
-import ProductReviews from "./ProductReviews";
+import ProductReviews from "./ProductsReviews";
 import { useCart } from "../../context/Cart";
 
 export default function ProductInfo() {
@@ -16,7 +16,6 @@ export default function ProductInfo() {
   function addToCart() {
     dispatch({ type: "ADD", product });
   }
-  console.log(cart);
   if (isLoading) return;
   return (
     <section>

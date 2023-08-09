@@ -26,7 +26,7 @@ const productSchema = new Schema(
       default: Date.now(),
     },
     category: {
-      name: String,
+      categoryRef: { type: Schema.ObjectId, ref: "Category" },
       properties: [Object],
     },
     creator: {
@@ -40,8 +40,23 @@ const productSchema = new Schema(
     },
   },
   {
-    toJSON: { versionKey: false, virtuals: true },
-    toObject: { virtuals: true },
+    // Set toJSON and toObject options to transform _id to id
+    toJSON: {
+      virtuals: true,
+      versionKey: false,
+      transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+    toObject: {
+      virtuals: true,
+      versionKey: false,
+      transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
   }
 );
 

@@ -24,7 +24,7 @@ export default function CartItem({ data }) {
       <li className="grow-[1] basis-0 shrink-0">
         <div className="flex justify-center items-center gap-3">
           <button
-            onClick={() => dispatch({ type: "DELETE", productId: product._id })}
+            onClick={() => dispatch({ type: "DELETE", productId: product.id })}
             className="bg-gray-300 rounded-md px-3 py-2"
           >
             <AiOutlineMinus size={20} />

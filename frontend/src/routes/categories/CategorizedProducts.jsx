@@ -25,7 +25,7 @@ export default function CategorizedProducts({ data }) {
         ))}
         {numberOfProducts > 3 && (
           <Link
-            to={`/category/${categoryId}`}
+            to={`/categories/${categoryId}`}
             className="bg-gray-300 rounded-xl grid place-items-center"
           >
             <div className="flex gap-3 items-center">

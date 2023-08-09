@@ -10,14 +10,14 @@ import { useCart } from "../context/Cart";
 export default function ProductCard({ data }) {
   const queryClient = useQueryClient();
   const { dispatch } = useCart();
-  const { price, name, images, _id, wished } = data;
+  const { price, name, images, id, wished } = data;
 
   const toggleWishMutation = useMutation(
     () => {
       if (wished) {
-        return deleteWishlistProduct(_id);
+        return deleteWishlistProduct(id);
       } else {
-        return addWishlistProduct(_id);
+        return addWishlistProduct(id);
       }
     },
     {
@@ -36,7 +36,7 @@ export default function ProductCard({ data }) {
     dispatch({ type: "ADD", product: data });
   };
   return (
-    <Link className=" " to={`/products/${_id}`}>
+    <Link className=" " to={`/products/${id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
           <button

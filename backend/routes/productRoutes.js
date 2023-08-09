@@ -19,7 +19,7 @@ const {
 const router = Router({ mergeParams: true });
 router.use(protect);
 router.get("/categorized", getProductsByCategory);
-router.get("categorized/:categoryId", getCategoryWithProducts);
+router.get("/categorized/:categoryId", getCategoryWithProducts);
 router.get("/wishlist", getWishlist);
 router.route("/").get(getProducts).post(restrectTo("admin"), createProduct);
 

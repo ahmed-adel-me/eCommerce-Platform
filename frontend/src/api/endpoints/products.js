@@ -11,10 +11,15 @@ export const getProductById = async (productId) => {
   return data.data.product;
 };
 
-export const getProductsByCategory = async (limit) => {
+export const getCategorizedProducts = async (limit) => {
   const { data } = await API.get(
     `/products/categorized${limit ? `?limit=${limit}` : ""}`
   );
+  return data.data;
+};
+
+export const getCategoryById = async (id) => {
+  const { data } = await API.get(`/products/categorized/${id}?color=white`);
   return data.data;
 };
 

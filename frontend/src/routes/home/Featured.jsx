@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function Featured() {
   const { data:product, isLoading } = useQuery("featured", getFeaturedProduct);
+
   if (isLoading) return;
   console.log(product);
   return (
@@ -18,7 +19,7 @@ export default function Featured() {
            {product.description}
           </p>
           <div className="flex gap-4">
-            <Link to={`/products/${product._id}`} className="py-1 px-3 border-2 rounded-md text-lg">
+            <Link to={`/products/${product.id}`} className="py-1 px-3 border-2 rounded-md text-lg">
               Read more
             </Link>
             <button className="py-1 px-3 border-2 rounded-md text-lg bg-white text-[#201F20]">

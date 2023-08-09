@@ -18,12 +18,12 @@ function cartReducer(state, action) {
     case "ADD":
       const newProduct = action.product;
       const existingCartItem = state.products.find(
-        (cartItem) => cartItem.product._id === newProduct._id
+        (cartItem) => cartItem.product.id === newProduct.id
       );
 
       if (existingCartItem) {
         const updatedCart = state.products.map((cartItem) =>
-          cartItem.product._id === newProduct._id
+          cartItem.product.id === newProduct.id
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         );
@@ -48,7 +48,7 @@ function cartReducer(state, action) {
 
     case "DELETE":
       const deletedProductIndex = state.products.findIndex(
-        (el) => el.product._id === action.productId
+        (el) => el.product.id === action.productId
       );
 
       if (deletedProductIndex !== -1) {
@@ -58,13 +58,13 @@ function cartReducer(state, action) {
 
         if (deletedProduct.quantity > 1) {
           updatedProducts = state.products.map((product) =>
-            product.product._id === action.productId
+            product.product.id === action.productId
               ? { ...product, quantity: product.quantity - 1 }
               : product
           );
         } else {
           updatedProducts = state.products.filter(
-            (product) => product.product._id !== action.productId
+            (product) => product.product.id !== action.productId
           );
         }
 

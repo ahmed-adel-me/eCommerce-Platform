@@ -3,6 +3,7 @@ const Category = require("../models/Category");
 const Product = require("../models/Product");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
+const haveSameProperties = require("../utils/haveSameProperties");
 
 // exports.getProducts = catchAsync(async (req, res, next) => {
 //   const products = await Product.find()
@@ -42,7 +43,8 @@ exports.getProducts = catchAsync(async (req, res, next) => {
     // Project only required fields
     {
       $project: {
-        _id: 1,
+        _id: 0,
+        id: "$_id",
         name: 1,
         brand: 1,
         price: 1,
@@ -68,8 +70,7 @@ exports.getProducts = catchAsync(async (req, res, next) => {
 
 exports.getProductById = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.productId).populate(
-    "reviews",
-    "-__v"
+    "reviews"
   );
   if (!product) throw new AppError("No doc found with that ID!", 404);
 
@@ -101,7 +102,7 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {
   let featuredProduct = await Product.findOne({ featured: true });
-  if (!featuredProduct) featuredProduct =await Product.findOne();
+  if (!featuredProduct) featuredProduct = await Product.findOne();
 
   res.status(200).json({
     status: "success",
@@ -179,6 +180,9 @@ exports.getProductsByCategory = catchAsync(async (req, res, next) => {
         numberOfProducts: { $size: "$products" }, // Count the number of products
       },
     },
+    {
+      $sort: { category: 1 }, // Sort categories in ascending order by name
+    },
   ]);
 
   res.status(200).json({
@@ -188,54 +192,25 @@ exports.getProductsByCategory = catchAsync(async (req, res, next) => {
 });
 
 exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
-  const { categoryId } = req.params;
-  const limit = parseInt(req.query.limit) || 10; // Default limit to 10 if not provided
+  const categoryId = req.params.categoryId;
+  const filterParams = req.query;
+  const category = await Category.findById(categoryId);
 
-  const categorizedProducts = await Product.aggregate([
-    {
-      $match: { "categoryDetails._id": mongoose.Types.ObjectId(categoryId) },
-    },
-    {
-      $lookup: {
-        from: "categories",
-        localField: "category.name",
-        foreignField: "name",
-        as: "categoryDetails",
-      },
-    },
-    {
-      $unwind: "$categoryDetails",
-    },
-    {
-      $group: {
-        _id: "$categoryDetails.name",
-        categoryId: { $first: "$categoryDetails._id" },
-        products: {
-          $push: {
-            _id: "$_id",
-            name: "$name",
-            brand: "$brand",
-            price: "$price",
-            description: "$description",
-            images: "$images",
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        categoryId: 1,
-        category: "$_id",
-        products: { $slice: ["$products", limit] }, // Apply the limit using $slice
-      },
-    },
-  ]);
+  const products = await Product.find({ "category.categoryRef": categoryId });
+  const categorizedProducts = products.filter((prod) => {
+    // console.log(prod.category.properties);
+    return haveSameProperties(prod.category.properties, filterParams);
+  });
 
-  if (categorizedProducts.length > 0) {
-    res.status(200).json({
-      status: "success",
-      data: categorizedProducts[0],
-    });
-  } else throw new AppError("Category not found", 404);
+  console.log(categorizedProducts);
+  if (categorizedProducts.length === 0) {
+    return next(
+      new AppError("No products found for the provided category ID", 404)
+    );
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: products, // Assuming there's only one category in the result
+  });
 });

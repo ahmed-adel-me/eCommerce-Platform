@@ -1,23 +1,33 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/Auth";
 import SubmitBtn from "../../components/SubmitBtn";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { createReview as createReviewFn } from "../../api/endpoints/reviews";
 import Star from "../../components/Star";
 
 export default function CreateReview({ className }) {
-  // const {user} = useAuth()
-  // console.log(user);
+  const { user } = useAuth();
   const { productId } = useParams();
-  const id = "64c8be11b741cf3f39ae2526";
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
-  const { mutate, isLoading,data } = useMutation((props) => createReviewFn(props));
+  const queryClient = useQueryClient();
+  const { mutate, isLoading, data } = useMutation(
+    (props) => createReviewFn(props),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("product");
+      },
+    }
+  );
   const handleSubmit = (event) => {
     event.preventDefault();
-    mutate({ title, description, rating, user: id, product: productId });
+    mutate({ title, description, rating, user: user.id, product: productId });
+    setTitle("");
+    setDescription("");
+    setRating(0);
   };
   return (
     <div className={"bg-white rounded-xl p-5 h-fit " + className}>

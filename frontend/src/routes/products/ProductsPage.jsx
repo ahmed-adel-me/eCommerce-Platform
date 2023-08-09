@@ -12,7 +12,7 @@ export default function ProductsPage() {
         <h2 className="text-2xl font-bold mb-5">All Products</h2>
         <div className="grid grid-cols-4 gap-10 ">
           {data.map((prod) => (
-            <ProductCard key={prod._id} data={prod} />
+            <ProductCard key={prod.id} data={prod} />
           ))}
         </div>
       </div>

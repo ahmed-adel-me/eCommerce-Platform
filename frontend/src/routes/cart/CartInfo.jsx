@@ -22,7 +22,7 @@ export default function CartInfo({ cart }) {
           </ul>
           <div className="space-y-5">
             {products.map((data) => (
-              <CartItem key={data.product._id} data={data} />
+              <CartItem key={data.product.id} data={data} />
             ))}
           </div>
           <div className="flex justify-between py-3 border-b">

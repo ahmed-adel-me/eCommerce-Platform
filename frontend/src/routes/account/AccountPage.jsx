@@ -5,14 +5,7 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 
 export default function AccountPage() {
     const { user } = useAuth();
-    console.log(user);
-  // const user = {
-  //   wishList: [],
-  //   _id: "64c8be11b741cf3f39ae2526",
-  //   name: "ahmed",
-  //   email: "ahmed@gmail.com",
-  //   role: "admin",
-  // };
+  
   return (
     <section>
       <div className="max-w-7xl mx-auto py-10 flex flex-col">

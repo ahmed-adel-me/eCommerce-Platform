@@ -22,11 +22,10 @@ exports.addProductToWishlist = catchAsync(async (req, res, next) => {
 
 exports.deleteWishlistProduct = catchAsync(async (req, res, next) => {
   const { productId } = req.params;
-
   req.user.wishList = req.user.wishList.filter(
     (product) => !product._id.equals(productId)
   );
-
+  console.log(req.user.wishList);
   await req.user.save({ validateBeforeSave: false });
 
   res.status(200).json({
@@ -35,7 +34,7 @@ exports.deleteWishlistProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getWishlist = catchAsync(async (req, res, next) => {
-  const { wishList } = await User.findById(req.user._id).populate("wishList");
+  const { wishList } = await User.findById(req.user.id).populate("wishList");
   const updatedWishList = wishList.map((product) => ({
     ...product.toObject(),
     wished: true,

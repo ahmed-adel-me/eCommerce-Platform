@@ -5,7 +5,7 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 
 export default function CategorizedProducts({ data }) {
   const { products, category, categoryId, numberOfProducts } = data;
-  console.log(data);
+  
   return (
     <div>
       <div className="flex items-end justify-start mb-5 gap-5">

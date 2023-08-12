@@ -25,7 +25,6 @@ exports.deleteWishlistProduct = catchAsync(async (req, res, next) => {
   req.user.wishList = req.user.wishList.filter(
     (product) => !product._id.equals(productId)
   );
-  console.log(req.user.wishList);
   await req.user.save({ validateBeforeSave: false });
 
   res.status(200).json({

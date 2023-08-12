@@ -12,7 +12,6 @@ export default function WishList() {
     getWishlist
   );
   if (isLoading) return;
-  console.log(wishList);
   return (
     <div>
       {wishList.length > 0 ? (

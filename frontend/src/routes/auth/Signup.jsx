@@ -19,7 +19,6 @@ export default function Signup() {
     mutate(form);
   };
   if (isSuccess) {
-    console.log(data);
     login(data.token, data.data.user);
     navigate("/home");
   }

@@ -19,7 +19,6 @@ export default function ProductsReviews({ reviews }) {
 }
 
 function ReviewCard({ review }) {
-  console.log(review);
   return (
     <div className="border-y py-3 space-y-2">
       <div className="flex justify-between">

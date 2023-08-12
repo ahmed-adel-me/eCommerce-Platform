@@ -67,7 +67,6 @@ userSchema.methods.comparePassword = async function (password) {
 };
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
-    console.log(JWTTimestamp, this.passwordChangedAt);
     return true;
   }
   return false;

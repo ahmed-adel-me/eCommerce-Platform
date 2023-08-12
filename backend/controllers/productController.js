@@ -147,8 +147,8 @@ exports.getProductsByCategory = catchAsync(async (req, res, next) => {
     {
       $lookup: {
         from: "categories",
-        localField: "category.name",
-        foreignField: "name",
+        localField: "category._id",
+        foreignField: "category.categoryRef",
         as: "categoryDetails",
       },
     },

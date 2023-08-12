@@ -7,7 +7,6 @@ export default function Featured() {
   const { data:product, isLoading } = useQuery("featured", getFeaturedProduct);
 
   if (isLoading) return;
-  console.log(product);
   return (
     <div className="bg-[#201F20] text-white h-[500px] grid place-items-center">
       <div className="flex justify-between max-w-7xl mx-auto">

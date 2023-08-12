@@ -191,26 +191,53 @@ exports.getProductsByCategory = catchAsync(async (req, res, next) => {
   });
 });
 
+// exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
+//   const categoryId = req.params.categoryId;
+//   const filterParams = req.query;
+//   const category = await Category.findById(categoryId);
+
+//   const products = await Product.find({ "category.categoryRef": categoryId });
+//   const categorizedProducts = products.filter((prod) => {
+//     // console.log(prod.category.properties);
+//     return haveSameProperties(prod.category.properties, filterParams);
+//   });
+
+//   console.log(categorizedProducts);
+//   if (categorizedProducts.length === 0) {
+//     return next(
+//       new AppError("No products found for the provided category ID", 404)
+//     );
+//   }
+
+//   res.status(200).json({
+//     status: "success",
+//     data: products, // Assuming there's only one category in the result
+//   });
+// });
+
 exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
-  const categoryId = req.params.categoryId;
-  const filterParams = req.query;
+  const { categoryId } = req.params;
   const category = await Category.findById(categoryId);
+  if (!category) {
+    return next(new AppError("Category not found", 404));
+  }
 
   const products = await Product.find({ "category.categoryRef": categoryId });
-  const categorizedProducts = products.filter((prod) => {
-    // console.log(prod.category.properties);
-    return haveSameProperties(prod.category.properties, filterParams);
-  });
 
-  console.log(categorizedProducts);
-  if (categorizedProducts.length === 0) {
-    return next(
-      new AppError("No products found for the provided category ID", 404)
-    );
-  }
+  // if (products.length === 0) {
+  //   return next(
+  //     new AppError(
+  //       "No products found for the provided category and properties",
+  //       404
+  //     )
+  //   );
+  // }
 
   res.status(200).json({
     status: "success",
-    data: products, // Assuming there's only one category in the result
+    data: {
+      category,
+      products
+    },
   });
 });

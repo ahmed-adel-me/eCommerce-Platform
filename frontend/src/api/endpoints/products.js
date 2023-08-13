@@ -1,7 +1,18 @@
 import API from "../API";
 
-export const getAllProducts = async () => {
-  const { data } = await API.get("/products");
+export const getAllProducts = async (queries) => {
+  let queryString = "";
+  if (queries) {
+    const queryArray = [];
+    for (const key in queries) {
+      queryArray.push(
+        `${encodeURIComponent(key)}=${encodeURIComponent(queries[key])}`
+      );
+    }
+    queryString = queryArray.join("&");
+  }
+  console.log(queryString);
+  const { data } = await API.get(`/products?${queryString}`);
   const products = data.data.products;
   return products;
 };

@@ -49,13 +49,18 @@ export default function Navbar() {
               className={({ isActive }) => ` ${isActive ? "text-white" : ""}`}
             >
               Cart
-              {cart.productsTotal > 0 && <span className=" mx-1">({cart.productsTotal})</span>}
+              {cart.productsTotal > 0 && (
+                <span className=" mx-1">({cart.productsTotal})</span>
+              )}
             </NavLink>
           </li>
         </ul>
-        <button>
-          <AiOutlineSearch color="gray" size={25} />
-        </button>
+        <NavLink
+          to={"/search"}
+          className={({ isActive }) => `${isActive ? "text-white" : "text-gray-400"}`}
+        >
+          <AiOutlineSearch color="inhirt" size={25} />
+        </NavLink>
       </div>
     </nav>
   );

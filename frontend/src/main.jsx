@@ -20,11 +20,16 @@ import OrderList from "./routes/account/OrderList.jsx";
 import { ReactQueryDevtools } from "react-query/devtools";
 import Cart from "./context/Cart.jsx";
 import CartPage from "./routes/cart/CartPage.jsx";
+import SearchPage from "./routes/search/SearchPage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <Protect>
+        <Root />
+      </Protect>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -93,6 +98,10 @@ const router = createBrowserRouter([
             <CartPage />
           </Protect>
         ),
+      },
+      {
+        path: "/search",
+        element: <SearchPage />,
       },
     ],
   },

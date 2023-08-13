@@ -16,11 +16,11 @@ const haveSameProperties = require("../utils/haveSameProperties");
 //     },
 //   });
 // });
-
 exports.getProducts = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
+  const { search } = req.query;
 
-  const productsWithWishedStatus = await Product.aggregate([
+  let aggregationPipeline = [
     // Add wished field using $lookup and $in
     {
       $lookup: {
@@ -57,7 +57,22 @@ exports.getProducts = catchAsync(async (req, res, next) => {
         wished: 1,
       },
     },
-  ]);
+  ];
+
+  // Conditionally add the $match stage for search if a search query is provided
+  if (search) {
+    const searchRegex = new RegExp(search, "i");
+    aggregationPipeline.push({
+      $match: {
+        $or: [
+          { name: { $regex: searchRegex } }, // Search in product names
+          { description: { $regex: searchRegex } }, // Search in descriptions
+        ],
+      },
+    });
+  }
+
+  const productsWithWishedStatus = await Product.aggregate(aggregationPipeline);
 
   res.status(200).json({
     status: "success",
@@ -237,7 +252,7 @@ exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
     status: "success",
     data: {
       category,
-      products
+      products,
     },
   });
 });

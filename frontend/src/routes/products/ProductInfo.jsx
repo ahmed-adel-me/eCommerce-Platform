@@ -6,17 +6,25 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import CreateReview from "./CreateReview";
 import ProductReviews from "./ProductsReviews";
 import { useCart } from "../../context/Cart";
+import Spinner from "../../components/Spinner";
 
 export default function ProductInfo() {
   const { productId } = useParams();
   const { dispatch, cart } = useCart();
-  const { isLoading, data: product } = useQuery("product", () =>
-    getProductById(productId)
-  );
+  const {
+    isLoading,
+    data: product,
+    isFetching,
+  } = useQuery("product", () => getProductById(productId));
   function addToCart() {
     dispatch({ type: "ADD", product });
   }
-  if (isLoading) return;
+  if (!isLoading || isFetching)
+    return (
+      <div className="py-10 flex justify-center items-center h-screen ">
+        <Spinner className={"basis-20"} />
+      </div>
+    );
   return (
     <section>
       <div className="max-w-7xl mx-auto py-10 space-y-12">

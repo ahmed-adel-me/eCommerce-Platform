@@ -3,6 +3,7 @@ import ProductCard from "../../components/ProductCard";
 import { useQuery } from "react-query";
 import { getAllProducts } from "../../api/endpoints/products";
 import axios from "axios";
+import Spinner from "../../components/Spinner";
 
 export default function NewArrival() {
   const {
@@ -10,7 +11,12 @@ export default function NewArrival() {
     isLoading,
     isError,
   } = useQuery("products", getAllProducts);
-  if (isLoading) return;
+  if (isLoading)
+    return (
+      <div className="flex justify-center py-10">
+        <Spinner  className={"basis-16"}/>
+      </div>
+    );
   return (
     <div>
       <div className="max-w-7xl mx-auto py-10">

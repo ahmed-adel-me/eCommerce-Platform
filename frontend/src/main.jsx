@@ -122,7 +122,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Cart>
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
-          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </Cart>
     </Auth>

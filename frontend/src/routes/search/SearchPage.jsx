@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { getAllProducts } from "../../api/endpoints/products";
 import ProductCard from "../../components/ProductCard";
+import Spinner from "../../components/Spinner";
 
 export default function SearchPage() {
   const [search, setSearch] = useState();
-  const { mutate, isLoading, data,isSuccess } = useMutation((search) =>
-    getAllProducts({ search })
+  const { mutate, isLoading, data, isSuccess, isError } = useMutation(
+    (search) => getAllProducts({ search })
   );
 
   function handleChange(event) {
@@ -15,8 +16,6 @@ export default function SearchPage() {
     if (value) mutate(value);
   }
 
-  //   if (isLoading) return;
-  console.log(data);
   return (
     <section>
       <div className="max-w-7xl mx-auto py-10 space-y-10">
@@ -30,12 +29,25 @@ export default function SearchPage() {
             placeholder="Search for products..."
           />
         </form>
-        {!isLoading && isSuccess && (
+        {isLoading && (
+          <div className="py-10 flex justify-center">
+            <div className="basis-20">
+              <Spinner />
+            </div>
+          </div>
+        )}
+        {isSuccess && (
           <div className="grid grid-cols-4 gap-10">
             {data.map((product) => (
               <ProductCard key={product.id} data={product} />
             ))}
           </div>
+        )}
+
+        {isError && (
+          <p className="text-center text-xl font-semibold py-10">
+            Something went wrong
+          </p>
         )}
       </div>
     </section>

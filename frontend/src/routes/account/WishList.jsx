@@ -3,6 +3,7 @@ import { useAuth } from "../../context/Auth";
 import ProductCard from "../../components/ProductCard";
 import { useQuery } from "react-query";
 import { getWishlist } from "../../api/endpoints/wishlist";
+import Spinner from "../../components/Spinner";
 
 export default function WishList() {
   const { user } = useAuth();
@@ -11,7 +12,12 @@ export default function WishList() {
     ["products", "wishlist"],
     getWishlist
   );
-  if (isLoading) return;
+  if (isLoading)
+    return (
+      <div className="flex justify-center">
+        <Spinner className={"w-10"} />
+      </div>
+    );
   return (
     <div>
       {wishList.length > 0 ? (

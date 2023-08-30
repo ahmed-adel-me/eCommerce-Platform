@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function Spinner({ size = 10 }) {
+export default function Spinner({ size = 10, className }) {
   return (
-    <div role="status">
+    <div role="status" className={className}>
       <svg
         aria-hidden="true"
-        className={`inline w-${size} h-${size} mr-2 animate-spin text-gray-200 fill-black`}
+        className={`inline  w-full h-full mr-2 animate-spin text-gray-200 fill-black`}
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

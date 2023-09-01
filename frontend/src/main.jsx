@@ -21,6 +21,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import Cart from "./context/Cart.jsx";
 import CartPage from "./routes/cart/CartPage.jsx";
 import SearchPage from "./routes/search/SearchPage.jsx";
+import Cookies from "js-cookie";
 
 const router = createBrowserRouter([
   {
@@ -115,7 +116,20 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      onError: (error) => {
+        if (error.name === "AxiosError") {
+          if (error.response.status === 401) {
+            Cookies.remove("jwt");
+            location.reload();
+          }
+        }
+      },
+    },
+  },
+});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Auth>

@@ -1,4 +1,3 @@
-import { useAuth } from "../../context/Auth";
 import API from "../API";
 
 export const loginUser = async (email, password) => {

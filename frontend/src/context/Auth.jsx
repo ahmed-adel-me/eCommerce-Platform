@@ -7,25 +7,18 @@ export function useAuth() {
 }
 
 export default function Auth({ children }) {
-  const [token, setToken] = useState(Cookies.get("jwt"));
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  const [token, setToken] = useState(() => Cookies.get("jwt"));
 
-  function login(token, user) {
+  function login(token) {
     setToken(token);
     Cookies.set("jwt", token);
-    localStorage.setItem("user", JSON.stringify(user));
-    setUser(user);
   }
   function logout() {
     setToken(null);
     Cookies.remove("jwt");
-    setUser(null);
   }
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -18,7 +18,7 @@ const haveSameProperties = require("../utils/haveSameProperties");
 // });
 exports.getProducts = catchAsync(async (req, res, next) => {
   const userId = req.user._id;
-  const { search } = req.query;
+  // const { search } = req.query;
 
   let aggregationPipeline = [
     // Add wished field using $lookup and $in
@@ -60,17 +60,17 @@ exports.getProducts = catchAsync(async (req, res, next) => {
   ];
 
   // Conditionally add the $match stage for search if a search query is provided
-  if (search) {
-    const searchRegex = new RegExp(search, "i");
-    aggregationPipeline.push({
-      $match: {
-        $or: [
-          { name: { $regex: searchRegex } }, // Search in product names
-          { description: { $regex: searchRegex } }, // Search in descriptions
-        ],
-      },
-    });
-  }
+  // if (search) {
+  //   const searchRegex = new RegExp(search, "i");
+  //   aggregationPipeline.push({
+  //     $match: {
+  //       $or: [
+  //         { name: { $regex: searchRegex } }, // Search in product names
+  //         { description: { $regex: searchRegex } }, // Search in descriptions
+  //       ],
+  //     },
+  //   });
+  // }
 
   const productsWithWishedStatus = await Product.aggregate(aggregationPipeline);
 

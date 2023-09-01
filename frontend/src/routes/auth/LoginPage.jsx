@@ -1,28 +1,17 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
-import { Link, redirect, useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/endpoints/auth";
-import { useAuth } from "../../context/Auth";
-import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 import SubmitBtn from "../../components/SubmitBtn";
+import useLogin from "../../hooks/useLogin";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const { login, token } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loginMutation = useMutation(({ email, password }) =>
-    loginUser(email, password)
-  );
+  const loginMutation = useLogin();
   const handleSubmit = (event) => {
     event.preventDefault();
     loginMutation.mutate({ email, password });
   };
-  // if (loginMutation.isLoading) return;
-  if (loginMutation.isSuccess) {
-    login(loginMutation.data.token, loginMutation.data.data.user);
-    navigate("/");
-  }
+
   return (
     <section className="grid place-items-center h-screen">
       <div className=" bg-white p-10 rounded-xl shadow-lg w-[400px]">
@@ -50,8 +39,8 @@ export default function LoginPage() {
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-       
-          <SubmitBtn text={"LOGIN"} isLoading={loginMutation.isLoading}/>
+
+          <SubmitBtn text={"LOGIN"} isLoading={loginMutation.isLoading} />
         </form>
         <Link className="capitalize text-sm text-end w-full block my-2 text-gray-600">
           forgot password?

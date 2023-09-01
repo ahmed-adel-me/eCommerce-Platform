@@ -52,13 +52,13 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
   let token = req.headers.authorization;
   if (!token || !token.startsWith("Bearer"))
-    throw new AppError("Provide a valid token!");
+    throw new AppError("Provide a valid token!",401);
   token = token.split(" ")[1];
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
   if (!user) throw new AppError("The token's user no longer exists", 401);
   if (user.changedPasswordAfter(decoded.iat))
-    throw new AppError("User changed password", 400);
+    throw new AppError("User changed password", 401);
 
   req.user = user;
   next();

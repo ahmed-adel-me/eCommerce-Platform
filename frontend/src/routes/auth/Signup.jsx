@@ -3,25 +3,22 @@ import { useMutation } from "react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../../api/endpoints/auth";
 import { useAuth } from "../../context/Auth";
+import useSignup from "../../hooks/useSignup";
+import SubmitBtn from "../../components/SubmitBtn";
 
 export default function Signup() {
-  const {login} = useAuth()
-  const navigate = useNavigate()
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const { mutate,isSuccess ,data} = useMutation((props) => signupUser(props));
+  const signupMutation = useSignup();
   const handleSubmit = (event) => {
     event.preventDefault();
-    mutate(form);
+    signupMutation.mutate(form);
   };
-  if (isSuccess) {
-    login(data.token, data.data.user);
-    navigate("/home");
-  }
+
   return (
     <section className="grid place-items-center h-screen">
       <div className=" bg-white p-10 rounded-xl shadow-lg w-[400px]">
@@ -83,12 +80,8 @@ export default function Signup() {
               id="password"
             />
           </div>
-          <button
-            type="submit"
-            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 w-full"
-          >
-            SIGN UP
-          </button>
+          <SubmitBtn text={"LOGIN"} isLoading={signupMutation.isLoading} />
+
         </form>
 
         <div className="text-sm flex gap-1 mt-5 justify-center">

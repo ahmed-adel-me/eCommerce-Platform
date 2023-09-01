@@ -11,7 +11,6 @@ export const getAllProducts = async (queries) => {
     }
     queryString = queryArray.join("&");
   }
-  console.log(queryString);
   const { data } = await API.get(`/products?${queryString}`);
   const products = data.data.products;
   return products;

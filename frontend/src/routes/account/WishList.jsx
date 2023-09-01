@@ -1,13 +1,10 @@
 import React from "react";
-import { useAuth } from "../../context/Auth";
 import ProductCard from "../../components/ProductCard";
 import { useQuery } from "react-query";
 import { getWishlist } from "../../api/endpoints/wishlist";
 import Spinner from "../../components/Spinner";
 
 export default function WishList() {
-  const { user } = useAuth();
-  // const { wishList } = user;
   const { data: wishList, isLoading } = useQuery(
     ["products", "wishlist"],
     getWishlist

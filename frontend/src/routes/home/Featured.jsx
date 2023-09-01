@@ -17,14 +17,14 @@ export default function Featured() {
       <div className="flex justify-between max-w-7xl mx-auto basis-full">
         <div className="flex-1">
           {isLoading ? (
-            <div role="status" class="max-w-sm animate-pulse space-y-7">
-              <div class="h-10 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
-              <div class="h-6 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
-              <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
-              <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
-              <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
-              <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
-              <span class="sr-only">Loading...</span>
+            <div role="status" className="max-w-sm animate-pulse space-y-7">
+              <div className="h-10 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
+              <div className="h-6 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px] mb-2.5"></div>
+              <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+              <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[330px] mb-2.5"></div>
+              <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[300px] mb-2.5"></div>
+              <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[360px]"></div>
+              <span className="sr-only">Loading...</span>
             </div>
           ) : (
             <>
@@ -50,7 +50,7 @@ export default function Featured() {
         </div>
         <div className="flex-1 flex justify-center">
           {isLoading && (
-            <div class="flex items-center justify-center w-full h-full xl:h-80 bg-gray-300 rounded  dark:bg-gray-700">
+            <div className="flex items-center justify-center w-full h-full xl:h-80 bg-gray-300 rounded  dark:bg-gray-700">
               <ImageSkeleton/>
             </div>
           )}

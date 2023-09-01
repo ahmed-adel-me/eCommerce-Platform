@@ -4,6 +4,7 @@ import { getFeaturedProduct } from "../../api/endpoints/products";
 import { Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
 import ImageSkeleton from "../../../assets/icons/ImageSkeleton";
+import { useCart } from "../../context/Cart";
 
 export default function Featured() {
   const {
@@ -11,7 +12,11 @@ export default function Featured() {
     isLoading,
     isSuccess,
   } = useQuery("featured", getFeaturedProduct);
-
+  const { dispatch } = useCart();
+  const addToCart = (event) => {
+    event.preventDefault();
+    dispatch({ type: "ADD", product });
+  };
   return (
     <div className="bg-[#201F20] text-white h-[500px] flex justify-center items-center">
       <div className="flex justify-between max-w-7xl mx-auto basis-full">
@@ -41,7 +46,10 @@ export default function Featured() {
                 >
                   Read more
                 </Link>
-                <button className="py-1 px-3 border-2 rounded-md text-lg bg-white text-[#201F20]">
+                <button
+                  onClick={addToCart}
+                  className="py-1 px-3 border-2 rounded-md text-lg bg-white text-[#201F20]"
+                >
                   Add to cart
                 </button>
               </div>
@@ -51,7 +59,7 @@ export default function Featured() {
         <div className="flex-1 flex justify-center">
           {isLoading && (
             <div className="flex items-center justify-center w-full h-full xl:h-80 bg-gray-300 rounded  dark:bg-gray-700">
-              <ImageSkeleton/>
+              <ImageSkeleton />
             </div>
           )}
           {isSuccess && <img src={product.images[0]} alt="no image" />}

@@ -29,7 +29,7 @@ export const getCategorizedProducts = async (limit) => {
 };
 
 export const getCategoryById = async (id) => {
-  const { data } = await API.get(`/products/categorized/${id}?color=white`);
+  const { data } = await API.get(`/products/categorized/${id}`);
   return data.data;
 };
 

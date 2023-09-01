@@ -19,7 +19,7 @@ export default function ProductInfo() {
   function addToCart() {
     dispatch({ type: "ADD", product });
   }
-  if (!isLoading || isFetching)
+  if (isLoading || isFetching)
     return (
       <div className="py-10 flex justify-center items-center h-screen ">
         <Spinner className={"basis-20"} />

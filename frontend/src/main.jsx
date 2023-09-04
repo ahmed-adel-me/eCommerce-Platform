@@ -22,6 +22,7 @@ import Cart from "./context/Cart.jsx";
 import CartPage from "./routes/cart/CartPage.jsx";
 import SearchPage from "./routes/search/SearchPage.jsx";
 import Cookies from "js-cookie";
+import OrderPage from "./routes/order/OrderPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <SearchPage />,
+      },
+      {
+        path: "/order",
+        element: <OrderPage />,
       },
     ],
   },

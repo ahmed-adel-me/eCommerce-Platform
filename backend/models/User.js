@@ -15,6 +15,22 @@ const userSchema = new Schema(
       validate: [isEmail, "Enter a valid email!"],
       lowercase: true,
     },
+    country: {
+      type: String,
+      required: [true, "Provide your country"],
+    },
+    city: {
+      type: String,
+      required: [true, "Provide your city"],
+    },
+    postalCode: {
+      type: String,
+      required: [true, "postalCode is missing"],
+    },
+    streetAddress: {
+      type: String,
+      required: [true, "streetAddress is missing"],
+    },
     password: {
       type: String,
       required: [true, "Password is missing!"],

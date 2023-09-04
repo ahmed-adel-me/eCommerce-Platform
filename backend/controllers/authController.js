@@ -27,13 +27,27 @@ function createAndSendToken(user, res, statusCode = 201) {
 }
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const { email, password, confirmPassword, name, photo } = req.body;
+  const {
+    email,
+    password,
+    confirmPassword,
+    name,
+    photo,
+    city,
+    country,
+    streetAddress,
+    postalCode,
+  } = req.body;
   const newUser = await User.create({
     email,
     password,
     confirmPassword,
     name,
     photo,
+    city,
+    country,
+    streetAddress,
+    postalCode,
   });
   createAndSendToken(newUser, res);
 });
@@ -52,7 +66,7 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
   let token = req.headers.authorization;
   if (!token || !token.startsWith("Bearer"))
-    throw new AppError("Provide a valid token!",401);
+    throw new AppError("Provide a valid token!", 401);
   token = token.split(" ")[1];
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);

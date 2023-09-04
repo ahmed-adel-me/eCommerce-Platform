@@ -14,12 +14,12 @@ export default function OrderList() {
     );
 
   if (ordersQuery.isSuccess) {
+    return ordersQuery.data.length === 0 && <p>There is no orders yet!</p>;
     return (
       <div className="flex gap-5 flex-wrap">
         {ordersQuery.data.map((order) => (
           <OrderCard key={order.id} order={order} />
         ))}
-       
       </div>
     );
   }

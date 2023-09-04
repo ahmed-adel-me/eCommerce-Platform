@@ -2,21 +2,24 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SubmitBtn from "../../components/SubmitBtn";
 import useLogin from "../../hooks/useLogin";
+import { useFormik } from "formik";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const loginMutation = useLogin();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    loginMutation.mutate({ email, password });
-  };
-
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: ({ email, password }) => {
+      loginMutation.mutate({ email, password });
+    },
+  });
   return (
     <section className="grid place-items-center h-screen">
       <div className=" bg-white p-10 rounded-xl shadow-lg w-[400px]">
         <h6 className="font-semibold mb-5">LOGIN</h6>
-        <form onSubmit={handleSubmit} className=" space-y-4">
+        <form onSubmit={formik.handleSubmit} className=" space-y-4">
           <div className="flex flex-col gap-1">
             <label htmlFor="email">Email</label>
             <input
@@ -24,8 +27,8 @@ export default function LoginPage() {
               type="text"
               name="email"
               id="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              value={formik.values.email}
+              onChange={formik.handleChange}
             />
           </div>
           <div className="flex flex-col gap-1">
@@ -35,8 +38,8 @@ export default function LoginPage() {
               type="password"
               name="password"
               id="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              value={formik.values.password}
+              onChange={formik.handleChange}
             />
           </div>
 

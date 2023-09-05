@@ -49,17 +49,6 @@ const router = createBrowserRouter([
             <AccountPage />
           </Protect>
         ),
-        children: [
-          {
-            // path: "/account/wishlist",
-            index: true,
-            element: <WishList />,
-          },
-          {
-            path: "/account/orders",
-            element: <OrderList />,
-          },
-        ],
       },
       {
         path: "/products",

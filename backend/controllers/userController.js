@@ -8,3 +8,17 @@ exports.getUserProfile = catchAsync(async (req, res, next) => {
     user,
   });
 });
+
+exports.updateMyProfile = catchAsync(async (req, res, next) => {
+  const { name, email, city, country, postalCode, streetAddress } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    { name, email, city, country, postalCode, streetAddress },
+    { new: true, runValidators: true }
+  );
+
+  res.status(200).json({
+    user,
+  });
+});

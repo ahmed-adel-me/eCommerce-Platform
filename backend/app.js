@@ -20,7 +20,7 @@ app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/reviews", reviewRouter);
-app.use("/api/orders",orderRouter)
+app.use("/api/orders", orderRouter);
 app.use("*", (req, res, next) => {
   next(new AppError(`Cant find ${req.originalUrl} on the server`, 404));
 });

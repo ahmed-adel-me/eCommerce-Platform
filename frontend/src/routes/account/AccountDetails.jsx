@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import SubmitBtn from "../../components/SubmitBtn";
-import { useAuth } from "../../context/Auth";
-import { useQuery } from "react-query";
-import { getMyProfile } from "../../api/endpoints/user";
 import { useFormik } from "formik";
+import useLogout from "../../hooks/useLogout";
+import useUser from "../../hooks/useUser";
 import useUpdateProfile from "../../hooks/useUpdateProfile";
 
 export default function AccountDetails() {
-  const { data: user, isSuccess } = useQuery("user", getMyProfile);
-  const { logout } = useAuth();
+  const { data: user, isSuccess } = useUser();
+  const { logout } = useLogout();
+  console.log(user);
 
   return (
     <div className="bg-white  rounded-lg overflow-hidden p-6 place-self-center">
@@ -25,8 +25,7 @@ export default function AccountDetails() {
 }
 
 function Form({ user }) {
-  console.log(user);
-  const userMutation = useUpdateProfile();
+  const { updateProfile, isLoading } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
       name: user.name,
@@ -37,7 +36,7 @@ function Form({ user }) {
       streetAddress: user.streetAddress,
     },
     onSubmit: (values) => {
-      userMutation.mutate(values);
+      updateProfile(values);
     },
   });
   return (
@@ -51,6 +50,7 @@ function Form({ user }) {
         name="name"
         value={formik.values.name}
         onChange={formik.handleChange}
+        disabled={isLoading}
       />
       <input
         className="input-style"
@@ -58,6 +58,7 @@ function Form({ user }) {
         name="email"
         value={formik.values.email}
         onChange={formik.handleChange}
+        disabled={isLoading}
       />
       <div className="flex gap-3">
         <input
@@ -66,6 +67,7 @@ function Form({ user }) {
           name="city"
           value={formik.values.city}
           onChange={formik.handleChange}
+          disabled={isLoading}
         />
         <input
           className="input-style"
@@ -73,6 +75,7 @@ function Form({ user }) {
           name="country"
           value={formik.values.country}
           onChange={formik.handleChange}
+          disabled={isLoading}
         />
       </div>
       <div className="flex gap-3">
@@ -82,6 +85,7 @@ function Form({ user }) {
           name="postalCode"
           value={formik.values.postalCode}
           onChange={formik.handleChange}
+          disabled={isLoading}
         />
         <input
           className="input-style"
@@ -89,9 +93,10 @@ function Form({ user }) {
           name="streetAddress"
           value={formik.values.streetAddress}
           onChange={formik.handleChange}
+          disabled={isLoading}
         />
       </div>
-      <SubmitBtn text={"Save"} />
+      <SubmitBtn text={"Save"} isLoading={isLoading} />
     </form>
   );
 }

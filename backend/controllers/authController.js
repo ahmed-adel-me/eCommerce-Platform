@@ -12,8 +12,9 @@ function createAndSendToken(user, res, statusCode = 201) {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    // secure: true,
-    // httpOnly: true,
+    sameSite: "none",
+    secure: true,
+    httpOnly: true,
   });
 
   user.password = undefined;
@@ -62,12 +63,14 @@ exports.login = catchAsync(async (req, res, next) => {
     throw new AppError("Incorrect email or password!", 401);
   createAndSendToken(user, res, 200);
 });
-
+exports.logout = catchAsync(async (req, res, next) => {
+  res.clearCookie("jwt");
+  res.status(200).json("success");
+});
 exports.protect = catchAsync(async (req, res, next) => {
-  let token = req.headers.authorization;
-  if (!token || !token.startsWith("Bearer"))
-    throw new AppError("Provide a valid token!", 401);
-  token = token.split(" ")[1];
+  const token = req.cookies.jwt;
+  if (!token)
+    throw new AppError("You are not logged in! Please login first.", 401);
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   const user = await User.findById(decoded.id);
   if (!user) throw new AppError("The token's user no longer exists", 401);

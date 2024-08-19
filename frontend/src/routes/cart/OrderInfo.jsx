@@ -1,23 +1,23 @@
 import React from "react";
-import { useMutation, useQuery } from "react-query";
-import { getMyProfile } from "../../api/endpoints/user";
+import { useMutation } from "react-query";
 import Spinner from "../../components/Spinner";
 import { useFormik } from "formik";
 import SubmitBtn from "../../components/SubmitBtn";
 import { useCart } from "../../context/Cart";
 import { createOrder } from "../../api/endpoints/orders";
+import useUser from "../../hooks/useUser";
 
 export default function OrderInfo() {
-  const userQuery = useQuery("user", getMyProfile);
+  const { isLoading, isSuccess, data: user } = useUser();
 
   return (
     <div className="bg-white rounded-xl p-7">
-      {userQuery.isLoading && (
+      {isLoading && (
         <div className="flex justify-center items-center">
           <Spinner className={"w-16 "} />
         </div>
       )}
-      {userQuery.isSuccess && <OrderDetails user={userQuery.data} />}
+      {isSuccess && <OrderDetails user={user} />}
     </div>
   );
 }
@@ -102,7 +102,11 @@ function OrderDetails({ user }) {
           value={formik.values.country}
           onChange={formik.handleChange}
         />
-        <SubmitBtn text={"Save"} isLoading={orderMutation.isLoading} className={"text-xl font-semibold"} />
+        <SubmitBtn
+          text={"Save"}
+          isLoading={orderMutation.isLoading}
+          className={"text-xl font-semibold"}
+        />
       </form>
     </>
   );

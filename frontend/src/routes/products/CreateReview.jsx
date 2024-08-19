@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/Auth";
 import SubmitBtn from "../../components/SubmitBtn";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
 import { createReview as createReviewFn } from "../../api/endpoints/reviews";
 import Star from "../../components/Star";
+import useUser from "../../hooks/useUser";
 
 export default function CreateReview({ className }) {
-  const { user } = useAuth();
+  const { data: user } = useUser();
   const { productId } = useParams();
 
   const [title, setTitle] = useState("");

@@ -3,16 +3,20 @@ import { Link } from "react-router-dom";
 import SubmitBtn from "../../components/SubmitBtn";
 import useLogin from "../../hooks/useLogin";
 import { useFormik } from "formik";
+import FormInput from "../../components/FormInput";
+import loginValidationSchema from "../../validation/loginValidationSchema";
 
 export default function LoginPage() {
-  const loginMutation = useLogin();
+  const { login, isLoading } = useLogin();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    validationSchema: loginValidationSchema,
+    validateOnChange: false,
     onSubmit: ({ email, password }) => {
-      loginMutation.mutate({ email, password });
+      login({ email, password });
     },
   });
   return (
@@ -20,30 +24,27 @@ export default function LoginPage() {
       <div className=" bg-white p-10 rounded-xl shadow-lg w-[400px]">
         <h6 className="font-semibold mb-5">LOGIN</h6>
         <form onSubmit={formik.handleSubmit} className=" space-y-4">
-          <div className="flex flex-col gap-1">
-            <label htmlFor="email">Email</label>
-            <input
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="text"
-              name="email"
-              id="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="password">Password</label>
-            <input
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="password"
-              name="password"
-              id="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-            />
-          </div>
-
-          <SubmitBtn text={"LOGIN"} isLoading={loginMutation.isLoading} />
+          <FormInput
+            type="text"
+            name="email"
+            label={"Email"}
+            id="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.errors.email}
+            disabled={isLoading}
+          />
+          <FormInput
+            type="password"
+            name="password"
+            label={"Password"}
+            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.errors.password}
+            disabled={isLoading}
+          />
+          <SubmitBtn text={"LOGIN"} isLoading={isLoading} />
         </form>
         <Link className="capitalize text-sm text-end w-full block my-2 text-gray-600">
           forgot password?

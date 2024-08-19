@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import useSignup from "../../hooks/useSignup";
 import SubmitBtn from "../../components/SubmitBtn";
 import { useFormik } from "formik";
+import FormInput from "../../components/FormInput";
+import signupValidationSchema from "../../validation/signupValidationSchema";
 
 export default function Signup() {
-  const signupMutation = useSignup();
+  const { signup, isLoading } = useSignup();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -17,117 +19,87 @@ export default function Signup() {
       postalCode: "",
       streetAddress: "",
     },
+    validateOnChange: false,
+    validationSchema: signupValidationSchema,
     onSubmit: (values) => {
-      signupMutation.mutate(values);
+      signup(values);
     },
   });
 
   return (
     <section className="flex justify-center items-center min-h-screen py-10">
       <div className="bg-white p-10 rounded-xl shadow-lg basis-full max-w-xl">
-        <h6 className="font-semibold mb-5">SIGN UP</h6>
+        <h6 className="font-semibold mb-5 text-center text-3xl">SIGN UP</h6>
         <form onSubmit={formik.handleSubmit} className="space-y-4">
-          <div className="flex flex-col gap-1">
-            <input
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="text"
-              placeholder="Name"
-              name="name"
-              id="name"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <input
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.email}
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="text"
-              placeholder="Email"
-              name="email"
-              id="email"
-            />
-          </div>
-          <div className="flex gap-3">
-            <div className="flex flex-col gap-1 flex-1">
-              <input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.country}
-                className="border rounded-md text-md outline-none px-2 py-1"
-                type="text"
-                placeholder="Country"
-                name="country"
-                id="country"
-              />
-            </div>
-            <div className="flex flex-col gap-1 flex-1">
-              <input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.city}
-                className="border rounded-md text-md outline-none px-2 py-1"
-                type="text"
-                placeholder="City"
-                name="city"
-                id="city"
-              />
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div className="flex flex-col gap-1 flex-grow-[3]">
-              <input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.streetAddress}
-                className="border rounded-md text-md outline-none px-2 py-1"
-                type="text"
-                placeholder="Street Address"
-                name="streetAddress"
-                id="streetAddress"
-              />
-            </div>
-            <div className="flex flex-col gap-1 flex-1">
-              <input
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.postalCode}
-                className="border rounded-md text-md outline-none px-2 py-1"
-                type="text"
-                placeholder="Postal Code"
-                name="postalCode"
-                id="postalCode"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-1">
-            <input
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.password}
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="password"
-              placeholder="Password"
-              name="password"
-              id="password"
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <input
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.confirmPassword}
-              className="border rounded-md text-md outline-none px-2 py-1"
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              id="confirmPassword"
-            />
-          </div>
-          <SubmitBtn text="LOGIN" isLoading={signupMutation.isLoading} />
+          <FormInput
+            label={"Name"}
+            id={"name"}
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            error={formik.errors.name}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Email"}
+            type="email"
+            id={"email"}
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.errors.email}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Password"}
+            type="password"
+            id={"password"}
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={formik.errors.password}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Confirm Password"}
+            type="password"
+            id={"confirmPassword"}
+            onChange={formik.handleChange}
+            value={formik.values.confirmPassword}
+            error={formik.errors.confirmPassword}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Country"}
+            id={"country"}
+            onChange={formik.handleChange}
+            value={formik.values.country}
+            error={formik.errors.country}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"City"}
+            id={"city"}
+            onChange={formik.handleChange}
+            value={formik.values.city}
+            error={formik.errors.city}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Street Address"}
+            id={"streetAddress"}
+            onChange={formik.handleChange}
+            value={formik.values.streetAddress}
+            error={formik.errors.streetAddress}
+            disabled={isLoading}
+          />
+          <FormInput
+            label={"Postal Code"}
+            id={"postalCode"}
+            onChange={formik.handleChange}
+            value={formik.values.postalCode}
+            error={formik.errors.postalCode}
+            disabled={isLoading}
+          />
+
+          <SubmitBtn text="LOGIN" isLoading={isLoading} />
         </form>
 
         <div className="text-sm flex gap-1 mt-5 justify-center">

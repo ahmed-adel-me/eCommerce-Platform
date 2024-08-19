@@ -6,6 +6,7 @@ const {
   restrectTo,
   createAdminUser,
   getUsers,
+  logout,
 } = require("../controllers/authController");
 const {
   getUserProfile,
@@ -16,7 +17,7 @@ const router = Router();
 
 router.post("/signup", signup);
 router.post("/login", login);
-
+router.get("/logout", protect, logout);
 router
   .route("/my-profile")
   .get(protect, getUserProfile)

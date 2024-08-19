@@ -1,15 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/Auth";
 import { useMutation } from "react-query";
 import { signupUser } from "../api/endpoints/auth";
+import toast from "react-hot-toast";
 
 export default () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
-  return useMutation((props) => signupUser(props), {
-    onSuccess: (data) => {
-      login(data.token);
-      navigate("/");
-    },
-  });
+  const { mutate: signup, isLoading } = useMutation(
+    (props) => signupUser(props),
+    {
+      onSuccess: (data) => {
+        toast.success("Signed up successfully");
+        navigate("/");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    }
+  );
+  return { signup, isLoading };
 };

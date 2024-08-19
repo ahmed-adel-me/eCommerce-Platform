@@ -1,8 +1,6 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { getFeaturedProduct } from "../../api/endpoints/products";
 import { Link } from "react-router-dom";
-import Spinner from "../../components/Spinner";
 import ImageSkeleton from "../../../assets/icons/ImageSkeleton";
 import { useCart } from "../../context/Cart";
 

@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
 import { useQuery } from "react-query";
 import { getAllProducts } from "../../api/endpoints/products";
-import axios from "axios";
 import Spinner from "../../components/Spinner";
 
 export default function NewArrival() {
-  const {
-    data: products,
-    isLoading,
-    isError,
-  } = useQuery("products", getAllProducts);
+  const { data: products, isLoading } = useQuery("products", getAllProducts);
   if (isLoading)
     return (
       <div className="flex justify-center py-10">
-        <Spinner  className={"basis-16"}/>
+        <Spinner className={"basis-16"} />
       </div>
     );
   return (

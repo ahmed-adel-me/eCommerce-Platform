@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { getMyOrders } from "../../api/endpoints/orders";
 import Spinner from "../../components/Spinner";

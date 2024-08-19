@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
 import { useCart } from "../../context/Cart";
 import CartInfo from "./CartInfo";
 import OrderInfo from "./OrderInfo";
 
 export default function CartPage() {
-  const { cart, dispatch } = useCart();
+  const { cart } = useCart();
   return (
     <section className="">
       <div className="max-w-7xl mx-auto py-10 flex gap-10">

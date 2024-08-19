@@ -1,11 +1,10 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { getCategorizedProducts } from "../../api/endpoints/products";
 import CategorizedProducts from "./CategorizedProducts";
 import Spinner from "../../components/Spinner";
 
 export default function CategoriesPage() {
-  const { data, isLoading, isError } = useQuery("categorized products", () =>
+  const { data, isLoading } = useQuery("categorized products", () =>
     getCategorizedProducts(3)
   );
   if (isLoading)

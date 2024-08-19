@@ -3,12 +3,12 @@ import { useMutation } from "react-query";
 import { signupUser } from "../api/endpoints/auth";
 import toast from "react-hot-toast";
 
-export default () => {
+export default function useSignUp() {
   const navigate = useNavigate();
   const { mutate: signup, isLoading } = useMutation(
     (props) => signupUser(props),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Signed up successfully");
         navigate("/");
       },
@@ -18,4 +18,4 @@ export default () => {
     }
   );
   return { signup, isLoading };
-};
+}

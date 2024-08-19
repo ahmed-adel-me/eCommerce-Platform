@@ -1,4 +1,3 @@
-import React from "react";
 import Star from "../../components/Star";
 
 export default function ProductsReviews({ reviews }) {

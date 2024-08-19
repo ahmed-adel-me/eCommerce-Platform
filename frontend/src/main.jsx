@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import Root from "./routes/root/Root.jsx";
 import { Toaster } from "react-hot-toast";
@@ -19,8 +18,8 @@ import CategoryProductsPage from "./routes/categories/CategoryProductsPage.jsx";
 import Cart from "./context/Cart.jsx";
 import CartPage from "./routes/cart/CartPage.jsx";
 import SearchPage from "./routes/search/SearchPage.jsx";
-import Cookies from "js-cookie";
 import OrderPage from "./routes/order/OrderPage.jsx";
+import React from "react";
 
 const router = createBrowserRouter([
   {
@@ -108,20 +107,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      onError: (error) => {
-        if (error.name === "AxiosError") {
-          if (error.response.status === 401) {
-            Cookies.remove("jwt");
-            location.reload();
-          }
-        }
-      },
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

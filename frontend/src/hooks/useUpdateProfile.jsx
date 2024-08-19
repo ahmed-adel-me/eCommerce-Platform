@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { updateMyProfile } from "../api/endpoints/auth";
 import toast from "react-hot-toast";
 
-export default () => {
+export default function useUpdateProfile() {
   const queryClient = useQueryClient();
   const { mutate: updateProfile, isLoading } = useMutation(
     (userData) => updateMyProfile(userData),
@@ -14,4 +14,4 @@ export default () => {
     }
   );
   return { updateProfile, isLoading };
-};
+}

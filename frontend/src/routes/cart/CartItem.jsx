@@ -1,4 +1,3 @@
-import React from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useCart } from "../../context/Cart";
 

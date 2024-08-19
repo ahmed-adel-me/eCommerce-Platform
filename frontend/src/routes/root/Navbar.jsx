@@ -1,4 +1,3 @@
-import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useCart } from "../../context/Cart";

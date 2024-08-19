@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import SubmitBtn from "../../components/SubmitBtn";
 import { useMutation, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,7 @@ export default function CreateReview({ className }) {
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
   const queryClient = useQueryClient();
-  const { mutate, isLoading, data } = useMutation(
+  const { mutate, isLoading } = useMutation(
     (props) => createReviewFn(props),
     {
       onSuccess: () => {

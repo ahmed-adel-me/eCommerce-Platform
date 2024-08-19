@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Spinner({ size = 10, className }) {
   return (
     <div role="status" className={className}>

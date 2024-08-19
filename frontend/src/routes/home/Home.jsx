@@ -1,4 +1,3 @@
-import React from "react";
 import Featured from "./Featured";
 import NewArrival from "./NewArrival";
 

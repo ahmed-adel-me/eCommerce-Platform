@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function SubmitBtn({ className, isLoading, text }) {
   if (isLoading)
     return (

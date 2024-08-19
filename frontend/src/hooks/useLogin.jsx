@@ -3,7 +3,7 @@ import { loginUser } from "../api/endpoints/auth";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-export default () => {
+export default function useLogin() {
   const navigate = useNavigate();
 
   const { mutate: login, isLoading } = useMutation(
@@ -19,4 +19,4 @@ export default () => {
     }
   );
   return { login, isLoading };
-};
+}

@@ -1,8 +1,6 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getCategoryById } from "../../api/endpoints/products";
-import { RiArrowDropDownLine } from "react-icons/ri";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
 export default function CategoryProductsPage() {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/endpoints/products";

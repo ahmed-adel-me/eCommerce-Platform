@@ -1,15 +1,14 @@
-import { useQuery } from "react-query";
-import { getFeaturedProduct } from "../../api/endpoints/products";
 import { Link } from "react-router-dom";
 import ImageSkeleton from "../../../assets/icons/ImageSkeleton";
 import { useCart } from "../../context/Cart";
+import useFeaturedProduct from "../../hooks/useFeaturedProduct";
 
 export default function Featured() {
   const {
-    data: product,
+     product,
     isLoading,
     isSuccess,
-  } = useQuery("featured", getFeaturedProduct);
+  } = useFeaturedProduct();
   const { dispatch } = useCart();
   const addToCart = (event) => {
     event.preventDefault();

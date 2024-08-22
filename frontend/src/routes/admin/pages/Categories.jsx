@@ -3,7 +3,7 @@ import CreateCategory from "../features/categories/CreateCategory";
 
 function Categories() {
   return (
-    <div className="p-5">
+    <div>
       <h2 className="text-2xl font-semibold mb-5">Categories</h2>
       <CreateCategory />
       <CategoriesTable />

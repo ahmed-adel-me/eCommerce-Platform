@@ -9,10 +9,8 @@ function ProductsTable({ setActiveTab }) {
   const { products, isLoading } = useProducts();
   const { deleteProduct, isLoading: isDeleting } = useDeleteProduct();
   if (isLoading) return <BeatLoader />;
-  console.log(products);
-
   return (
-    <div className="h-screen p-5">
+    <div className="h-screen">
       <h2 className="text-2xl font-semibold mb-5">Products</h2>
       <Table columns={"grid-cols-2"}>
         <Table.Header>

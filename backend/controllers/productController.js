@@ -4,6 +4,7 @@ const Product = require("../models/Product");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 const haveSameProperties = require("../utils/haveSameProperties");
+const FeaturedProduct = require("../models/FeaturedProduct");
 
 exports.getProducts = catchAsync(async (req, res, next) => {
   const products = await Product.find();
@@ -116,34 +117,27 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {
-  let featuredProduct = await Product.findOne({ featured: true });
+  let featuredProduct = await FeaturedProduct.findOne().populate("product");
   if (!featuredProduct) featuredProduct = await Product.findOne();
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      featuredProduct,
-    },
-  });
+  res.status(200).json(featuredProduct);
 });
 
 exports.setFeaturedProduct = catchAsync(async (req, res, next) => {
-  await Product.findOneAndUpdate({ featured: true }, { featured: false });
-  const productId = req.params.productId || req.body.productId;
-  if (!productId) throw new AppError("productId is undefined", 400);
-  const featuredProduct = await Product.findByIdAndUpdate(productId, {
-    featured: true,
-  });
-  if (!featuredProduct)
-    throw new AppError("Threre is no product with that id", 404);
-  res.status(201).json({
-    status: "success",
-    data: {
-      featuredProduct,
-    },
-  });
-});
+  // Remove the existing featured product if any
+  await FeaturedProduct.findOneAndDelete({});
 
+  const productId = req.params.productId || req.body?.productId;
+  if (!productId) throw new AppError("productId is undefined", 400);
+
+  // Find and update the new featured product
+  const product = await Product.findById(productId);
+  if (!product) throw new AppError("There is no product with that id", 404);
+
+  const featuredProduct = await FeaturedProduct.create({ product: productId });
+
+  res.status(201).json(featuredProduct);
+});
 // exports.getproductsByCategory = catchAsync(async (req, res, next) => {
 //   const categories =await Category.find();
 //   const products = await Product.find()

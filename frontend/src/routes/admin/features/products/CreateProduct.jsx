@@ -9,6 +9,7 @@ import useCreateProduct from "./useCreateProduct";
 import { ClipLoader } from "react-spinners";
 import { HiOutlineUpload, HiX } from "react-icons/hi";
 import toast from "react-hot-toast";
+import SelectInput from "../../UI/SelectInput";
 
 function CreateProduct({ setActiveTab }) {
   const { createProduct, isLoading: isCreatingProduct } = useCreateProduct();
@@ -69,8 +70,9 @@ function CreateProduct({ setActiveTab }) {
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-xl font-semibold mb-7">Create Product</h2>
+    <div>
+      <h2 className="text-2xl font-semibold mb-5">Create Product</h2>
+
       <form className="flex flex-col gap-4" onSubmit={formik.handleSubmit}>
         <FormInput
           label={"Product name"}
@@ -82,29 +84,19 @@ function CreateProduct({ setActiveTab }) {
         />
         {!categoriesAreLoading ? (
           <>
-            <div>
-              <label className="text-gray-600 font-semibold" htmlFor="category">
-                Category
-              </label>
-              <select
-                className={`text-lg py-2 px-3 rounded border-2 ${
-                  formik.errors.category ? "border-red-500" : "border-gray-400"
-                } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
-                name="category"
-                id="category"
-                value={formik.values.category}
-                onChange={handleCategoryChange}
-                disabled={isCreatingProduct}
-              >
-                <option value="">Select Category</option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              <InputError error={formik.errors.category} />
-            </div>
+            <SelectInput
+              id="category"
+              name="category"
+              label="Category"
+              options={categories.map((category) => ({
+                value: category._id,
+                label: category.name,
+              }))}
+              value={formik.values.category}
+              onChange={handleCategoryChange}
+              error={formik.errors.category}
+              disabled={isCreatingProduct}
+            />
             {selectedCategory && selectedCategory.brands.length > 0 && (
               <div>
                 <label className="text-gray-600 font-semibold" htmlFor="brand">

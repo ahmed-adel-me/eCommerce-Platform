@@ -5,7 +5,7 @@ function DashboardLayout() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 overflow-y-scroll">
+      <main className="flex-1 overflow-y-scroll p-5">
         <div>
           <Outlet />
         </div>

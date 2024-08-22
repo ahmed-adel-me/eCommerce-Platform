@@ -46,10 +46,6 @@ export const getCategoryById = async (id) => {
   return data.data;
 };
 
-export const getFeaturedProduct = async () => {
-  const { data } = await API.get("/products/featured");
-  return data.data.featuredProduct;
-};
 
 export const deleteProduct = async (productId) => {
   await API.delete(`/products/${productId}`);

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ListItem from "../UI/ListItem";
 import CreateProduct from "../features/products/CreateProduct";
 import EditProduct from "../features/products/EditProduct";
 import ProductsTable from "../features/products/ProductsTable";

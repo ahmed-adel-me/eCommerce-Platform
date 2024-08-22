@@ -28,11 +28,11 @@ import SearchPage from "./routes/search/SearchPage.jsx";
 import OrderPage from "./routes/order/OrderPage.jsx";
 import AdminDashboard from "./routes/admin/pages/AdminDashboard.jsx";
 import Products from "./routes/admin/pages/Products.jsx";
-import DashboardLayout from "./routes/admin/layout/DashboardLayout.jsx";
 import Categories from "./routes/admin/pages/Categories.jsx";
 import Orders from "./routes/admin/pages/Orders.jsx";
 import Settings from "./routes/admin/pages/Settings.jsx";
 import Users from "./routes/admin/pages/Users.jsx";
+import DashboardLayout from "./routes/admin/UI/DashboardLayout.jsx";
 
 const queryClient = new QueryClient();
 

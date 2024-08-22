@@ -21,7 +21,7 @@ router.use(protect);
 router.get("/categorized", getProductsByCategory);
 router.get("/categorized/:categoryId", getCategoryWithProducts);
 router.get("/wishlist", getWishlist);
-router.route("/").get(getProducts).post(restrectTo("admin"), createProduct);
+router.route("/").get(getProducts).post(createProduct);
 
 router.route("/featured").get(getFeaturedProduct).post(setFeaturedProduct);
 router.use("/:productId/reviews", reviewRouter);

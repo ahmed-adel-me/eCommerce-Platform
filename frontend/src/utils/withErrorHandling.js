@@ -1,4 +1,4 @@
-export default (asyncFunc) => {
+export default function withErrorHandling(asyncFunc) {
   return async (...args) => {
     try {
       return await asyncFunc(...args);
@@ -7,4 +7,4 @@ export default (asyncFunc) => {
       throw new Error(errorMessage);
     }
   };
-};
+}

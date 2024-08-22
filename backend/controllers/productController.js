@@ -96,23 +96,29 @@ exports.getProductById = catchAsync(async (req, res, next) => {
 });
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-  const { name, price, brand, images, description, category } = req.body;
-  const newProduct = await Product.create({
+  const {
     name,
     price,
     brand,
-    images,
+    images = [],
     description,
     category,
+    properties,
+  } = req.body;
+  const newProduct = await Product.create({
+    name,
+    price,
+    images: Array.isArray(images) ? images : [],
+    description,
     creator: req.user.id,
-  });
-
-  res.status(201).json({
-    status: "success",
-    data: {
-      product: newProduct,
+    category: {
+      categoryRef: category,
+      brand,
+      properties,
     },
   });
+
+  res.status(201).json(newProduct);
 });
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {

@@ -1,25 +1,47 @@
 const Category = require("../models/Category");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
 exports.getCategories = catchAsync(async (req, res, next) => {
   const categories = await Category.find();
 
-  res.status(200).json({
-    status: "success",
-    results: categories.length,
-    data: {
-      categories,
-    },
-  });
+  res.status(200).json(categories);
 });
 
 exports.createCategory = catchAsync(async (req, res, next) => {
-  const newCategory = await Category.create(req.body);
+  const { name, brands, properties } = req.body;
+  console.log(req.body);
 
-  res.status(201).json({
+  const formattedProperties = properties.map(({ name, values }) => {
+    // Split the comma-separated string, trim each value, and filter out empty values
+    const trimmedValues = values
+      .split(",")
+      .map((value) => value.trim())
+      .filter((value) => value.length > 0);
+
+    return { name, values: trimmedValues };
+  });
+  const formattedBrands = brands
+    ?.split(",")
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0);
+
+  const newCategory = await Category.create({
+    name,
+    brands: formattedBrands,
+    properties: formattedProperties,
+  });
+
+  res.status(201).json(newCategory);
+});
+
+exports.deleteCategory = catchAsync(async (req, res, next) => {
+  const { categoryId } = req.params;
+  const category = await Category.findByIdAndDelete(categoryId);
+  if (!category) throw new AppError("this category doesn't exists", 404);
+
+  res.status(200).json({
     status: "success",
-    data: {
-      category: newCategory,
-    },
+    data: null,
   });
 });

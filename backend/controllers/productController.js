@@ -5,83 +5,77 @@ const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 const haveSameProperties = require("../utils/haveSameProperties");
 
+exports.getProducts = catchAsync(async (req, res, next) => {
+  const products = await Product.find();
+
+  res.status(200).json(products);
+});
 // exports.getProducts = catchAsync(async (req, res, next) => {
-//   const products = await Product.find()
+//   const userId = req.user._id;
+//   // const { search } = req.query;
+
+//   let aggregationPipeline = [
+//     // Add wished field using $lookup and $in
+//     {
+//       $lookup: {
+//         from: "users", // Replace with the actual name of the users collection
+//         let: { product_id: "$_id" },
+//         pipeline: [
+//           { $match: { _id: userId } },
+//           { $project: { _id: 0, wishList: 1 } },
+//           { $unwind: "$wishList" },
+//           { $match: { $expr: { $eq: ["$$product_id", "$wishList"] } } },
+//         ],
+//         as: "wishedProducts",
+//       },
+//     },
+//     {
+//       $addFields: {
+//         wished: { $gt: [{ $size: "$wishedProducts" }, 0] },
+//       },
+//     },
+//     // Project only required fields
+//     {
+//       $project: {
+//         _id: 0,
+//         id: "$_id",
+//         name: 1,
+//         brand: 1,
+//         price: 1,
+//         description: 1,
+//         images: 1,
+//         createdAt: 1,
+//         category: 1,
+//         creator: 1,
+//         featured: 1,
+//         wished: 1,
+//       },
+//     },
+//   ];
+
+//   // Conditionally add the $match stage for search if a search query is provided
+//   // if (search) {
+//   //   const searchRegex = new RegExp(search, "i");
+//   //   aggregationPipeline.push({
+//   //     $match: {
+//   //       $or: [
+//   //         { name: { $regex: searchRegex } }, // Search in product names
+//   //         { description: { $regex: searchRegex } }, // Search in descriptions
+//   //       ],
+//   //     },
+//   //   });
+//   // }
+
+//   const productsWithWishedStatus = await Product.aggregate(aggregationPipeline);
 
 //   res.status(200).json({
 //     status: "success",
-//     results: products.length,
+//     results: productsWithWishedStatus.length,
 //     data: {
-//       products,
+//       products: productsWithWishedStatus,
 //     },
 //   });
 // });
-exports.getProducts = catchAsync(async (req, res, next) => {
-  const userId = req.user._id;
-  // const { search } = req.query;
-
-  let aggregationPipeline = [
-    // Add wished field using $lookup and $in
-    {
-      $lookup: {
-        from: "users", // Replace with the actual name of the users collection
-        let: { product_id: "$_id" },
-        pipeline: [
-          { $match: { _id: userId } },
-          { $project: { _id: 0, wishList: 1 } },
-          { $unwind: "$wishList" },
-          { $match: { $expr: { $eq: ["$$product_id", "$wishList"] } } },
-        ],
-        as: "wishedProducts",
-      },
-    },
-    {
-      $addFields: {
-        wished: { $gt: [{ $size: "$wishedProducts" }, 0] },
-      },
-    },
-    // Project only required fields
-    {
-      $project: {
-        _id: 0,
-        id: "$_id",
-        name: 1,
-        brand: 1,
-        price: 1,
-        description: 1,
-        images: 1,
-        createdAt: 1,
-        category: 1,
-        creator: 1,
-        featured: 1,
-        wished: 1,
-      },
-    },
-  ];
-
-  // Conditionally add the $match stage for search if a search query is provided
-  // if (search) {
-  //   const searchRegex = new RegExp(search, "i");
-  //   aggregationPipeline.push({
-  //     $match: {
-  //       $or: [
-  //         { name: { $regex: searchRegex } }, // Search in product names
-  //         { description: { $regex: searchRegex } }, // Search in descriptions
-  //       ],
-  //     },
-  //   });
-  // }
-
-  const productsWithWishedStatus = await Product.aggregate(aggregationPipeline);
-
-  res.status(200).json({
-    status: "success",
-    results: productsWithWishedStatus.length,
-    data: {
-      products: productsWithWishedStatus,
-    },
-  });
-});
 
 exports.getProductById = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.productId).populate(
@@ -259,5 +253,21 @@ exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
       category,
       products,
     },
+  });
+});
+
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  const { productId } = req.params;
+  if (!productId) throw new AppError("productId is missing", 404);
+
+  const product = await Product.findByIdAndDelete(productId);
+
+  if (!product) {
+    throw new AppError("No product found with that ID", 404);
+  }
+
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });

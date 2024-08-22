@@ -15,18 +15,17 @@ export const createProduct = async (props) => {
 };
 
 export const getAllProducts = async (queries) => {
-  let queryString = "";
-  if (queries) {
-    const queryArray = [];
-    for (const key in queries) {
-      queryArray.push(
-        `${encodeURIComponent(key)}=${encodeURIComponent(queries[key])}`
-      );
-    }
-    queryString = queryArray.join("&");
-  }
-  const { data } = await API.get(`/products?${queryString}`);
-  const products = data.data.products;
+  // let queryString = "";
+  // if (queries) {
+  //   const queryArray = [];
+  //   for (const key in queries) {
+  //     queryArray.push(
+  //       `${encodeURIComponent(key)}=${encodeURIComponent(queries[key])}`
+  //     );
+  //   }
+  //   queryString = queryArray.join("&");
+  // }
+  const { data: products } = await API.get(`/products`);
   return products;
 };
 
@@ -50,4 +49,8 @@ export const getCategoryById = async (id) => {
 export const getFeaturedProduct = async () => {
   const { data } = await API.get("/products/featured");
   return data.data.featuredProduct;
+};
+
+export const deleteProduct = async (productId) => {
+  await API.delete(`/products/${productId}`);
 };

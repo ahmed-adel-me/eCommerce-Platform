@@ -7,6 +7,7 @@ const {
   getProductById,
   getProductsByCategory,
   getCategoryWithProducts,
+  deleteProduct,
 } = require("../controllers/productController");
 const { protect, restrectTo } = require("../controllers/authController");
 const reviewRouter = require("./reviewRoutes");
@@ -23,6 +24,7 @@ router.get("/categorized/:categoryId", getCategoryWithProducts);
 router.get("/wishlist", getWishlist);
 router.route("/").get(getProducts).post(createProduct);
 
+router.route("/:productId").delete(deleteProduct);
 router.route("/featured").get(getFeaturedProduct).post(setFeaturedProduct);
 router.use("/:productId/reviews", reviewRouter);
 router

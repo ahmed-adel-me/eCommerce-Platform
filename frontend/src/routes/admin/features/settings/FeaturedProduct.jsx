@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import useProducts from "../products/useProducts";
 import useFeaturedProduct from "../../../../hooks/useFeaturedProduct";
+import useProducts from "../../../../hooks/useProducts";
 import useSetFeaturedProduct from "./useSetFeaturedProduct";
 import { BeatLoader } from "react-spinners";
 

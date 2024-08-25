@@ -38,12 +38,12 @@ export const getCategorizedProducts = async (limit) => {
   const { data } = await API.get(
     `/products/categorized${limit ? `?limit=${limit}` : ""}`
   );
-  return data.data;
+  return data;
 };
 
 export const getCategoryById = async (id) => {
   const { data } = await API.get(`/products/categorized/${id}`);
-  return data.data;
+  return data;
 };
 
 

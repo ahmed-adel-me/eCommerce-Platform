@@ -72,5 +72,24 @@ productSchema.virtual("reviews", {
   localField: "_id",
 });
 
+
+productSchema.virtual('wished').get(function () {
+  // This will be dynamically set during query
+  return this._wished || false;
+});
+
+// Function to add wished status to products based on the logged-in user
+productSchema.methods.setWishedStatus = function (userWishlist) {
+  this._wished = userWishlist.includes(this._id);
+  return this;
+};
+
+// Example of setting the wished status for multiple products
+productSchema.statics.setWishedStatusForProducts = function (products, userWishlist) {
+  return products.map(product => {
+    product.setWishedStatus(userWishlist);
+    return product;
+  });
+};
 const Product = model("Product", productSchema);
 module.exports = Product;

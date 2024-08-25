@@ -8,8 +8,13 @@ const FeaturedProduct = require("../models/FeaturedProduct");
 
 exports.getProducts = catchAsync(async (req, res, next) => {
   const products = await Product.find();
+  const userWishlist = req.user.wishList;
+  const productsWithWishedStatus = Product.setWishedStatusForProducts(
+    products,
+    userWishlist
+  );
 
-  res.status(200).json(products);
+  res.status(200).json(productsWithWishedStatus);
 });
 // exports.getProducts = catchAsync(async (req, res, next) => {
 //   const userId = req.user._id;
@@ -149,55 +154,81 @@ exports.setFeaturedProduct = catchAsync(async (req, res, next) => {
 //     }
 //   })
 // });
-exports.getProductsByCategory = catchAsync(async (req, res, next) => {
+// exports.getProductsByCategory = catchAsync(async (req, res, next) => {
+//   const limit = parseInt(req.query.limit) || null;
+
+//   const categorizedProducts = await Product.aggregate([
+//     {
+//       $lookup: {
+//         from: "categories",
+//         localField: "category._id",
+//         foreignField: "category.categoryRef",
+//         as: "categoryDetails",
+//       },
+//     },
+//     {
+//       $unwind: "$categoryDetails",
+//     },
+//     {
+//       $group: {
+//         _id: "$categoryDetails.name",
+//         categoryId: { $first: "$categoryDetails._id" },
+//         products: {
+//           $push: {
+//             id: "$_id",
+//             name: "$name",
+//             brand: "$brand",
+//             price: "$price",
+//             description: "$description",
+//             images: "$images",
+//           },
+//         },
+//       },
+//     },
+//     {
+//       $project: {
+//         _id: 0,
+//         categoryId: 1,
+//         category: "$_id",
+//         products: limit ? { $slice: ["$products", limit] } : "$products", // Apply the limit using $slice if limit is provided
+//         numberOfProducts: { $size: "$products" }, // Count the number of products
+//       },
+//     },
+//     {
+//       $sort: { category: 1 }, // Sort categories in ascending order by name
+//     },
+//   ]);
+
+//   res.status(200).json({
+//     status: "success",
+//     data: categorizedProducts,
+//   });
+// });
+
+exports.getCategoriesWithProducts = catchAsync(async (req, res, next) => {
   const limit = parseInt(req.query.limit) || null;
+  const categories = await Category.find().exec();
 
-  const categorizedProducts = await Product.aggregate([
-    {
-      $lookup: {
-        from: "categories",
-        localField: "category._id",
-        foreignField: "category.categoryRef",
-        as: "categoryDetails",
-      },
-    },
-    {
-      $unwind: "$categoryDetails",
-    },
-    {
-      $group: {
-        _id: "$categoryDetails.name",
-        categoryId: { $first: "$categoryDetails._id" },
-        products: {
-          $push: {
-            id: "$_id",
-            name: "$name",
-            brand: "$brand",
-            price: "$price",
-            description: "$description",
-            images: "$images",
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        categoryId: 1,
-        category: "$_id",
-        products: limit ? { $slice: ["$products", limit] } : "$products", // Apply the limit using $slice if limit is provided
-        numberOfProducts: { $size: "$products" }, // Count the number of products
-      },
-    },
-    {
-      $sort: { category: 1 }, // Sort categories in ascending order by name
-    },
-  ]);
+  const result = {};
 
-  res.status(200).json({
-    status: "success",
-    data: categorizedProducts,
-  });
+  for (const category of categories) {
+    const products = await Product.find({
+      "category.categoryRef": category._id,
+    })
+      .limit(limit)
+      .exec();
+
+    if (products.length === 0) continue;
+    const productsWithWishedStatus = Product.setWishedStatusForProducts(
+      products,
+      req.user.wishList
+    );
+    result[category.name] = {};
+    result[category.name].products = productsWithWishedStatus;
+    result[category.name].id = category._id;
+  }
+
+  res.status(200).json(result);
 });
 
 // exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
@@ -232,21 +263,13 @@ exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
   }
 
   const products = await Product.find({ "category.categoryRef": categoryId });
-
-  // if (products.length === 0) {
-  //   return next(
-  //     new AppError(
-  //       "No products found for the provided category and properties",
-  //       404
-  //     )
-  //   );
-  // }
+  const productsWithWishedStatus = Product.setWishedStatusForProducts(
+    products,
+    req.user.wishList
+  );
   res.status(200).json({
-    status: "success",
-    data: {
-      category,
-      products,
-    },
+    category,
+    products: productsWithWishedStatus,
   });
 });
 
@@ -260,8 +283,5 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
     throw new AppError("No product found with that ID", 404);
   }
 
-  res.status(204).json({
-    status: "success",
-    data: null,
-  });
+  res.status(204).json(null);
 });

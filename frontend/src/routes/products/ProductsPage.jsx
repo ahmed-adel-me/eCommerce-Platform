@@ -1,13 +1,9 @@
-import { useQuery } from "react-query";
-import { getAllProducts } from "../../api/endpoints/products";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
+import useProducts from "../../hooks/useProducts";
 
 export default function ProductsPage() {
-  const {
-    data: products,
-    isLoading,
-  } = useQuery("products", getAllProducts);
+  const { products, isLoading } = useProducts();
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -16,7 +12,6 @@ export default function ProductsPage() {
         </div>
       </div>
     );
-  console.log(products);
 
   return (
     <section>

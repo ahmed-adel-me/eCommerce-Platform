@@ -9,7 +9,6 @@ export default function CategoryProductsPage() {
     ["products", "category"],
     () => getCategoryById(categoryId)
   );
-
   return (
     <section>
       {isLoading && (

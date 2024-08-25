@@ -1,9 +1,9 @@
 import React from "react";
 import Table from "../../UI/Table";
-import useProducts from "./useProducts";
 import BeatLoader from "react-spinners/BeatLoader";
 import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import useDeleteProduct from "./useDeleteProduct";
+import useProducts from "../../../../hooks/useProducts";
 
 function ProductsTable({ setActiveTab }) {
   const { products, isLoading } = useProducts();

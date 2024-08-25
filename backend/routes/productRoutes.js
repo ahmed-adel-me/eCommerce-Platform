@@ -8,6 +8,7 @@ const {
   getProductsByCategory,
   getCategoryWithProducts,
   deleteProduct,
+  getCategoriesWithProducts,
 } = require("../controllers/productController");
 const { protect, restrectTo } = require("../controllers/authController");
 const reviewRouter = require("./reviewRoutes");
@@ -19,7 +20,7 @@ const {
 
 const router = Router({ mergeParams: true });
 router.use(protect);
-router.get("/categorized", getProductsByCategory);
+router.get("/categorized", getCategoriesWithProducts);
 router.get("/categorized/:categoryId", getCategoryWithProducts);
 router.get("/wishlist", getWishlist);
 router.route("/").get(getProducts).post(createProduct);

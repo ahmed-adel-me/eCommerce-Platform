@@ -3,10 +3,11 @@ import Filter from "../../components/Filter";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
 import useGetCategoryById from "../../hooks/useGetCategoryById";
+import SortBy from "../../components/SortBy";
 export default function CategoryProductsPage() {
   const { categoryId } = useParams();
-  const { data, isLoading, isError, isSuccess } = useGetCategoryById(categoryId)
-  console.log(data);
+  const { data, isLoading, isError, isSuccess } =
+    useGetCategoryById(categoryId);
   return (
     <section>
       {isLoading && (
@@ -31,6 +32,14 @@ export default function CategoryProductsPage() {
                   options={prop.values}
                 />
               ))}
+              <SortBy
+                options={[
+                  { label: "Sort: newest first", value: "date-desc" },
+                  { label: "Sort: oldest first", value: "date-asc" },
+                  { label: "Sort: price: low to high", value: "price-asc" },
+                  { label: "Sort: price: high to low", value: "price-desc" },
+                ]}
+              />
             </div>
           </div>
           <div className="grid grid-cols-4 gap-10">

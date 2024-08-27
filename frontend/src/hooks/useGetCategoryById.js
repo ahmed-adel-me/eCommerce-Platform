@@ -13,8 +13,6 @@ export default function useGetCategoryById(categoryId) {
 
   // Concatenate all filter values into a single string
 
-  console.log(filter);
-
   const { data, isLoading, isError, isSuccess } = useQuery(
     ["products", categoryId, sortBy, filter],
     () => getCategoryById({ categoryId, sortBy, filter: filter })

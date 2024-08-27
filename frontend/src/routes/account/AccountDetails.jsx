@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import SubmitBtn from "../../components/SubmitBtn";
 import { useFormik } from "formik";
 import useLogout from "../../hooks/useLogout";
@@ -8,7 +7,6 @@ import useUpdateProfile from "../../hooks/useUpdateProfile";
 export default function AccountDetails() {
   const { data: user, isSuccess } = useUser();
   const { logout } = useLogout();
-  console.log(user);
 
   return (
     <div className="bg-white  rounded-lg overflow-hidden p-6 place-self-center">

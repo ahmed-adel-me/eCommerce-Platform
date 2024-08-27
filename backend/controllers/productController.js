@@ -310,8 +310,9 @@ exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
   // Optionally sort products based on sort query
   if (sort) {
     const [field, order] = sort.split("-"); // e.g., "date-desc" => ["date", "desc"]
+    const sortField = field === "date" ? "createdAt" : field; // Adjust the field name if needed
     const sortOrder = order === "desc" ? -1 : 1;
-    query = query.sort({ [field]: sortOrder });
+    query = query.sort({ [sortField]: sortOrder });
   }
 
   const products = await query;

@@ -59,7 +59,7 @@ export default function Featured() {
               <ImageSkeleton />
             </div>
           )}
-          {isSuccess && <img src={product?.images[0]} alt="no image" />}
+          {isSuccess && <img src={product?.images?.[0]} alt="no image" />}
         </div>
       </div>
     </div>

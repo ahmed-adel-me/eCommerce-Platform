@@ -1,14 +1,12 @@
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { getCategoryById } from "../../api/endpoints/products";
+import Filter from "../../components/Filter";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
+import useGetCategoryById from "../../hooks/useGetCategoryById";
 export default function CategoryProductsPage() {
   const { categoryId } = useParams();
-  const { data, isLoading, isError, isSuccess } = useQuery(
-    ["products", "category"],
-    () => getCategoryById(categoryId)
-  );
+  const { data, isLoading, isError, isSuccess } = useGetCategoryById(categoryId)
+  console.log(data);
   return (
     <section>
       {isLoading && (
@@ -24,6 +22,16 @@ export default function CategoryProductsPage() {
             <h2 className="text-4xl font-bold capitalize">
               {data.category.name}
             </h2>
+            <div className="flex gap-5 items-center">
+              <Filter filterField="brand" options={data.category.brands} />
+              {data.category?.properties.map((prop) => (
+                <Filter
+                  key={prop._id}
+                  filterField={prop.name}
+                  options={prop.values}
+                />
+              ))}
+            </div>
           </div>
           <div className="grid grid-cols-4 gap-10">
             {data.products.map((product) => (

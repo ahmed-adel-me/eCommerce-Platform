@@ -14,18 +14,10 @@ export const createProduct = async (props) => {
   return data;
 };
 
-export const getAllProducts = async (queries) => {
-  // let queryString = "";
-  // if (queries) {
-  //   const queryArray = [];
-  //   for (const key in queries) {
-  //     queryArray.push(
-  //       `${encodeURIComponent(key)}=${encodeURIComponent(queries[key])}`
-  //     );
-  //   }
-  //   queryString = queryArray.join("&");
-  // }
-  const { data: products } = await API.get(`/products`);
+export const getAllProducts = async ({ search }) => {
+  const { data: products } = await API.get(
+    `/products${search ? "?search=" + search : ""}`
+  );
   return products;
 };
 
@@ -40,12 +32,6 @@ export const getCategorizedProducts = async (limit) => {
   );
   return data;
 };
-
-export const getCategoryById = async (id) => {
-  const { data } = await API.get(`/products/categorized/${id}`);
-  return data;
-};
-
 
 export const deleteProduct = async (productId) => {
   await API.delete(`/products/${productId}`);

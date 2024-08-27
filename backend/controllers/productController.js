@@ -5,9 +5,23 @@ const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 const haveSameProperties = require("../utils/haveSameProperties");
 const FeaturedProduct = require("../models/FeaturedProduct");
-
 exports.getProducts = catchAsync(async (req, res, next) => {
-  const products = await Product.find();
+  const { search } = req.query;
+
+  // Build the search query
+  const searchQuery = search
+    ? {
+        $or: [
+          { name: { $regex: search, $options: "i" } }, // Case-insensitive search for product name
+          { "category.brand": { $regex: search, $options: "i" } }, // Case-insensitive search for brand
+        ],
+      }
+    : {};
+
+  // Fetch products based on search query
+  const products = await Product.find(searchQuery);
+
+  // Get the user's wishlist
   const userWishlist = req.user.wishList;
   const productsWithWishedStatus = Product.setWishedStatusForProducts(
     products,
@@ -16,6 +30,7 @@ exports.getProducts = catchAsync(async (req, res, next) => {
 
   res.status(200).json(productsWithWishedStatus);
 });
+
 // exports.getProducts = catchAsync(async (req, res, next) => {
 //   const userId = req.user._id;
 //   // const { search } = req.query;
@@ -123,7 +138,8 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {
   let featuredProduct = await FeaturedProduct.findOne().populate("product");
-  if (!featuredProduct) featuredProduct = await Product.findOne();
+  if (!featuredProduct || !featuredProduct.product)
+    featuredProduct = await Product.findOne();
 
   res.status(200).json(featuredProduct);
 });
@@ -256,17 +272,56 @@ exports.getCategoriesWithProducts = catchAsync(async (req, res, next) => {
 // });
 
 exports.getCategoryWithProducts = catchAsync(async (req, res, next) => {
+  // Extract categoryId and query parameters
   const { categoryId } = req.params;
+  const { sort, brand, ...filter } = req.query;
+
+  // Validate categoryId
+  if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+    return next(new AppError("Invalid category ID", 400));
+  }
+
+  // Find the category
   const category = await Category.findById(categoryId);
   if (!category) {
     return next(new AppError("Category not found", 404));
   }
 
-  const products = await Product.find({ "category.categoryRef": categoryId });
+  // Build the filter query
+  let filterQuery = { "category.categoryRef": categoryId };
+
+  // Filter by brand
+  if (brand) {
+    filterQuery["category.brand"] = brand;
+  }
+
+  // Filter by properties
+  if (Object.keys(filter).length) {
+    const propertiesQuery = {};
+    for (const [key, value] of Object.entries(filter)) {
+      propertiesQuery[`category.properties.${key}`] = value;
+    }
+    filterQuery = { ...filterQuery, ...propertiesQuery };
+  }
+
+  // Fetch the products with the constructed filter query
+  let query = Product.find(filterQuery);
+
+  // Optionally sort products based on sort query
+  if (sort) {
+    const [field, order] = sort.split("-"); // e.g., "date-desc" => ["date", "desc"]
+    const sortOrder = order === "desc" ? -1 : 1;
+    query = query.sort({ [field]: sortOrder });
+  }
+
+  const products = await query;
+
+  // Set wished status for products
   const productsWithWishedStatus = Product.setWishedStatusForProducts(
     products,
     req.user.wishList
   );
+
   res.status(200).json({
     category,
     products: productsWithWishedStatus,

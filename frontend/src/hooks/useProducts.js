@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { getAllProducts } from "../api/endpoints/products";
 
-export default function useProducts() {
+export default function useProducts(search) {
   const { data: products, isLoading } = useQuery({
     queryKey: ["products"],
-    queryFn: getAllProducts,
+    queryFn: () => getAllProducts({ search }),
   });
 
   return { products, isLoading };

@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import { getAllProducts } from "../../api/endpoints/products";
 import ProductCard from "../../components/ProductCard";
@@ -36,12 +36,18 @@ export default function SearchPage() {
             </div>
           </div>
         )}
-        {isSuccess && (
+        {isSuccess && data.length > 0 ? (
           <div className="grid grid-cols-4 gap-10">
             {data.map((product) => (
               <ProductCard key={product.id} data={product} />
             ))}
           </div>
+        ) : (
+          !isLoading && (
+            <p className="text-xl font-semibold">
+              No products found matching your search criteria.
+            </p>
+          )
         )}
 
         {isError && (

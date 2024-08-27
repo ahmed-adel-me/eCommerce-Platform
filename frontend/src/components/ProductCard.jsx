@@ -58,6 +58,11 @@ export default function ProductCard({ data }) {
                 : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png"
             }
             alt=""
+            onError={(e) => {
+              e.target.onerror = null; // Prevent infinite loop if the fallback image fails
+              e.target.src =
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png"; // Fallback image URL
+            }}
           />
         </div>
       </div>

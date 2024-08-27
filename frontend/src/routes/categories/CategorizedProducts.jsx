@@ -18,7 +18,7 @@ export default function CategorizedProducts({
           Show all
         </Link>
       </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-4 gap-10">
         {products.map((product) => (
           <ProductCard key={product.id} data={product} />
         ))}

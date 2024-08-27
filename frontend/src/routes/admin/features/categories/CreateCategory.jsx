@@ -75,7 +75,7 @@ function CreateCategory() {
 
           <div className="flex-1 relative flex flex-col gap-1">
             <label className="text-gray-600 font-semibold" htmlFor="category">
-              Create new category
+              Add brands
             </label>
             <input
               className="w-full bg-white text-lg py-1 px-3 rounded border border-gray-400 outline-none text-gray-900 disabled:bg-gray-300 disabled:text-gray-500"

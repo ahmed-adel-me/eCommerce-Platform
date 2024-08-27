@@ -4,6 +4,7 @@ import useProducts from "../../hooks/useProducts";
 
 export default function ProductsPage() {
   const { products, isLoading } = useProducts();
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-screen">

@@ -34,7 +34,13 @@ import Settings from "./routes/admin/pages/Settings.jsx";
 import Users from "./routes/admin/pages/Users.jsx";
 import DashboardLayout from "./routes/admin/UI/DashboardLayout.jsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 // Render the application
 ReactDOM.createRoot(document.getElementById("root")).render(

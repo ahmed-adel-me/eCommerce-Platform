@@ -1,6 +1,4 @@
 import ProductCard from "../../components/ProductCard";
-import { useQuery } from "react-query";
-import { getAllProducts } from "../../api/endpoints/products";
 import Spinner from "../../components/Spinner";
 import useProducts from "../../hooks/useProducts";
 

@@ -1,8 +1,11 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 import { useCart } from "../../context/Cart";
+import { HiOutlineLogout } from "react-icons/hi";
+import useLogout from "../../hooks/useLogout";
 
 export default function Navbar() {
+  const {logout,isPending} = useLogout()
   const { cart } = useCart();
 
   return (
@@ -54,12 +57,19 @@ export default function Navbar() {
             </NavLink>
           </li>
         </ul>
-        <NavLink
-          to={"/search"}
-          className={({ isActive }) => `${isActive ? "text-white" : "text-gray-400"}`}
-        >
-          <AiOutlineSearch color="inhirt" size={25} />
-        </NavLink>
+        <div className="flex justify-center items-center gap-5">
+          <NavLink
+            to={"/search"}
+            className={({ isActive }) =>
+              `${isActive ? "text-white" : "text-gray-400"}`
+            }
+          >
+            <AiOutlineSearch color="inhirt" size={25} />
+          </NavLink>
+          <button className="p-1 rounded-md text-gray-400 hover:text-white absolute right-10  disabled:cursor-wait" disabled={isPending} onClick={logout}>
+            <HiOutlineLogout color="inhirt" size={25} />
+          </button>
+        </div>
       </div>
     </nav>
   );

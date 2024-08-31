@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AccountDetails from "./AccountDetails";
 import WishList from "./WishList";
 import OrderList from "./OrderList";
@@ -14,7 +14,9 @@ export default function AccountPage() {
             <button
               onClick={() => setTap(0)}
               className={`text-2xl font-semibold py-1 ${
-                tap === 0 ? "border-b-[3px] border-black" : ""
+                tap === 0
+                  ? "border-b-[3px] border-black"
+                  : "hover:text-gray-600"
               }`}
               to={"/account"}
             >
@@ -23,7 +25,9 @@ export default function AccountPage() {
             <button
               onClick={() => setTap(1)}
               className={`text-2xl font-semibold py-1 ${
-                tap === 1 ? "border-b-[3px] border-black" : ""
+                tap === 1
+                  ? "border-b-[3px] border-black"
+                  : "hover:text-gray-600"
               }`}
               to={"/account/orders"}
             >

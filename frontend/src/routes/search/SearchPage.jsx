@@ -6,7 +6,7 @@ import Spinner from "../../components/Spinner";
 
 export default function SearchPage() {
   const [search, setSearch] = useState();
-  const { mutate, isLoading, data, isSuccess, isError } = useMutation(
+  const { mutate, isLoading, data, isSuccess, isError, } = useMutation(
     (search) => getAllProducts({ search })
   );
 

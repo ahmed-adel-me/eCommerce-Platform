@@ -5,6 +5,7 @@ import SubmitBtn from "../../components/SubmitBtn";
 import { useCart } from "../../context/Cart";
 import { createOrder } from "../../api/endpoints/orders";
 import useUser from "../../hooks/useUser";
+import FormInput from "../../components/FormInput";
 
 export default function OrderInfo() {
   const { isLoading, isSuccess, data: user } = useUser();
@@ -50,33 +51,37 @@ function OrderDetails({ user }) {
     <>
       <h3 className="font-bold text-3xl mb-5 ">Order information</h3>
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
-        <input
+        <FormInput
           className="input-style"
           type="text"
+          label={"name"}
           name="name"
           value={formik.values.name}
           onChange={formik.handleChange}
         />
-        <input
+        <FormInput
           className="input-style"
           type="email"
+          label={"email"}
           name="email"
           value={formik.values.email}
           onChange={formik.handleChange}
         />
         <div className="flex gap-3">
-          <input
+          <FormInput
             className="input-style"
             type="text"
+            label={"city"}
             name="city"
             id="city"
             placeholder="City"
             value={formik.values.city}
             onChange={formik.handleChange}
           />
-          <input
+          <FormInput
             className="input-style"
             type="text"
+            label={"postal code"}
             name="postalCode"
             id="postalCode"
             placeholder="Postal Code"
@@ -84,19 +89,21 @@ function OrderDetails({ user }) {
             onChange={formik.handleChange}
           />
         </div>
-        <input
+        <FormInput
           className="input-style"
           type="text"
+          label={"street address"}
           name="streetAddress"
           placeholder="Street Address"
           value={formik.values.streetAddress}
           onChange={formik.handleChange}
         />
-        <input
+        <FormInput
           className="input-style"
           type="text"
           name="country"
           id="country"
+          label={"country"}
           placeholder="Country"
           value={formik.values.country}
           onChange={formik.handleChange}

@@ -26,15 +26,21 @@ export default function CartInfo({ cart }) {
           </div>
           <div className="flex justify-between py-3 border-b">
             <span className=" text-xl">Products</span>
-            <span className="text-2xl font-semibold">${productsCost}</span>
+            <span className="text-2xl font-semibold">
+              ${Math.round(productsCost)}
+            </span>
           </div>
           <div className="flex justify-between py-3 border-b">
             <span className=" text-xl">Shipping</span>
-            <span className="text-2xl font-semibold">${shippingCost}</span>
+            <span className="text-2xl font-semibold">
+              ${Math.round(shippingCost)}
+            </span>
           </div>
           <div className="flex justify-between py-3 ">
             <span className="font-bold text-xl">Total</span>
-            <span className="text-2xl font-extrabold">${totalCost}</span>
+            <span className="text-2xl font-extrabold">
+              ${Math.round(totalCost)}
+            </span>
           </div>
         </div>
       ) : (

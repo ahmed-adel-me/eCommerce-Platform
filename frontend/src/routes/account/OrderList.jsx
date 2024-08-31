@@ -4,19 +4,24 @@ import Spinner from "../../components/Spinner";
 import formatDate from "../../utils/formatDate";
 
 export default function OrderList() {
-  const ordersQuery = useQuery("orders", getMyOrders);
-  if (ordersQuery.isLoading)
+  const {
+    data: orders,
+    isLoading,
+    isSuccess,
+  } = useQuery("orders", getMyOrders);
+
+  if (isLoading)
     return (
       <div className="flex justify-center">
         <Spinner className={"w-10"} />
       </div>
     );
 
-  if (ordersQuery.isSuccess) {
-    if (ordersQuery.data.length === 0) return <p>There is no orders yet!</p>;
+  if (isSuccess) {
+    if (orders.length === 0) return <p>There is no orders yet!</p>;
     return (
       <div className="flex gap-5 flex-wrap">
-        {ordersQuery.data.map((order) => (
+        {orders.map((order) => (
           <OrderCard key={order.id} order={order} />
         ))}
       </div>
@@ -35,7 +40,6 @@ function OrderCard({ order }) {
     products,
     date,
   } = order;
-  console.log(products);
   return (
     <div className="border border-gray-600 p-3 rounded-lg flex gap-3">
       <ul className="text-gray-500 font-semibold">
@@ -57,9 +61,7 @@ function OrderCard({ order }) {
                 {product.quantity}
               </span>
               <span className="text-gray-500">x</span>
-              <span className="text-xl font-semibold">
-                {product.product.name}
-              </span>
+              <span className="text-xl font-semibold">{product.product}</span>
             </h5>
           </div>
         ))}

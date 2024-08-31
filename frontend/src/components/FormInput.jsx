@@ -3,6 +3,7 @@ function FormInput({
   value,
   label,
   id,
+  name,
   error,
   type = "text",
   disabled,
@@ -11,15 +12,15 @@ function FormInput({
     <div className="flex flex-col gap-1">
       <div className="flex flex-col gap-1">
         {label && (
-          <label htmlFor={id} className="flex-1">
+          <label htmlFor={id || name} className="flex-1">
             {label}
           </label>
         )}
         <input
           className="input-style flex-[2]"
           type={type}
-          name={id}
-          id={id}
+          name={id || name}
+          id={id || name}
           value={value}
           onChange={onChange}
           disabled={disabled}

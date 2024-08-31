@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/endpoints/products";
@@ -10,12 +10,10 @@ import Spinner from "../../components/Spinner";
 
 export default function ProductInfo() {
   const { productId } = useParams();
-  const { dispatch, cart } = useCart();
-  const {
-    isLoading,
-    data: product,
-    isFetching,
-  } = useQuery("product", () => getProductById(productId));
+  const { dispatch } = useCart();
+  const { isLoading, data: product } = useQuery("product", () =>
+    getProductById(productId)
+  );
   function addToCart() {
     dispatch({ type: "ADD", product });
   }
@@ -69,6 +67,7 @@ export default function ProductInfo() {
 }
 
 function ImageDisplayer({ className, images }) {
+  const [selectedImg, setSelectedImg] = useState(images[0]);
   if (!images.length) {
     return (
       <div className={"flex justify-center " + className}>
@@ -80,7 +79,6 @@ function ImageDisplayer({ className, images }) {
       </div>
     );
   }
-  const [selectedImg, setSelectedImg] = useState(images[0]);
   return (
     <div className={"bg-white rounded-xl overflow-hidden p-7  " + className}>
       <div className=" pb-5 w-[60%] h-[80%]  m-auto">

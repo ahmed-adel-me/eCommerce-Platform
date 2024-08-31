@@ -5,7 +5,7 @@ import Spinner from "../../components/Spinner";
 
 export default function CategoriesPage() {
   const { data, isLoading } = useQuery({
-    queryKey: ["category", "products"],
+    queryKey: ["categorizedProducts"],
     queryFn: () => getCategorizedProducts(3),
   });
   if (isLoading)
@@ -17,7 +17,6 @@ export default function CategoriesPage() {
       </div>
     );
 
-  console.log(data);
   return (
     <section>
       <div className="max-w-7xl mx-auto p-7 space-y-20">

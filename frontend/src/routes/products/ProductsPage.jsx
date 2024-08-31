@@ -19,8 +19,8 @@ export default function ProductsPage() {
       <div className="max-w-7xl  mx-auto py-10">
         {products.length > 0 ? (
           <>
-            <h2 className="text-2xl font-bold mb-5">All Products</h2>
-            <div className="grid grid-cols-4 gap-10 ">
+            <h2 className="text-3xl font-bold capitalize">All Products</h2>
+            <div className="grid grid-cols-4 gap-10 my-10">
               {products.map((prod) => (
                 <ProductCard key={prod.id} data={prod} />
               ))}

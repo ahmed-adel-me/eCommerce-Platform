@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import useLogout from "../../hooks/useLogout";
 import useUser from "../../hooks/useUser";
 import useUpdateProfile from "../../hooks/useUpdateProfile";
+import FormInput from "../../components/FormInput";
 
 export default function AccountDetails() {
   const { data: user, isSuccess } = useUser();
@@ -42,33 +43,33 @@ function Form({ user }) {
       onSubmit={formik.handleSubmit}
       className="flex flex-col gap-3 border-b-2 mb-5 pb-3"
     >
-      <input
-        className="input-style"
+      <FormInput
         type="text"
         name="name"
         value={formik.values.name}
         onChange={formik.handleChange}
         disabled={isLoading}
+        label={"name"}
       />
-      <input
-        className="input-style"
+      <FormInput
         type="email"
+        label={"email"}
         name="email"
         value={formik.values.email}
         onChange={formik.handleChange}
         disabled={isLoading}
       />
       <div className="flex gap-3">
-        <input
-          className="input-style"
+        <FormInput
+          label={"city"}
           type="text"
           name="city"
           value={formik.values.city}
           onChange={formik.handleChange}
           disabled={isLoading}
         />
-        <input
-          className="input-style"
+        <FormInput
+          label={"country"}
           type="text"
           name="country"
           value={formik.values.country}
@@ -77,16 +78,16 @@ function Form({ user }) {
         />
       </div>
       <div className="flex gap-3">
-        <input
-          className="input-style"
+        <FormInput
+          label={"postal code"}
           type="text"
           name="postalCode"
           value={formik.values.postalCode}
           onChange={formik.handleChange}
           disabled={isLoading}
         />
-        <input
-          className="input-style"
+        <FormInput
+          label={"street address"}
           type="text"
           name="streetAddress"
           value={formik.values.streetAddress}

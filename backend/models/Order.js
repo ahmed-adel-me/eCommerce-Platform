@@ -45,7 +45,7 @@ const orderSchema = new Schema(
     products: {
       type: [
         {
-          product: { type: Schema.ObjectId, ref: "Product" },
+          product: String,
           quantity: { type: Number, default: 1 },
         },
       ],
@@ -57,7 +57,6 @@ const orderSchema = new Schema(
     toObject: { versionKey: false, virtuals: true },
   }
 );
-
 
 const Order = model("Order", orderSchema);
 module.exports = Order;

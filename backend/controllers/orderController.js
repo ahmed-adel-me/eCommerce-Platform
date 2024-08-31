@@ -45,9 +45,9 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   await Order.create({
     ...orderInfo,
     recipient: req.user.id,
-    products: products.map((prod) => ({
+    products: productsData.map((prod) => ({
       quantity: prod.quantity,
-      product: prod.productId,
+      product: prod?.name,
     })),
   });
   res.status(200).json({
@@ -56,11 +56,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyOrders = catchAsync(async (req, res, next) => {
-  const orders = await Order.find({ recipient: req.user.id }).populate({
-    path: "products.product",
-    select: "name",
-  });
-
+  const orders = await Order.find({ recipient: req.user.id });
   res.status(200).json({
     orders,
   });

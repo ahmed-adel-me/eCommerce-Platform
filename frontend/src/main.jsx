@@ -102,7 +102,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<Signup />} />
             {/* Error Route */}
-            <Route path="*" element={<ErrorPage />} />
+            <Route
+              path="*"
+              element={
+                <Protect>
+                  <ErrorPage />
+                </Protect>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

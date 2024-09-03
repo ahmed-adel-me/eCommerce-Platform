@@ -6,6 +6,7 @@ function FormInput({
   type = "text",
   error,
   onChange,
+  onBlur,
   value,
   disabled,
   className = "",
@@ -27,6 +28,7 @@ function FormInput({
           name={name}
           id={name}
           onChange={onChange}
+          onBlur={onBlur}
           value={value}
           disabled={disabled}
         />

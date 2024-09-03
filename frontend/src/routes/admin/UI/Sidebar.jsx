@@ -5,10 +5,13 @@ import {
   HiOutlineShoppingBag,
   HiOutlineUserGroup,
   HiOutlineCog,
+  HiOutlineLogout,
 } from "react-icons/hi";
 import SidebarItem from "./SidebarItem";
+import useLogout from "../../../hooks/useLogout";
 
 function Sidebar() {
+  const { logout } = useLogout();
   return (
     <aside className="w-60">
       <ul>
@@ -42,6 +45,13 @@ function Sidebar() {
           icon={HiOutlineCog}
           label="Settings"
         />
+        <button
+          className="flex w-full items-center gap-3 text-gray-600 text-lg font-medium py-3 px-6 transition-all duration-300 hover:text-gray-800 hover:bg-gray-50 "
+          onClick={logout}
+        >
+          <HiOutlineLogout className="w-6 h-6" />
+          <span>Logout</span>
+        </button>
       </ul>
     </aside>
   );

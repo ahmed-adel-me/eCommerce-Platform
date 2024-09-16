@@ -92,33 +92,48 @@ exports.restrectTo = (...roles) => {
   };
 };
 
-exports.createAdminUser = catchAsync(async (req, res, next) => {
-  const { email, password, confirmPassword, name, photo } = req.body;
+exports.createAdmin = catchAsync(async (req, res, next) => {
+  const { name, email, password, confirmPassword } = req.body;
 
-  const user = await User.create({
-    role: "admin",
+  // Validate required fields
+  if (!email || !password || !confirmPassword || !name) {
+    return next(
+      new AppError(
+        "Please provide an email, password, and confirmPassword",
+        400
+      )
+    );
+  }
+
+  // Check if the passwords match
+  if (password !== confirmPassword) {
+    return next(new AppError("Passwords do not match", 400));
+  }
+
+  console.log(req.body);
+
+  const admin = await User.create({
+    name,
     email,
     password,
     confirmPassword,
-    name,
-    photo,
+    role: "admin",
+    country: "Not provided",
+    city: "Not provided",
+    postalCode: "00000",
+    streetAddress: "Not provided",
   });
-  res.json(201).json({
-    status: "success",
-    data: {
-      user,
-    },
-  });
+
+  res.status(201).json(admin);
 });
 
 exports.getUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find(req.params);
+  const { role } = req.query;
+  let query = {};
+  if (role) {
+    query.role = role;
+  }
+  const users = await User.find(query);
 
-  res.status(200).json({
-    status: "success",
-    results: users.length,
-    data: {
-      users,
-    },
-  });
+  res.status(200).json(users);
 });

@@ -4,9 +4,9 @@ const {
   login,
   protect,
   restrectTo,
-  createAdminUser,
   getUsers,
   logout,
+  createAdmin,
 } = require("../controllers/authController");
 const {
   getUserProfile,
@@ -22,8 +22,9 @@ router
   .route("/my-profile")
   .get(protect, getUserProfile)
   .patch(protect, updateMyProfile);
-router.use(protect, restrectTo("admin"));
+router.use(protect);
 router.get("/admin/users", getUsers);
-router.post("/admin/signup", createAdminUser);
+router.post("/admin/signup", createAdmin);
+
 
 module.exports = router;

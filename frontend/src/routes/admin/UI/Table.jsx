@@ -3,7 +3,7 @@ const TableContext = createContext();
 function Table({ columns, children }) {
   return (
     <TableContext.Provider value={{ columns }}>
-      <div className="bg-white shadow-sm rounded border my-10 flex flex-col">
+      <div className="bg-white shadow-sm rounded border my-5 flex flex-col">
         {children}
       </div>
     </TableContext.Provider>

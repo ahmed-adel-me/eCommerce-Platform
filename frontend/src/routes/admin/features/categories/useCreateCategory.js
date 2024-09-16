@@ -5,7 +5,7 @@ export default function useCreateCategory() {
   const queryClient = useQueryClient();
   const { mutate: createCategory, isLoading } = useMutation({
     mutationFn: (props) => createCategoryApi(props),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["categories"],
       });

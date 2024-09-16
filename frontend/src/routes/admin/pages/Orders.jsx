@@ -1,7 +1,11 @@
+import OrdersTable from "../features/orders/OrdersTable";
+
 function Orders() {
   return (
-    <div>Orders</div>
-  )
+    <div>
+      <OrdersTable />
+    </div>
+  );
 }
 
-export default Orders
+export default Orders;

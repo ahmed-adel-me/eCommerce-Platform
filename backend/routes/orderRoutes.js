@@ -1,9 +1,15 @@
 const { Router } = require("express");
-const { createOrder, getMyOrders } = require("../controllers/orderController");
+const {
+  createOrder,
+  getMyOrders,
+  getAllOrders,
+  confirmOrder,
+} = require("../controllers/orderController");
 const { protect } = require("../controllers/authController");
 
 const router = Router();
 router.use(protect);
-router.post("/", createOrder);
-router.get("/", getMyOrders);
+router.route("/").get(getAllOrders).post(createOrder);
+router.post("/confirm-order", confirmOrder);
+router.get("/my-orders", getMyOrders);
 module.exports = router;

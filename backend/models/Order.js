@@ -1,8 +1,14 @@
 const { Schema, model } = require("mongoose");
 const { default: isEmail } = require("validator/lib/isemail");
+const Settings = require("./Settings");
 
 const orderSchema = new Schema(
   {
+    sessionId: {
+      type: String,
+      required: [true, "Session ID is required"],
+      // unique: true, // Ensure the sessionId is unique to prevent duplicates
+    },
     date: {
       type: Date,
       default: Date.now,
@@ -27,15 +33,11 @@ const orderSchema = new Schema(
     },
     postalCode: {
       type: String,
-      required: [true, "postalCode is missing"],
+      required: [true, "Postal code is missing"],
     },
     streetAddress: {
       type: String,
-      required: [true, "streetAddress is missing"],
-    },
-    paid: {
-      type: Boolean,
-      default: false,
+      required: [true, "Street address is missing"],
     },
     recipient: {
       type: Schema.ObjectId,
@@ -45,11 +47,25 @@ const orderSchema = new Schema(
     products: {
       type: [
         {
-          product: String,
-          quantity: { type: Number, default: 1 },
+          product: { type: String, required: true },
+          quantity: {
+            type: Number,
+            default: 1,
+            min: [1, "Quantity must be at least 1"],
+          },
+          price: {
+            type: Number,
+            required: true,
+            min: [0, "Price must be at least 0"],
+          },
         },
       ],
       required: [true, "Order must have products"],
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0,
     },
   },
   {
@@ -57,6 +73,18 @@ const orderSchema = new Schema(
     toObject: { versionKey: false, virtuals: true },
   }
 );
+
+// Calculate totalPrice before saving the order
+orderSchema.pre("save", async function (next) {
+  this.totalPrice = this.products.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const settings = await Settings.findOne();
+  const shippingPrice = settings ? settings.shippingPrice : 0;
+  this.totalPrice += shippingPrice;
+  next();
+});
 
 const Order = model("Order", orderSchema);
 module.exports = Order;

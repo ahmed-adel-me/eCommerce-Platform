@@ -1,12 +1,12 @@
 import { createContext, useContext, useReducer } from "react";
 const CartContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCart() {
   return useContext(CartContext);
 }
 const initialState = {
   products: [],
-
   productsCost: 0,
   shippingCost: 0,
   totalCost: 0,
@@ -15,7 +15,7 @@ const initialState = {
 
 function cartReducer(state, action) {
   switch (action.type) {
-    case "ADD":
+    case "ADD": {
       const newProduct = action.product;
       const existingCartItem = state.products.find(
         (cartItem) => cartItem.product.id === newProduct.id
@@ -45,8 +45,8 @@ function cartReducer(state, action) {
           totalCost: state.productsCost + newProduct.price + state.shippingCost,
         };
       }
-
-    case "DELETE":
+    }
+    case "DELETE": {
       const deletedProductIndex = state.products.findIndex(
         (el) => el.product.id === action.productId
       );
@@ -80,6 +80,7 @@ function cartReducer(state, action) {
         };
       }
       return state; // No changes if product not found
+    }
 
     default:
       return state;
@@ -87,6 +88,7 @@ function cartReducer(state, action) {
 }
 export default function Cart({ children }) {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
+
   return (
     <CartContext.Provider value={{ cart, dispatch }}>
       {children}

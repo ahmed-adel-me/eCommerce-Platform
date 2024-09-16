@@ -1,8 +1,10 @@
+import Spinner from "../../components/Spinner";
+import useShippingPrice from "../../hooks/useShippingPrice";
 import CartItem from "./CartItem";
 
 export default function CartInfo({ cart }) {
-  const { products, productsTotal, totalCost, productsCost, shippingCost } =
-    cart;
+  const { shippingPrice, isSuccess, isLoading } = useShippingPrice();
+  const { products, productsTotal, totalCost, productsCost } = cart;
   return (
     <div className="bg-white p-7 pb-14 rounded-xl flex-1">
       <h2 className="text-2xl font-bold mb-7">Cart</h2>
@@ -30,18 +32,23 @@ export default function CartInfo({ cart }) {
               ${Math.round(productsCost)}
             </span>
           </div>
-          <div className="flex justify-between py-3 border-b">
-            <span className=" text-xl">Shipping</span>
-            <span className="text-2xl font-semibold">
-              ${Math.round(shippingCost)}
-            </span>
-          </div>
-          <div className="flex justify-between py-3 ">
-            <span className="font-bold text-xl">Total</span>
-            <span className="text-2xl font-extrabold">
-              ${Math.round(totalCost)}
-            </span>
-          </div>
+          {isLoading && <Spinner className={"w-10 my-4"} />}
+          {isSuccess && (
+            <>
+              <div className="flex justify-between py-3 border-b">
+                <span className=" text-xl">Shipping</span>
+                <span className="text-2xl font-semibold">
+                  ${Math.round(shippingPrice)}
+                </span>
+              </div>
+              <div className="flex justify-between py-3 ">
+                <span className="font-bold text-xl">Total</span>
+                <span className="text-2xl font-extrabold">
+                  ${Math.round(totalCost + shippingPrice)}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       ) : (
         <p className="text-2xl text-center">Cart is empty!</p>

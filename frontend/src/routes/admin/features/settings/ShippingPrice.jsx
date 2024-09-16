@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import FormInput from "../../UI/FormInput";
-import useShippingPrice from "./useShippingPrice";
 import useUpdateShippingPrice from "./useUpdateShippingPrice";
+import useShippingPrice from "../../../../hooks/useShippingPrice";
 
 function ShippingPrice() {
   const { shippingPrice, isLoading, isSuccess } = useShippingPrice();

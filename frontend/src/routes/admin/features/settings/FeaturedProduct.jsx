@@ -1,7 +1,7 @@
 import useFeaturedProduct from "../../../../hooks/useFeaturedProduct";
 import useProducts from "../../../../hooks/useProducts";
+import FormInput from "../../UI/FormInput";
 import useSetFeaturedProduct from "./useSetFeaturedProduct";
-import { BeatLoader } from "react-spinners";
 
 function FeaturedProduct() {
   const { product: featuredProduct, isLoading: isLoadingFeatured } =
@@ -11,15 +11,15 @@ function FeaturedProduct() {
 
   if (isLoadingFeatured || isLoadingProducts)
     return (
-      <div className="mt-10">
-        <BeatLoader />
+      <div className="flex flex-col">
+        <FormInput label={"Featured Product"} disabled />
       </div>
     );
 
   const filteredProducts = products.filter(
     (product) => product._id !== featuredProduct._id
   );
-  
+
   return (
     <div>
       <div>

@@ -23,7 +23,7 @@ export const getAllProducts = async ({ search }) => {
 
 export const getProductById = async (productId) => {
   const { data } = await API.get(`/products/${productId}`);
-  return data.data.product;
+  return data;
 };
 
 export const getCategorizedProducts = async (limit) => {

@@ -5,12 +5,11 @@ const {
   getFeaturedProduct,
   setFeaturedProduct,
   getProductById,
-  getProductsByCategory,
   getCategoryWithProducts,
   deleteProduct,
   getCategoriesWithProducts,
 } = require("../controllers/productController");
-const { protect, restrectTo } = require("../controllers/authController");
+const { protect } = require("../controllers/authController");
 const reviewRouter = require("./reviewRoutes");
 const {
   addProductToWishlist,

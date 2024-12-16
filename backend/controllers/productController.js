@@ -104,10 +104,7 @@ exports.getProductById = catchAsync(async (req, res, next) => {
   );
   if (!product) throw new AppError("No doc found with that ID!", 404);
 
-  res.status(200).json({
-    status: "success",
-    data: { product },
-  });
+  res.status(200).json(product);
 });
 
 exports.createProduct = catchAsync(async (req, res, next) => {

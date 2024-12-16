@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import FormInput from "../../UI/FormInput";
 import useCategories from "../categories/useCategories";
 import createProductValidationSchema from "./createProductValidationSchema";
-import InputError from "../../UI/InputError";
 import BeatLoader from "react-spinners/BeatLoader";
 import useCreateProduct from "./useCreateProduct";
 import { ClipLoader } from "react-spinners";
@@ -25,7 +24,7 @@ function CreateProduct({ setActiveTab }) {
       properties: {},
       description: "",
       price: "",
-      images: [], // Add images field
+      images: [],
     },
     validationSchema: createProductValidationSchema,
     validateOnChange: false,

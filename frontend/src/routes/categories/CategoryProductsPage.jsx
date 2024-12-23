@@ -2,12 +2,12 @@ import { useParams } from "react-router-dom";
 import Filter from "../../components/Filter";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
-import useGetCategoryById from "../../hooks/useGetCategoryById";
+import useCategorizedProducts from "../../hooks/useCategorizedProducts";
 import SortBy from "../../components/SortBy";
 export default function CategoryProductsPage() {
   const { categoryId } = useParams();
   const { data, isLoading, isError, isSuccess } =
-    useGetCategoryById(categoryId);
+  useCategorizedProducts(categoryId);
   return (
     <section>
       {isLoading && (

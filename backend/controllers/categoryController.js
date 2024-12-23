@@ -7,7 +7,11 @@ exports.getCategories = catchAsync(async (req, res, next) => {
 
   res.status(200).json(categories);
 });
-
+exports.getCategoryById = catchAsync(async (req, res, next) => {
+  const { categoryId } = req.params;
+  const category = await Category.findById(categoryId);
+  res.status(200).json(category);
+});
 exports.createCategory = catchAsync(async (req, res, next) => {
   const { name, brands, properties } = req.body;
   console.log(req.body);
@@ -33,6 +37,14 @@ exports.createCategory = catchAsync(async (req, res, next) => {
   });
 
   res.status(201).json(newCategory);
+});
+exports.updateCategory = catchAsync(async (req, res, next) => {
+  const { categoryId } = req.params;
+
+  const category = await Category.findByIdAndUpdate(categoryId, req.body);
+  if (!category) throw new AppError("this category doesn't exists", 404);
+
+  res.status(200).json(category);
 });
 
 exports.deleteCategory = catchAsync(async (req, res, next) => {

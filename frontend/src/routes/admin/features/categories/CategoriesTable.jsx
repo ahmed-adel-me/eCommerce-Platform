@@ -4,7 +4,7 @@ import { HiOutlinePencilAlt, HiOutlineTrash } from "react-icons/hi";
 import Table from "../../UI/Table";
 import useDeleteCategory from "./useDeleteCategory";
 
-function CategoriesTable() {
+function CategoriesTable({ setEditedCategory }) {
   const { categories, isLoading, isSuccess } = useCategories();
   const { deleteCategory, isLoading: isDeleting } = useDeleteCategory();
 
@@ -28,7 +28,10 @@ function CategoriesTable() {
                 <p className="text-lg font-bold">{category.name}</p>
                 <p>{category?.brands ? category.brands.join(", ") : "-"}</p>
                 <div className="flex gap-3">
-                  <button className="flex justify-center gap-1 items-center py-1 px-3 border rounded-sm bg-gray-100 hover:bg-gray-300">
+                  <button
+                    onClick={() => setEditedCategory(category._id)}
+                    className="flex justify-center gap-1 items-center py-1 px-3 border rounded-sm bg-gray-100 hover:bg-gray-300"
+                  >
                     <HiOutlinePencilAlt />
                     <span>Edit</span>
                   </button>

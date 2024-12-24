@@ -5,6 +5,7 @@ const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 const haveSameProperties = require("../utils/haveSameProperties");
 const FeaturedProduct = require("../models/FeaturedProduct");
+
 exports.getProducts = catchAsync(async (req, res, next) => {
   const { search } = req.query;
 
@@ -131,6 +132,37 @@ exports.createProduct = catchAsync(async (req, res, next) => {
   });
 
   res.status(201).json(newProduct);
+});
+exports.editProduct = catchAsync(async (req, res, next) => {
+  const { productId } = req.params;
+  const { name, price, brand, images, description, category, properties } =
+    req.body;
+
+  // Find the product by ID and update it
+  const updatedProduct = await Product.findByIdAndUpdate(
+    productId,
+    {
+      name,
+      price,
+      description,
+      images: Array.isArray(images) ? images : undefined,
+      category: {
+        categoryRef: category,
+        brand,
+        properties,
+      },
+    },
+    {
+      new: true, // Return the updated product
+      runValidators: true, // Ensure validation rules are applied
+    }
+  );
+
+  if (!updatedProduct) {
+    return next(new AppError("Product not found", 404));
+  }
+
+  res.status(200).json(updatedProduct);
 });
 
 exports.getFeaturedProduct = catchAsync(async (req, res, next) => {

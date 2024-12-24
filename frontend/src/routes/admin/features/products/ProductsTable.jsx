@@ -4,7 +4,7 @@ import useProducts from "../../../../hooks/useProducts";
 import Table from "../../UI/Table";
 import useDeleteProduct from "./useDeleteProduct";
 
-function ProductsTable({ setActiveTab }) {
+function ProductsTable({ setActiveTab, setEditedProduct }) {
   const { products, isLoading, isSuccess } = useProducts();
   const { deleteProduct, isLoading: isDeleting } = useDeleteProduct();
   return (
@@ -27,12 +27,20 @@ function ProductsTable({ setActiveTab }) {
                   <p className="text-lg font-bold">{product.name}</p>
 
                   <div className="flex gap-3 justify-center">
-                    <button className="flex justify-center gap-1 items-center py-1 px-3 border rounded-sm bg-gray-100 hover:bg-gray-300">
+                    <button
+                      className="flex justify-center gap-1 items-center py-1 px-3 border rounded-sm bg-gray-100 hover:bg-gray-300"
+                      onClick={() => {
+                        setEditedProduct(product._id)
+                        setActiveTab("editProduct");
+                      }}
+                    >
                       <HiOutlinePencilAlt />
                       <span>Edit</span>
                     </button>
                     <button
-                      onClick={() => deleteProduct(product._id)}
+                      onClick={() => {
+                        deleteProduct(product._id);
+                      }}
                       className="flex justify-center items-center gap-1 bg-red-200 text-red-600 py-1 px-3 rounded-sm hover:bg-red-300 disabled:bg-red-100 disabled:text-red-400 disabled:hover:bg-red-100"
                       disabled={isDeleting}
                     >

@@ -5,12 +5,21 @@ import ProductsTable from "../features/products/ProductsTable";
 
 function Products() {
   const [activeTab, setActiveTab] = useState("products");
+  const [editedProduct, setEditedProduct] = useState("");
 
-  if (activeTab === "products")
-    return <ProductsTable setActiveTab={setActiveTab} />;
-  else if (activeTab === "createProduct")
+  if (activeTab === "createProduct")
     return <CreateProduct setActiveTab={setActiveTab} />;
-  else return <EditProduct />;
+  else if (activeTab === "editProduct" && editedProduct)
+    return (
+      <EditProduct productId={editedProduct} setActiveTab={setActiveTab} />
+    );
+  else
+    return (
+      <ProductsTable
+        setActiveTab={setActiveTab}
+        setEditedProduct={setEditedProduct}
+      />
+    );
 }
 
 export default Products;

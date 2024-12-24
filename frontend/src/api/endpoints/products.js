@@ -13,6 +13,11 @@ export const createProduct = async (props) => {
   });
   return data;
 };
+export const editProduct = async (id, update) => {
+  const { data } = await API.patch(`/products/${id}`, update);
+
+  return data;
+};
 
 export const getAllProducts = async ({ search }) => {
   const { data: products } = await API.get(

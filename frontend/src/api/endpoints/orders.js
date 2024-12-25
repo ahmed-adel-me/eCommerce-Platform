@@ -21,3 +21,13 @@ export const getMyOrders = async () => {
   const { data } = await API.get("/orders/my-orders");
   return data;
 };
+
+export const getOrderCount = async () => {
+  const { data } = await API.get(`/orders/order-count-stats`);
+  return data;
+};
+
+export const getRevenue = async () => {
+  const { data } = await API.get(`/orders/revenue-stats`);
+  return data;
+};

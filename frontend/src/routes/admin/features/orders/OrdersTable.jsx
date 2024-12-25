@@ -5,7 +5,6 @@ import formatDate from "../../../../utils/formatDate";
 
 function OrdersTable() {
   const { orders, isLoading, isSuccess } = useOrders();
-
   return (
     <div>
       <h2 className="text-2xl font-semibold">Orders</h2>

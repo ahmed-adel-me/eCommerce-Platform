@@ -9,10 +9,70 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find();
   res.status(200).json(orders);
 });
+exports.getOrderCountStats = catchAsync(async (req, res, next) => {
+  const now = new Date();
 
-const mapProductsToStripeFormat = async (products, productsData, shippingPrice = 0) => {
+  // Calculate the start of day, week, and month
+  const startOfDay = new Date(now.setHours(0, 0, 0, 0));
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // Start of the week (Sunday)
+  startOfWeek.setHours(0, 0, 0, 0);
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the month
+
+  const [dailyCount, weeklyCount, monthlyCount] = await Promise.all([
+    Order.countDocuments({ date: { $gte: startOfDay } }),
+    Order.countDocuments({ date: { $gte: startOfWeek } }),
+    Order.countDocuments({ date: { $gte: startOfMonth } }),
+  ]);
+
+  res.status(200).json({
+    dailyCount,
+    weeklyCount,
+    monthlyCount,
+  });
+});
+
+exports.getRevenueStats = catchAsync(async (req, res, next) => {
+  const now = new Date();
+
+  // Calculate the start of day, week, and month
+  const startOfDay = new Date(now.setHours(0, 0, 0, 0));
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay()); // Start of the week (Sunday)
+  startOfWeek.setHours(0, 0, 0, 0);
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1); // Start of the month
+
+  const [dailyRevenue, weeklyRevenue, monthlyRevenue] = await Promise.all([
+    Order.aggregate([
+      { $match: { date: { $gte: startOfDay } } },
+      { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } },
+    ]),
+    Order.aggregate([
+      { $match: { date: { $gte: startOfWeek } } },
+      { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } },
+    ]),
+    Order.aggregate([
+      { $match: { date: { $gte: startOfMonth } } },
+      { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } },
+    ]),
+  ]);
+
+  res.status(200).json({
+    dailyRevenue: dailyRevenue[0]?.totalRevenue || 0,
+    weeklyRevenue: weeklyRevenue[0]?.totalRevenue || 0,
+    monthlyRevenue: monthlyRevenue[0]?.totalRevenue || 0,
+  });
+});
+
+const mapProductsToStripeFormat = async (
+  products,
+  productsData,
+  shippingPrice = 0
+) => {
   // Convert the products array to a Map for O(1) lookups
-  const productsMap = new Map(products.map(product => [product.productId, product]));
+  const productsMap = new Map(
+    products.map((product) => [product.productId, product])
+  );
 
   const mappedProducts = productsData.map((el) => {
     const originalProduct = productsMap.get(el._id.toString());
@@ -50,10 +110,9 @@ const mapProductsToStripeFormat = async (products, productsData, shippingPrice =
   return mappedProducts;
 };
 
-
 exports.createOrder = catchAsync(async (req, res, next) => {
   const { products, orderInfo } = req.body;
-  
+
   // Extract product IDs from the request
   const productIds = products.map((product) => product.productId);
 
@@ -71,7 +130,11 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   const shippingPrice = settings ? settings.shippingPrice : 0; // Set default shipping price to 0 if not found
 
   // Map products to Stripe's format, including shipping price
-  const lineItems = await mapProductsToStripeFormat(products, productsData, shippingPrice);
+  const lineItems = await mapProductsToStripeFormat(
+    products,
+    productsData,
+    shippingPrice
+  );
 
   // Create a Stripe session with metadata
   const session = await stripe.checkout.sessions.create({
@@ -123,7 +186,7 @@ exports.confirmOrder = catchAsync(async (req, res, next) => {
 
     // Create the order in the database
     await Order.create({
-      sessionId,  // Store the sessionId in the order
+      sessionId, // Store the sessionId in the order
       ...orderInfo,
       recipient: session.metadata.userId,
       products: products.map((prod) => ({
@@ -140,7 +203,6 @@ exports.confirmOrder = catchAsync(async (req, res, next) => {
     return next(new AppError("Payment not successful", 400));
   }
 });
-
 
 exports.getMyOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find({ recipient: req.user.id });

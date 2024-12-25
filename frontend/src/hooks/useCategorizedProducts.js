@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getCategoryById } from "../api/endpoints/categories";
+import { getCategorizedProducts } from "../api/endpoints/products";
 
-export default function useGetCategoryById(categoryId) {
+export default function useCategorizedProducts(categoryId) {
   const [searchParams] = useSearchParams();
 
   // Extracting the "sortBy" parameter
@@ -15,7 +15,7 @@ export default function useGetCategoryById(categoryId) {
 
   const { data, isLoading, isError, isSuccess } = useQuery(
     ["products", categoryId, sortBy, filter],
-    () => getCategoryById({ categoryId, sortBy, filter: filter })
+    () => getCategorizedProducts({ categoryId, sortBy, filter: filter })
   );
 
   return { data, isLoading, isError, isSuccess };

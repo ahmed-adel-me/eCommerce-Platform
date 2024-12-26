@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getAllProducts } from "../../api/endpoints/products";
 import ProductCard from "../../components/ProductCard";
 import Spinner from "../../components/Spinner";
 
 export default function SearchPage() {
   const [search, setSearch] = useState();
-  const { mutate, isLoading, data, isSuccess, isError, } = useMutation(
-    (search) => getAllProducts({ search })
-  );
+  const { mutate, isLoading, data, isSuccess, isError } = useMutation({
+    mutationFn: (search) => getAllProducts({ search }),
+  });
 
   function handleChange(event) {
     const { value } = event.target;

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { editProduct } from "../../../../api/endpoints/products";
 import toast from "react-hot-toast";
 
@@ -7,7 +7,6 @@ export default function useUpdateProduct(productId) {
   return useMutation({
     mutationFn: (update) => {
       update.images = update.images.map((img) => img.src);
-      console.log(update);
       editProduct(productId, update);
     },
     onSuccess: () => {

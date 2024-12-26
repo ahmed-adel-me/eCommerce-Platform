@@ -4,8 +4,6 @@ import useAdmins from "./useAdmins";
 
 function UserTable() {
   const { users, isLoading, isSuccess } = useAdmins();
-  console.log(users);
-
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-5">Admin Users</h2>

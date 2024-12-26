@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getProductById } from "../../api/endpoints/products";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -11,9 +11,10 @@ import Spinner from "../../components/Spinner";
 export default function ProductInfo() {
   const { productId } = useParams();
   const { dispatch } = useCart();
-  const { isLoading, data: product } = useQuery("product", () =>
-    getProductById(productId)
-  );
+  const { isLoading, data: product } = useQuery({
+    queryKey: "product",
+    queryFn: () => getProductById(productId),
+  });
   function addToCart() {
     dispatch({ type: "ADD", product });
   }

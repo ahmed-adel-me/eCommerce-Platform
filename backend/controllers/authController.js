@@ -110,8 +110,6 @@ exports.createAdmin = catchAsync(async (req, res, next) => {
     return next(new AppError("Passwords do not match", 400));
   }
 
-  console.log(req.body);
-
   const admin = await User.create({
     name,
     email,

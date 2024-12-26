@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createAdmin as createAdminApi } from "../../../../api/endpoints/auth";
 import toast from "react-hot-toast";
 

@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { confirmOrder as confirmOrderApi } from "../../api/endpoints/orders";
 export default function useConfirmOrder() {
   const {
@@ -7,11 +7,10 @@ export default function useConfirmOrder() {
     isLoading,
     isError,
     error,
-    isSuccess
+    isSuccess,
   } = useMutation({
     mutationFn: confirmOrderApi,
-
   });
 
-  return { confirmOrder, data, isLoading, isError, error ,isSuccess};
+  return { confirmOrder, data, isLoading, isError, error, isSuccess };
 }

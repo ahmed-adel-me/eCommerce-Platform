@@ -1,13 +1,13 @@
 import ProductCard from "../../components/ProductCard";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getWishlist } from "../../api/endpoints/wishlist";
 import Spinner from "../../components/Spinner";
 
 export default function WishList() {
-  const { data: wishList, isLoading } = useQuery(
-    ["products", "wishlist"],
-    getWishlist
-  );
+  const { data: wishList, isLoading } = useQuery({
+    queryKey: ["products", "wishlist"],
+    queryFn: getWishlist,
+  });
   if (isLoading)
     return (
       <div className="flex justify-center">

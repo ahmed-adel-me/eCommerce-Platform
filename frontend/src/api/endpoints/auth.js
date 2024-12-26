@@ -5,10 +5,10 @@ export const loginUser = withErrorHandling(async (email, password) => {
   const { data } = await API.post("/users/login", { email, password });
   return data;
 });
-export const getUser = withErrorHandling(async () => {
+export const getUser = async () => {
   const { data } = await API.get("/users/my-profile");
   return data;
-});
+};
 export const signupUser = withErrorHandling(async (props) => {
   const { data } = await API.post("/users/signup", props);
   return data;
@@ -24,7 +24,7 @@ export const createAdmin = withErrorHandling(async (userData) => {
 });
 
 export const getUsers = async (role) => {
-  const { data } = await API.get("/users/admin/users", { params:{role} });
+  const { data } = await API.get("/users/admin/users", { params: { role } });
   return data;
 };
 

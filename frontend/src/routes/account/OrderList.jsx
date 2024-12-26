@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getMyOrders } from "../../api/endpoints/orders";
 import Spinner from "../../components/Spinner";
 import formatDate from "../../utils/formatDate";
@@ -8,7 +8,7 @@ export default function OrderList() {
     data: orders,
     isLoading,
     isSuccess,
-  } = useQuery("orders", getMyOrders);
+  } = useQuery({ queryKey: "orders", queryFn: getMyOrders });
 
   if (isLoading)
     return (

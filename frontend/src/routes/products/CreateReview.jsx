@@ -1,6 +1,6 @@
-import  { useState } from "react";
+import { useState } from "react";
 import SubmitBtn from "../../components/SubmitBtn";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { createReview as createReviewFn } from "../../api/endpoints/reviews";
 import Star from "../../components/Star";
@@ -14,14 +14,12 @@ export default function CreateReview({ className }) {
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(
-    (props) => createReviewFn(props),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("product");
-      },
-    }
-  );
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (props) => createReviewFn(props),
+    onSuccess: () => {
+      queryClient.invalidateQueries("product");
+    },
+  });
   const handleSubmit = (event) => {
     event.preventDefault();
     mutate({ title, description, rating, user: user.id, product: productId });

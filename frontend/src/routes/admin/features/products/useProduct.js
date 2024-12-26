@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "../../../../api/endpoints/products";
 
 export default function useProduct(id) {

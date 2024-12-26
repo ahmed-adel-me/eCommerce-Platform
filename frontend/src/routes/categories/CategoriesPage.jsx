@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCategorizedProducts } from "../../api/endpoints/products";
 import CategorizedProducts from "./CategorizedProducts";
 import Spinner from "../../components/Spinner";

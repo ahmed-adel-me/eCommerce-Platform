@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   addWishlistProduct,
   deleteWishlistProduct,
@@ -7,25 +7,23 @@ import {
 export default function useToggleLike() {
   const queryClient = useQueryClient();
 
-  const { mutate: toggleLike, isLoading } = useMutation(
-    ({ id, isLiked }) => {
+  const { mutate: toggleLike, isLoading } = useMutation({
+    mutationFn: ({ id, isLiked }) => {
       if (isLiked) {
         return deleteWishlistProduct(id);
       } else {
         return addWishlistProduct(id);
       }
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ["products"],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["categorizedProducts"],
-        });
-      },
-    }
-  );
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["categorizedProducts"],
+      });
+    },
+  });
 
   return { toggleLike, isLoading };
 }

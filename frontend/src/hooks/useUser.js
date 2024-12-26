@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getUser } from "../api/endpoints/auth";
 
 export default function useUser() {
@@ -6,6 +6,5 @@ export default function useUser() {
     queryKey: ["user"],
     queryFn: getUser,
     retry: false,
-    suspense: true,
   });
 }

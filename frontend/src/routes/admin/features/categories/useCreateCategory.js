@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCategory as createCategoryApi } from "../../../../api/endpoints/categories";
 import toast from "react-hot-toast";
 export default function useCreateCategory() {

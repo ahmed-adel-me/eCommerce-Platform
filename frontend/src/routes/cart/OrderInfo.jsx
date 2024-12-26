@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner";
 import { useFormik } from "formik";
 import SubmitBtn from "../../components/SubmitBtn";
@@ -23,7 +23,8 @@ export default function OrderInfo() {
 }
 
 function OrderDetails({ user }) {
-  const orderMutation = useMutation((products) => createOrder(products), {
+  const orderMutation = useMutation({
+    mutationFn: (products) => createOrder(products),
     onSuccess: (url) => {
       window.location = url;
     },

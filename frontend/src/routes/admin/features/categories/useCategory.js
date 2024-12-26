@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getCategoryById } from "../../../../api/endpoints/categories";
 
 export default function useCategory(id) {

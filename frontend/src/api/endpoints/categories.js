@@ -4,14 +4,7 @@ export const getAllCategories = async () => {
   const { data } = await API.get(`/categories`);
   return data;
 };
-// export const getCategorizedProducts = async ({ categoryId, filter, sortBy }) => {
-//   const { data } = await API.get(
-//     `/products/categorized/${categoryId}?sort=${sortBy}${
-//       filter && "&" + filter
-//     }`
-//   );
-//   return data;
-// };
+
 export const getCategoryById = async (categoryId) => {
   const { data } = await API.get(`/categories/${categoryId}`);
   data.brands = data.brands.join(",");

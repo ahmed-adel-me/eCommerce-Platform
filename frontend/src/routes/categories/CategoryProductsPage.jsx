@@ -1,19 +1,19 @@
 import { useParams } from "react-router-dom";
 import Filter from "../../components/Filter";
 import ProductCard from "../../components/ProductCard";
-import Spinner from "../../components/Spinner";
-import useCategorizedProducts from "../../hooks/useCategorizedProducts";
 import SortBy from "../../components/SortBy";
+import { ClipLoader } from "react-spinners";
+import useCategoryWithAllProducts from "../../hooks/useCategoryWithAllProducts";
 export default function CategoryProductsPage() {
   const { categoryId } = useParams();
-  const { data, isLoading, isError, isSuccess } =
-  useCategorizedProducts(categoryId);
+  const { data, isPending, isError, isSuccess } =
+    useCategoryWithAllProducts(categoryId);
   return (
     <section>
-      {isLoading && (
+      {isPending && (
         <div className="py-10 flex justify-center items-center h-screen">
           <div className="w-20">
-            <Spinner />
+            <ClipLoader size={50} />
           </div>
         </div>
       )}

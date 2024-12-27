@@ -22,15 +22,17 @@ export default function CategorizedProducts({
         {products.map((product) => (
           <ProductCard key={product.id} data={product} />
         ))}
-          <Link
-            to={`/categories/${categoryId}`}
-            className="bg-gray-300 rounded-xl grid place-items-center hover:bg-gray-400 group"
-          >
-            <div className="flex gap-3 items-center">
-              <span className="text-lg text-gray-500  group-hover:text-gray-200">Show All</span>
-              <AiOutlineArrowRight size={20} color="gray" />
-            </div>
-          </Link>
+        <Link
+          to={`/categories/${categoryId}`}
+          className="bg-gray-300 rounded-xl grid place-items-center hover:bg-gray-400 group"
+        >
+          <div className="flex gap-3 items-center">
+            <span className="text-lg text-gray-500  group-hover:text-gray-200">
+              Show All
+            </span>
+            <AiOutlineArrowRight size={20} color="gray" />
+          </div>
+        </Link>
       </div>
     </div>
   );

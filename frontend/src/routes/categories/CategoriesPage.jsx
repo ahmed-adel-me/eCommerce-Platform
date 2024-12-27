@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategorizedProducts } from "../../api/endpoints/products";
+import { getAllCategoriesWithProducts } from "../../api/endpoints/products";
 import CategorizedProducts from "./CategorizedProducts";
 import Spinner from "../../components/Spinner";
 
 export default function CategoriesPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["categorizedProducts"],
-    queryFn: () => getCategorizedProducts(3),
+    queryFn: () => getAllCategoriesWithProducts(3),
   });
   if (isLoading)
     return (

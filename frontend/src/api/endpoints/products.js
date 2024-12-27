@@ -22,13 +22,24 @@ export const getProductById = async (productId) => {
   return data;
 };
 
-export const getCategorizedProducts = async (limit) => {
+export const getAllCategoriesWithProducts = async (limit) => {
   const { data } = await API.get(
     `/products/categorized${limit ? `?limit=${limit}` : ""}`
   );
   return data;
 };
-
+export const getCategoryWithAllProducts = async ({
+  categoryId,
+  filter,
+  sortBy,
+}) => {
+  const { data } = await API.get(
+    `/products/categorized/${categoryId}?sort=${sortBy}${
+      filter && "&" + filter
+    }`
+  );
+  return data;
+};
 export const deleteProduct = async (productId) => {
   await API.delete(`/products/${productId}`);
 };

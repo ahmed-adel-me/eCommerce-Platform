@@ -1,8 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getCategorizedProducts } from "../api/endpoints/products";
+import { getCategoryWithAllProducts } from "../api/endpoints/products";
 
-export default function useCategorizedProducts(categoryId) {
+export default function useCategoryWithAllProducts(categoryId) {
   const [searchParams] = useSearchParams();
 
   // Extracting the "sortBy" parameter
@@ -13,11 +13,9 @@ export default function useCategorizedProducts(categoryId) {
 
   // Concatenate all filter values into a single string
 
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  return useQuery({
     queryKey: ["products", categoryId, sortBy, filter],
     queryFn: () =>
-      getCategorizedProducts({ categoryId, sortBy, filter: filter }),
+      getCategoryWithAllProducts({ categoryId, sortBy, filter: filter }),
   });
-
-  return { data, isLoading, isError, isSuccess };
 }

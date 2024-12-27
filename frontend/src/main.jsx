@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { ErrorBoundary } from "react-error-boundary";
 
 import "./index.css";
 
@@ -46,82 +47,84 @@ const queryClient = new QueryClient({
 // Render the application
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Cart>
-      <QueryClientProvider client={queryClient}>
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
-          toastOptions={{
-            success: { duration: 3000 },
-            error: { duration: 5000 },
-            style: {
-              fontSize: "16px",
-              maxWidth: "500px",
-              padding: "16px 24px",
-            },
-          }}
-        />
-        <BrowserRouter>
-          <Routes>
-            {/* User Routes */}
-            <Route
-              path="/"
-              element={
-                <Protect>
-                  <Root />
-                </Protect>
-              }
-            >
-              <Route index element={<Home />} />
-              <Route path="/account" element={<AccountPage />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/categories" element={<CategoriesPage />} />
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <Cart>
+        <QueryClientProvider client={queryClient}>
+          <Toaster
+            position="top-center"
+            gutter={12}
+            containerStyle={{ margin: "8px" }}
+            toastOptions={{
+              success: { duration: 3000 },
+              error: { duration: 5000 },
+              style: {
+                fontSize: "16px",
+                maxWidth: "500px",
+                padding: "16px 24px",
+              },
+            }}
+          />
+          <BrowserRouter>
+            <Routes>
+              {/* User Routes */}
               <Route
-                path="/categories/:categoryId"
-                element={<CategoryProductsPage />}
-              />
-              <Route path="/products/:productId" element={<ProductInfo />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/order" element={<OrderPage />} />
-            </Route>
-            {/* Admin Routes */}
-            <Route
-              path="/admin"
-              element={
-                <Protect>
-                  <DashboardLayout />
-                </Protect>
-              }
-            >
+                path="/"
+                element={
+                  <Protect>
+                    <Root />
+                  </Protect>
+                }
+              >
+                <Route index element={<Home />} />
+                <Route path="/account" element={<AccountPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/categories" element={<CategoriesPage />} />
+                <Route
+                  path="/categories/:categoryId"
+                  element={<CategoryProductsPage />}
+                />
+                <Route path="/products/:productId" element={<ProductInfo />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/order" element={<OrderPage />} />
+              </Route>
+              {/* Admin Routes */}
               <Route
                 path="/admin"
-                element={<Navigate replace to={"/admin/dashboard"} />}
+                element={
+                  <Protect>
+                    <DashboardLayout />
+                  </Protect>
+                }
+              >
+                <Route
+                  path="/admin"
+                  element={<Navigate replace to={"/admin/dashboard"} />}
+                />
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="products" element={<Products />} />
+                <Route path="categories" element={<Categories />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="users" element={<Users />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
+              {/* Authentication Routes */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<Signup />} />
+              {/* Error Route */}
+              <Route
+                path="*"
+                element={
+                  <Protect>
+                    <ErrorPage />
+                  </Protect>
+                }
               />
-              <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="products" element={<Products />} />
-              <Route path="categories" element={<Categories />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="users" element={<Users />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
-            {/* Authentication Routes */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<Signup />} />
-            {/* Error Route */}
-            <Route
-              path="*"
-              element={
-                <Protect>
-                  <ErrorPage />
-                </Protect>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </Cart>
+            </Routes>
+          </BrowserRouter>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </Cart>
+    </ErrorBoundary>
   </React.StrictMode>
 );

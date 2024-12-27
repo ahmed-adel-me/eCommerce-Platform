@@ -6,7 +6,7 @@ import Spinner from "../../components/Spinner";
 
 export default function SearchPage() {
   const [search, setSearch] = useState();
-  const { mutate, isLoading, data, isSuccess, isError } = useMutation({
+  const { mutate, isPending, data, isSuccess, isError } = useMutation({
     mutationFn: (search) => getAllProducts({ search }),
   });
 
@@ -29,7 +29,7 @@ export default function SearchPage() {
             placeholder="Search for products..."
           />
         </form>
-        {isLoading && (
+        {isPending && (
           <div className="py-10 flex justify-center">
             <div className="basis-20">
               <Spinner />
@@ -43,7 +43,7 @@ export default function SearchPage() {
             ))}
           </div>
         ) : (
-          !isLoading && (
+          !isPending && (
             <p className="text-xl font-semibold">
               No products found matching your search criteria.
             </p>

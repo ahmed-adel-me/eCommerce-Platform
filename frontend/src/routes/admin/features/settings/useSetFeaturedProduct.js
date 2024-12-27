@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export default function useSetFeaturedProduct() {
   const queryClient = useQueryClient();
-  const { mutate: setFeaturedProduct, isLoading } = useMutation({
+  const { mutate: setFeaturedProduct, isPending } = useMutation({
     mutationFn: (productId) => setFeaturedProductApi(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -14,5 +14,5 @@ export default function useSetFeaturedProduct() {
     },
   });
 
-  return { setFeaturedProduct, isLoading };
+  return { setFeaturedProduct, isLoading: isPending };
 }

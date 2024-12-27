@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 export default function useLogin() {
   const navigate = useNavigate();
 
-  const { mutate: login, isLoading } = useMutation({
+  const { mutate: login, isPending } = useMutation({
     mutationFn: ({ email, password }) => loginUser(email, password),
     onSuccess: () => {
       toast.success("Logged in successfully");
@@ -16,5 +16,5 @@ export default function useLogin() {
       toast.error(err.message);
     },
   });
-  return { login, isLoading };
+  return { login, isLoading: isPending };
 }

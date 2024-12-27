@@ -3,7 +3,7 @@ import { createCategory as createCategoryApi } from "../../../../api/endpoints/c
 import toast from "react-hot-toast";
 export default function useCreateCategory() {
   const queryClient = useQueryClient();
-  const { mutate: createCategory, isLoading } = useMutation({
+  const { mutate: createCategory, isPending } = useMutation({
     mutationFn: (props) => createCategoryApi(props),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -16,5 +16,5 @@ export default function useCreateCategory() {
       toast.error(error?.message);
     },
   });
-  return { createCategory, isLoading };
+  return { createCategory, isLoading: isPending };
 }

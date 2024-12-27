@@ -9,7 +9,7 @@ import useUpdateCategory from "./useUpdateCategory";
 
 function EditCategory({ categoryId, setEditedCategory }) {
   const { data: category, isLoading: isFetching } = useCategory(categoryId);
-  const { mutate: updateCategory, isLoading: isUpdating } =
+  const { mutate: updateCategory, isPending: isUpdating } =
     useUpdateCategory(categoryId);
 
   const formik = useFormik({

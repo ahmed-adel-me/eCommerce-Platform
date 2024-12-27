@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 export default function useSignUp() {
   const navigate = useNavigate();
-  const { mutate: signup, isLoading } = useMutation({
+  const { mutate: signup, isPending } = useMutation({
     mutationFn: (props) => signupUser(props),
     onSuccess: () => {
       toast.success("Signed up successfully");
@@ -15,5 +15,5 @@ export default function useSignUp() {
       toast.error(error.message);
     },
   });
-  return { signup, isLoading };
+  return { signup, isLoading: isPending };
 }

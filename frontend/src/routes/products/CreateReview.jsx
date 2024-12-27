@@ -14,7 +14,7 @@ export default function CreateReview({ className }) {
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState(0);
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (props) => createReviewFn(props),
     onSuccess: () => {
       queryClient.invalidateQueries("product");
@@ -52,7 +52,7 @@ export default function CreateReview({ className }) {
         <SubmitBtn
           text={"Submit your review"}
           className={"bg-green-900 w-fit"}
-          isLoading={isLoading}
+          isLoading={isPending}
         />
       </form>
     </div>

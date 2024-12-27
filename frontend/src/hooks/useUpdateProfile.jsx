@@ -4,12 +4,12 @@ import toast from "react-hot-toast";
 
 export default function useUpdateProfile() {
   const queryClient = useQueryClient();
-  const { mutate: updateProfile, isLoading } = useMutation({
+  const { mutate: updateProfile, isPending } = useMutation({
     mutationFn: (userData) => updateMyProfile(userData),
     onSuccess: () => {
       toast.success("Account updated successfully");
       queryClient.invalidateQueries("user");
     },
   });
-  return { updateProfile, isLoading };
+  return { updateProfile, isLoading: isPending };
 }

@@ -6,7 +6,7 @@ export default function useDeleteProduct() {
   const queryClient = useQueryClient();
   const {
     mutate: deleteProduct,
-    isLoading,
+    isPending,
     isSuccess,
   } = useMutation({
     mutationFn: (productId) => deleteProductApi(productId),
@@ -18,5 +18,5 @@ export default function useDeleteProduct() {
     },
   });
 
-  return { deleteProduct, isLoading, isSuccess };
+  return { deleteProduct, isLoading: isPending, isSuccess };
 }

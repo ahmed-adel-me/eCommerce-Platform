@@ -23,7 +23,7 @@ export default function OrderInfo() {
 }
 
 function OrderDetails({ user }) {
-  const orderMutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (products) => createOrder(products),
     onSuccess: (url) => {
       window.location = url;
@@ -44,7 +44,7 @@ function OrderDetails({ user }) {
         productId: el.product.id,
         quantity: el.quantity,
       }));
-      orderMutation.mutate({ products, orderInfo });
+      mutate({ products, orderInfo });
     },
   });
 
@@ -111,7 +111,7 @@ function OrderDetails({ user }) {
         />
         <SubmitBtn
           text={"Save"}
-          isLoading={orderMutation.isLoading}
+          isLoading={isPending}
           className={"text-xl font-semibold"}
         />
       </form>

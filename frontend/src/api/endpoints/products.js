@@ -1,16 +1,7 @@
-import uploadImages from "../../utils/uploadImages";
 import API from "../API";
 
 export const createProduct = async (props) => {
-  const { images, ...productData } = props;
-  let imageUrls = [];
-  if (images.length > 0) {
-    imageUrls = await uploadImages(images);
-  }
-  const { data } = await API.post(`/products`, {
-    ...productData,
-    images: imageUrls,
-  });
+  const { data } = await API.post(`/products`, props);
   return data;
 };
 export const editProduct = async (id, update) => {

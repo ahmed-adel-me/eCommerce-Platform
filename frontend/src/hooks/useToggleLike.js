@@ -7,7 +7,7 @@ import {
 export default function useToggleLike() {
   const queryClient = useQueryClient();
 
-  const { mutate: toggleLike, isLoading } = useMutation({
+  const { mutate: toggleLike, isPending } = useMutation({
     mutationFn: ({ id, isLiked }) => {
       if (isLiked) {
         return deleteWishlistProduct(id);
@@ -25,5 +25,5 @@ export default function useToggleLike() {
     },
   });
 
-  return { toggleLike, isLoading };
+  return { toggleLike, isLoading:isPending };
 }

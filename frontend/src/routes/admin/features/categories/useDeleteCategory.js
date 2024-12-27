@@ -6,7 +6,7 @@ export default function useDeleteCategory() {
   const queryClient = useQueryClient();
   const {
     mutate: deleteCategory,
-    isLoading,
+    isPending,
     isSuccess,
   } = useMutation({
     mutationFn: (categoryId) => deleteCategoryApi(categoryId),
@@ -18,5 +18,5 @@ export default function useDeleteCategory() {
     },
   });
 
-  return { deleteCategory, isLoading, isSuccess };
+  return { deleteCategory, isLoading: isPending, isSuccess };
 }

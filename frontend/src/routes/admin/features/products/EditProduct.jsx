@@ -13,12 +13,15 @@ import useUpdateProduct from "./useUpdateProduct";
 
 function EditProduct({ productId, setActiveTab }) {
   const { product, isLoading: isProductLoading } = useProduct(productId);
+  console.log(product);
 
-  const { mutate: updateProduct, isLoading: isUpdatingProduct } =
+  const { mutate: updateProduct, isPending: isUpdatingProduct } =
     useUpdateProduct(productId);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const { categories, isLoading: categoriesAreLoading } = useCategories();
   const [images, setImages] = useState([]);
+  const [removedImages, setRemovedImages] = useState([]);
+
   const formik = useFormik({
     initialValues: {
       name: product?.name || "",
@@ -32,8 +35,18 @@ function EditProduct({ productId, setActiveTab }) {
     validationSchema: createProductValidationSchema,
     validateOnChange: false,
     onSubmit: async (values) => {
+      const { newImages, oldImages } = images.reduce(
+        (acc, img) => {
+          img.isNew
+            ? acc.newImages.push(img.file)
+            : acc.oldImages.push(img.src);
+          return acc;
+        },
+        { newImages: [], oldImages: [] }
+      );
+
       updateProduct(
-        { ...values, images },
+        { values, newImages, oldImages, removedImages },
         {
           onSuccess: () => {
             setActiveTab("products");
@@ -42,6 +55,17 @@ function EditProduct({ productId, setActiveTab }) {
       );
     },
   });
+  const handleRemoveImage = (index) => {
+    const removedImage = images[index];
+    if (!removedImage.isNew) {
+      setRemovedImages((prevRemoved) => {
+        return [...prevRemoved, removedImage.src];
+      });
+    }
+    setImages((prevImages) => {
+      return prevImages.filter((_, i) => i !== index);
+    });
+  };
 
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
@@ -51,37 +75,6 @@ function EditProduct({ productId, setActiveTab }) {
     formik.setFieldValue("properties", {});
     formik.setFieldValue("brand", "");
   };
-
-  // const handlePropertyChange = (propertyName, value) => {
-  //   formik.setFieldValue(`properties.${propertyName}`, value);
-  // };
-
-  // const handleFileChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   if (files.length + selectedFiles.length + existingImages.length > 5) {
-  //     toast.error("You can upload a maximum of 5 images.");
-  //     return;
-  //   }
-  //   setSelectedFiles((prevFiles) => [...prevFiles, ...files].slice(0, 5));
-  // };
-
-  // const handleRemoveImage = (index, isExisting = false) => {
-  //   if (isExisting) {
-  //     setExistingImages((prevImages) =>
-  //       prevImages.filter((_, imgIndex) => imgIndex !== index)
-  //     );
-  //   } else {
-  //     setSelectedFiles((prevFiles) =>
-  //       prevFiles.filter((_, fileIndex) => fileIndex !== index)
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (product) {
-  //     setExistingImages(product?.images);
-  //   }
-  // }, [product]);
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files).map((file) => ({
       file,
@@ -94,13 +87,10 @@ function EditProduct({ productId, setActiveTab }) {
     setImages((prev) => [...prev, ...files].slice(0, 5));
   };
 
-  const handleRemoveImage = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
   useEffect(() => {
     if (product) {
       setImages(product?.images.map((img) => ({ src: img, isNew: false })));
+      setRemovedImages([]); // Reset removed images when a product is loaded
       if (categories) {
         const categoryId = product.category.categoryRef;
         const selected = categories.find(
@@ -110,6 +100,7 @@ function EditProduct({ productId, setActiveTab }) {
       }
     }
   }, [product, categories]);
+
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-5">Edit Product</h2>
@@ -176,14 +167,18 @@ function EditProduct({ productId, setActiveTab }) {
             {images.map((img, index) => (
               <div key={index} className="relative">
                 <img
-                  src={img} // URL for existing image
-                  alt={`Existing ${index}`}
+                  src={
+                    img?.file instanceof File
+                      ? URL.createObjectURL(img.file)
+                      : img.src
+                  } // Generate URL for File or use img.src
+                  alt={`Image ${index}`}
                   className="w-28 h-28 object-cover rounded shadow-md"
                 />
                 <button
                   type="button"
                   className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-xs"
-                  onClick={() => handleRemoveImage(index, true)}
+                  onClick={() => handleRemoveImage(index)}
                 >
                   <HiX color="white" size={20} />
                 </button>

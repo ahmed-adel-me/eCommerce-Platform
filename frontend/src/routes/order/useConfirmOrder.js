@@ -4,7 +4,7 @@ export default function useConfirmOrder() {
   const {
     mutate: confirmOrder,
     data,
-    isLoading,
+    isPending,
     isError,
     error,
     isSuccess,
@@ -12,5 +12,12 @@ export default function useConfirmOrder() {
     mutationFn: confirmOrderApi,
   });
 
-  return { confirmOrder, data, isLoading, isError, error, isSuccess };
+  return {
+    confirmOrder,
+    data,
+    isLoading: isPending,
+    isError,
+    error,
+    isSuccess,
+  };
 }

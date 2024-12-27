@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export default function useUpdateShippingPrice() {
   const queryClient = useQueryClient();
-  const { mutate: updatePrice, isLoading } = useMutation({
+  const { mutate: updatePrice, isPending } = useMutation({
     mutationFn: updateShippingPrice,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["shippingPrice"] });
@@ -12,5 +12,5 @@ export default function useUpdateShippingPrice() {
     },
   });
 
-  return { updatePrice, isLoading };
+  return { updatePrice, isLoading: isPending };
 }

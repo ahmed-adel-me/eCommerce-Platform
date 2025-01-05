@@ -1,6 +1,6 @@
 const { hash, compare } = require("bcryptjs");
 const { Schema, model } = require("mongoose");
-const { default: isEmail } = require("validator/lib/isemail");
+const validator = require("validator");
 
 const userSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       required: [true, "Email is missing!"],
-      validate: [isEmail, "Enter a valid email!"],
+      validate: [validator.isEmail, "Enter a valid email!"],
       lowercase: true,
     },
     country: {

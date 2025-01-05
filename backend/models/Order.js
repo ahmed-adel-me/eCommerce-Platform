@@ -1,5 +1,5 @@
+const validator = require("validator");
 const { Schema, model } = require("mongoose");
-const { default: isEmail } = require("validator/lib/isemail");
 const Settings = require("./Settings");
 
 const orderSchema = new Schema(
@@ -20,7 +20,7 @@ const orderSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is missing!"],
-      validate: [isEmail, "Enter a valid email!"],
+      validate: [validator.isEmail, "Enter a valid email!"],
       lowercase: true,
     },
     country: {

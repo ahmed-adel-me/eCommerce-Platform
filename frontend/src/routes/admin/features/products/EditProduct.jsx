@@ -13,7 +13,6 @@ import useUpdateProduct from "./useUpdateProduct";
 
 function EditProduct({ productId, setActiveTab }) {
   const { product, isLoading: isProductLoading } = useProduct(productId);
-  console.log(product);
 
   const { mutate: updateProduct, isPending: isUpdatingProduct } =
     useUpdateProduct(productId);
@@ -76,14 +75,22 @@ function EditProduct({ productId, setActiveTab }) {
     formik.setFieldValue("brand", "");
   };
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files).map((file) => ({
-      file,
-      isNew: true,
-    }));
+    const files = Array.from(e.target.files)
+      .filter((file) => file.type.startsWith("image/")) // Accept only image files
+      .map((file) => ({
+        file,
+        isNew: true,
+      }));
+
     if (files.length + images.filter((img) => !img.isNew).length > 5) {
       toast.error("You can upload a maximum of 5 images.");
       return;
     }
+
+    if (files.length !== e.target.files.length) {
+      toast.error("Only image files are allowed.");
+    }
+
     setImages((prev) => [...prev, ...files].slice(0, 5));
   };
 
@@ -197,6 +204,7 @@ function EditProduct({ productId, setActiveTab }) {
               type="file"
               id="images"
               name="images"
+              accept="image/*"
               multiple
               onChange={handleFileChange}
               disabled={isProductLoading || isUpdatingProduct}

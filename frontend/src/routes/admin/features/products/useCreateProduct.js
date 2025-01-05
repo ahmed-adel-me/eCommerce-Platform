@@ -23,6 +23,11 @@ export default function useCreateProduct() {
       });
       toast.success("Product created successfully");
     },
+    onError: (error) => {
+      toast.error(
+        `Error creating product: ${error.message || "Unknown error"}`
+      );
+    },
   });
 
   return { createProduct, isLoading: isPending };

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProduct as deleteProductApi } from "../../../../api/endpoints/products";
 import toast from "react-hot-toast";
+import removeImages from "../../../../utils/removeImages";
 
 export default function useDeleteProduct() {
   const queryClient = useQueryClient();
@@ -9,7 +10,10 @@ export default function useDeleteProduct() {
     isPending,
     isSuccess,
   } = useMutation({
-    mutationFn: (productId) => deleteProductApi(productId),
+    mutationFn: async (product) => {
+      await removeImages(product.images);
+      return deleteProductApi(product._id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["products"],

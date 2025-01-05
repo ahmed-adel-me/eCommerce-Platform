@@ -39,7 +39,7 @@ function ProductsTable({ setActiveTab, setEditedProduct }) {
                     </button>
                     <button
                       onClick={() => {
-                        deleteProduct(product._id);
+                        deleteProduct(product);
                       }}
                       className="flex justify-center items-center gap-1 bg-red-200 text-red-600 py-1 px-3 rounded-sm hover:bg-red-300 disabled:bg-red-100 disabled:text-red-400 disabled:hover:bg-red-100"
                       disabled={isDeleting}

@@ -55,11 +55,19 @@ function CreateProduct({ setActiveTab }) {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    if (files.length + selectedFiles.length > 5) {
+
+    const validImages = files.filter((file) => file.type.startsWith("image/"));
+
+    if (validImages.length === 0) {
+      toast.error("Please select only image files.");
+      return;
+    }
+
+    if (validImages.length + selectedFiles.length > 5) {
       toast.error("You can upload a maximum of 5 images.");
       return;
     }
-    setSelectedFiles((prevFiles) => [...prevFiles, ...files].slice(0, 5));
+    setSelectedFiles((prevFiles) => [...prevFiles, ...validImages].slice(0, 5));
   };
 
   const handleRemoveImage = (index) => {
@@ -167,6 +175,7 @@ function CreateProduct({ setActiveTab }) {
                 type="file"
                 id="images"
                 name="images"
+                accept="image/*"
                 multiple
                 onChange={handleFileChange}
                 disabled={isCreatingProduct}

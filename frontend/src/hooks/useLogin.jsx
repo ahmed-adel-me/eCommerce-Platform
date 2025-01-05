@@ -8,9 +8,13 @@ export default function useLogin() {
 
   const { mutate: login, isPending } = useMutation({
     mutationFn: ({ email, password }) => loginUser(email, password),
-    onSuccess: () => {
+    onSuccess: (user) => {
+      console.log(user);
+      
       toast.success("Logged in successfully");
-      navigate("/");
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else navigate("/");
     },
     onError: (err) => {
       toast.error(err.message);

@@ -8,7 +8,7 @@ export default function OrderList() {
     data: orders,
     isLoading,
     isSuccess,
-  } = useQuery({ queryKey: "orders", queryFn: getMyOrders });
+  } = useQuery({ queryKey: ["orders"], queryFn: getMyOrders });
 
   if (isLoading)
     return (

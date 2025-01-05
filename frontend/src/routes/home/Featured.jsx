@@ -4,16 +4,14 @@ import { useCart } from "../../context/Cart";
 import useFeaturedProduct from "../../hooks/useFeaturedProduct";
 
 export default function Featured() {
-  const {
-     product,
-    isLoading,
-    isSuccess,
-  } = useFeaturedProduct();
+  const { product, isLoading, isSuccess } = useFeaturedProduct();
   const { dispatch } = useCart();
   const addToCart = (event) => {
     event.preventDefault();
     dispatch({ type: "ADD", product });
   };
+
+  if (!product) return <div className="text-center text-3xl py-20">No product yet!</div>;
   return (
     <div className="bg-[#201F20] text-white h-[500px] flex justify-center items-center">
       <div className="flex justify-between max-w-7xl mx-auto basis-full">
@@ -31,14 +29,14 @@ export default function Featured() {
           ) : (
             <>
               <h1 className="text-5xl font-semibold capitalize mb-7">
-                {product.name}
+                {product?.name}
               </h1>
               <p className="text-gray-200 mb-5 font-semibold">
-                {product.description}
+                {product?.description}
               </p>
               <div className="flex gap-4">
                 <Link
-                  to={`/products/${product.id}`}
+                  to={`/products/${product?.id}`}
                   className="py-1 px-3 border-2 rounded-md text-lg"
                 >
                   Read more

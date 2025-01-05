@@ -10,6 +10,7 @@ export default function NewArrival() {
         <Spinner className={"basis-16"} />
       </div>
     );
+  if (!products || products.length === 0) return null;
   return (
     <div>
       <div className="max-w-7xl mx-auto py-10">

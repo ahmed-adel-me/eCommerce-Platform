@@ -30,11 +30,11 @@ function FeaturedProduct() {
           className={`text-lg py-2 px-3 rounded border-2 border-gray-400 outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
           id={"featured"}
           name={"featured"}
-          value={featuredProduct._id}
+          value={featuredProduct?._id}
           onChange={(e) => setFeaturedProduct(e.target.value)}
           disabled={isLoading}
         >
-          <option value={featuredProduct._id}>{featuredProduct.name}</option>
+          <option value={featuredProduct?._id}>{featuredProduct?.name}</option>
           {filteredProducts.map((product) => (
             <option key={product._id} value={product._id}>
               {product.name}

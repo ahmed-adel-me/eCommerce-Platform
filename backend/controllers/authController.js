@@ -18,13 +18,7 @@ function createAndSendToken(user, res, statusCode = 201) {
   });
 
   user.password = undefined;
-  res.status(statusCode).json({
-    status: "success",
-    token,
-    data: {
-      user,
-    },
-  });
+  res.status(statusCode).json(user);
 }
 
 exports.signup = catchAsync(async (req, res, next) => {

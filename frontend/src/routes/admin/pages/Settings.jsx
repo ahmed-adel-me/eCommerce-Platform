@@ -6,7 +6,7 @@ function Settings() {
       <h2 className="text-2xl font-semibold mb-5">Settings</h2>
       <div className="space-y-10">
         <FeaturedProduct />
-          <ShippingPrice />
+        <ShippingPrice />
       </div>
     </div>
   );

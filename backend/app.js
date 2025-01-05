@@ -9,13 +9,16 @@ const globalErrorHandler = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
 const reviewRouter = require("./routes/reviewRoutes");
 const cookieParser = require("cookie-parser");
-
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 const app = express();
 //middlewares
+app.use(helmet());
+
 app.use(cors({ credentials: true, origin: true }));
 app.use(cookieParser());
-
 app.use(express.json());
+app.use(mongoSanitize());
 //routes
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);

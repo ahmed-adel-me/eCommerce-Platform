@@ -7,7 +7,6 @@ export const getAllCategories = async () => {
 
 export const getCategoryById = async (categoryId) => {
   const { data } = await API.get(`/categories/${categoryId}`);
-  data.brands = data.brands.join(",");
   return data;
 };
 export const createCategory = withErrorHandling(async (props) => {

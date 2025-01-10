@@ -20,13 +20,14 @@ function EditProduct({ productId, setActiveTab }) {
   const { categories, isLoading: categoriesAreLoading } = useCategories();
   const [images, setImages] = useState([]);
   const [removedImages, setRemovedImages] = useState([]);
+  console.log(product);
 
   const formik = useFormik({
     initialValues: {
       name: product?.name || "",
       brand: product?.category.brand || "",
       category: product?.category.categoryRef || "",
-      properties: product?.properties || {},
+      properties: product?.category?.properties || {},
       description: product?.description || "",
       price: product?.price || "",
     },
@@ -139,26 +140,70 @@ function EditProduct({ productId, setActiveTab }) {
             />
             {selectedCategory?.brands?.length > 0 && (
               <div>
-                <label className="text-gray-600 font-semibold" htmlFor="brand">
-                  Brand
-                </label>
-                <select
-                  className={`text-lg py-2 px-3 rounded border-2 ${
-                    formik.errors.brand ? "border-red-500" : "border-gray-400"
-                  } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
-                  name="brand"
-                  id="brand"
-                  value={formik.values.brand}
-                  onChange={formik.handleChange}
-                  disabled={isUpdatingProduct}
-                >
-                  <option value="">Select Brand</option>
-                  {selectedCategory.brands.map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand}
-                    </option>
-                  ))}
-                </select>
+                <div>
+                  <label
+                    className="text-gray-600 font-semibold"
+                    htmlFor="brand"
+                  >
+                    Brand
+                  </label>
+                  <select
+                    className={`text-lg py-2 px-3 rounded border-2 ${
+                      formik.errors.brand ? "border-red-500" : "border-gray-400"
+                    } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
+                    name="brand"
+                    id="brand"
+                    value={formik.values.brand}
+                    onChange={formik.handleChange}
+                    disabled={isUpdatingProduct}
+                  >
+                    <option value="">Select Brand</option>
+                    {selectedCategory.brands.map((brand) => (
+                      <option key={brand} value={brand}>
+                        {brand}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {selectedCategory?.properties && (
+                  <div className="flex flex-col gap-4 mt-5">
+                    <h3 className="text-lg font-semibold">Properties</h3>
+                    {selectedCategory.properties.map((property) => (
+                      <div key={property.name} className="flex flex-col">
+                        <label
+                          htmlFor={`properties.${property.name}`}
+                          className="text-gray-600 font-semibold"
+                        >
+                          {property.name}
+                        </label>
+                        <select
+                          id={`properties.${property.name}`}
+                          name={`properties.${property.name}`}
+                          value={formik.values.properties[property.name] || ""}
+                          onChange={(e) =>
+                            formik.setFieldValue(
+                              `properties.${property.name}`,
+                              e.target.value || null
+                            )
+                          }
+                          className={`text-lg py-2 px-3 rounded border-2 ${
+                            formik.errors.properties?.[property.name]
+                              ? "border-red-500"
+                              : "border-gray-400"
+                          } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
+                          disabled={isUpdatingProduct}
+                        >
+                          <option value="">Select {property.name}</option>
+                          {property.values.map((value) => (
+                            <option key={value} value={value}>
+                              {value}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </>
@@ -193,6 +238,7 @@ function EditProduct({ productId, setActiveTab }) {
             ))}
           </div>
         )}
+
         <div className="flex items-center gap-5 mt-4">
           <label
             htmlFor="images"

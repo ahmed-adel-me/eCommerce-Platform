@@ -12,7 +12,7 @@ export default function ProductInfo() {
   const { productId } = useParams();
   const { dispatch } = useCart();
   const { isLoading, data: product } = useQuery({
-    queryKey: "product",
+    queryKey: ["product", productId],
     queryFn: () => getProductById(productId),
   });
   function addToCart() {
@@ -29,7 +29,7 @@ export default function ProductInfo() {
       <div className="max-w-7xl mx-auto py-10 space-y-12">
         <div className="flex gap-10">
           <ImageDisplayer
-            className={" shrink-0 basis-[37%] h-[300px]"}
+            className={" shrink-0 basis-[37%] h-[350px]"}
             images={product.images}
           />
           <div className="flex-1 shrink-0 grow overflow-x-hidden">
@@ -81,7 +81,11 @@ function ImageDisplayer({ className, images }) {
     );
   }
   return (
-    <div className={"bg-white rounded-xl overflow-hidden p-7  " + className}>
+    <div
+      className={
+        "bg-white rounded-xl overflow-hidden p-7 flex flex-col " + className
+      }
+    >
       <div className=" pb-5 w-[60%] h-[80%]  m-auto">
         <img
           className=" object-contain m-auto h-full"
@@ -89,14 +93,15 @@ function ImageDisplayer({ className, images }) {
           alt=""
         />
       </div>
-      <div className="flex w-fit gap-2 overflow-x-scroll">
+      <div className="flex  gap-2">
         {images.map((url, index) => (
-          <img
-            key={url + index}
-            onClick={() => setSelectedImg(url)}
-            className="w-14 object-contain"
-            src={url}
-          />
+          <div key={url + index} className="p-2 border rounded-lg hover:bg-slate-100 cursor-pointer h-20 w-20 flex justify-center items-center">
+            <img
+              onClick={() => setSelectedImg(url)}
+              className=" object-contain h-full flex-1 "
+              src={url}
+            />
+          </div>
         ))}
       </div>
     </div>

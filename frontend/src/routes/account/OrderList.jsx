@@ -18,7 +18,7 @@ export default function OrderList() {
     );
 
   if (isSuccess) {
-    if (orders.length === 0) return <p>There is no orders yet!</p>;
+    if (orders.length === 0) return <p>There are no orders yet!</p>;
     return (
       <div className="flex gap-5 flex-wrap">
         {orders.map((order) => (

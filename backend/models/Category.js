@@ -22,10 +22,6 @@ const categorySchema = new Schema(
       minlength: [2, "Name must be greater than 2 characters"],
     },
     brands: [String],
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now(),
-    // },
     properties: [propertySchema],
   },
   {

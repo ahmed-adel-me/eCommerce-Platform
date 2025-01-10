@@ -11,11 +11,12 @@ export default function Featured() {
     dispatch({ type: "ADD", product });
   };
 
-  if (!product) return <div className="text-center text-3xl py-20">No product yet!</div>;
+  if (!isLoading && !product)
+    return <div className="text-center text-3xl py-20">No product yet!</div>;
   return (
     <div className="bg-[#201F20] text-white h-[500px] flex justify-center items-center">
       <div className="flex justify-between max-w-7xl mx-auto basis-full">
-        <div className="flex-1">
+        <div className="flex-1 pt-[7%]">
           {isLoading ? (
             <div role="status" className="max-w-sm animate-pulse space-y-7">
               <div className="h-10 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4"></div>
@@ -57,7 +58,13 @@ export default function Featured() {
               <ImageSkeleton />
             </div>
           )}
-          {isSuccess && <img src={product?.images?.[0]} alt="no image" />}
+          {isSuccess && (
+            <img
+              className="rounded-xl shadow-white max-h-[400px]"
+              src={product?.images?.[0]}
+              alt="no image"
+            />
+          )}
         </div>
       </div>
     </div>

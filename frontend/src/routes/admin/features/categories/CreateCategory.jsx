@@ -23,6 +23,7 @@ function CreateCategory() {
     }),
     onSubmit: (values) => {
       createCategory(values);
+      formik.resetForm()
     },
   });
 

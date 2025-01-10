@@ -10,6 +10,7 @@ exports.getCategories = catchAsync(async (req, res, next) => {
 exports.getCategoryById = catchAsync(async (req, res, next) => {
   const { categoryId } = req.params;
   const category = await Category.findById(categoryId);
+  
   res.status(200).json(category);
 });
 exports.createCategory = catchAsync(async (req, res, next) => {

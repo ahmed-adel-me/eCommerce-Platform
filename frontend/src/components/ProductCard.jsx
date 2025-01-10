@@ -20,7 +20,7 @@ export default function ProductCard({ data }) {
     });
   };
   return (
-    <Link className=" " to={`/products/${id}`}>
+    <Link className="" to={`/products/${id}`}>
       <div className="bg-white flex  rounded-xl flex-col p-3 items-center h-3/4">
         <div className="flex justify-end w-full">
           <button disabled={isLoading} onClick={handleToggleWish}>
@@ -33,7 +33,7 @@ export default function ProductCard({ data }) {
         </div>
         <div className=" h-full grid place-items-center">
           <img
-            className="w-5/6 h-5/6 object-contain"
+            className="h-[150px] object-contain"
             src={
               images.length > 0
                 ? images[0]

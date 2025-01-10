@@ -14,26 +14,48 @@ function EditCategory({ categoryId, setEditedCategory }) {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      brands: "",
+      name: category?.name || "",
+      brands: category?.brands.join(", ") || "",
       properties: [],
     },
     enableReinitialize: true,
+    validateOnChange: false,
     validationSchema: Yup.object({
       name: Yup.string()
         .min(2, "Name must be at least 2 characters")
         .max(40, "Name must be 40 characters or less")
         .required("Category name is required"),
       brands: Yup.string().nullable(),
+      properties: Yup.array().of(
+        Yup.object().shape({
+          name: Yup.string().required("Property name is required"),
+          values: Yup.string().required("Property values are required"),
+        })
+      ),
     }),
     onSubmit: (values) => {
-      updateCategory(values, {
-        onSuccess: () => {
-          setEditedCategory("");
-        },
+      const brands = values.brands
+        ? values.brands.split(",").map((item) => item.trim())
+        : null;
+
+      const properties = values.properties.map((prop) => {
+        return {
+          ...prop,
+          values: prop.values.split(",").map((val) => val.trim()),
+        };
       });
+      updateCategory(
+        { ...values, brands, properties },
+        {
+          onSuccess: () => {
+            setEditedCategory("");
+          },
+        }
+      );
     },
   });
+  console.log("category:", category);
+  console.log("formik:", formik.values);
 
   const handleDeleteProperty = (index) => {
     const updatedProperties = formik.values.properties.filter(
@@ -60,12 +82,13 @@ function EditCategory({ categoryId, setEditedCategory }) {
   };
 
   useEffect(() => {
-    if (category) {
-      formik.setValues({
-        name: category?.name || "",
-        brands: category?.brands || "",
-        properties: category.properties || [],
-      });
+    if (category && category?.properties) {
+      formik.setFieldValue(
+        "properties",
+        category?.properties.map((prop) => {
+          return { ...prop, values: prop.values.join(", ") };
+        })
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
@@ -147,11 +170,7 @@ function EditCategory({ categoryId, setEditedCategory }) {
                   className="flex-1 bg-white text-lg py-1 px-3 rounded border border-gray-400 outline-none text-gray-900 disabled:bg-gray-300 disabled:text-gray-500"
                   type="text"
                   placeholder="Comma-separated values"
-                  value={
-                    Array.isArray(property.values)
-                      ? property.values.join(",")
-                      : property.values || ""
-                  }
+                  value={property.values}
                   onChange={(e) =>
                     formik.setFieldValue(
                       `properties[${index}].values`,

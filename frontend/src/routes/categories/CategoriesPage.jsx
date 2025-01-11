@@ -19,7 +19,7 @@ export default function CategoriesPage() {
 
   return (
     <section>
-      <div className="max-w-7xl mx-auto p-7 space-y-20">
+      <div className="max-w-sm sm:max-w-3xl md:max-w-4xl xl:max-w-7xl mx-auto p-7 space-y-20">
         {Object.keys(data).map((category) => (
           <CategorizedProducts
             key={data[category]?.id}

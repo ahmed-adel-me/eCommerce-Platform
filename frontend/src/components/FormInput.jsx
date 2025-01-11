@@ -9,15 +9,15 @@ function FormInput({
   disabled,
 }) {
   return (
-    <div className="flex flex-col gap-1">
-      <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 flex-1">
+      <div className="flex flex-col gap-1 ">
         {label && (
           <label htmlFor={id || name} className="flex-1">
             {label}
           </label>
         )}
         <input
-          className="input-style flex-[2]"
+          className="input-style flex-[2] w-full"
           type={type}
           name={id || name}
           id={id || name}

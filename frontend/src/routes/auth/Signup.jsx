@@ -26,7 +26,7 @@ export default function Signup() {
   });
 
   return (
-    <section className="flex justify-center items-center min-h-screen py-10">
+    <section className="flex justify-center items-center min-h-screen py-10 mx-5">
       <div className="bg-white p-10 rounded-xl shadow-lg basis-full max-w-xl">
         <h6 className="font-semibold mb-5 text-center text-3xl">SIGN UP</h6>
         <form onSubmit={formik.handleSubmit} className="space-y-4">

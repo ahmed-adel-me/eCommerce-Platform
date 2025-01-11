@@ -20,7 +20,6 @@ function EditProduct({ productId, setActiveTab }) {
   const { categories, isLoading: categoriesAreLoading } = useCategories();
   const [images, setImages] = useState([]);
   const [removedImages, setRemovedImages] = useState([]);
-  console.log(product);
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +43,7 @@ function EditProduct({ productId, setActiveTab }) {
         },
         { newImages: [], oldImages: [] }
       );
-
+      
       updateProduct(
         { values, newImages, oldImages, removedImages },
         {
@@ -122,7 +121,14 @@ function EditProduct({ productId, setActiveTab }) {
           error={formik.errors.name}
           disabled={isUpdatingProduct || isProductLoading}
         />
-
+        <FormInput
+          label="Price"
+          name="price"
+          onChange={formik.handleChange}
+          value={formik.values.price}
+          error={formik.errors.price}
+          disabled={isProductLoading || isUpdatingProduct}
+        />
         {!categoriesAreLoading ? (
           <>
             <SelectInput
@@ -168,40 +174,44 @@ function EditProduct({ productId, setActiveTab }) {
                 {selectedCategory?.properties && (
                   <div className="flex flex-col gap-4 mt-5">
                     <h3 className="text-lg font-semibold">Properties</h3>
-                    {selectedCategory.properties.map((property) => (
-                      <div key={property.name} className="flex flex-col">
-                        <label
-                          htmlFor={`properties.${property.name}`}
-                          className="text-gray-600 font-semibold"
-                        >
-                          {property.name}
-                        </label>
-                        <select
-                          id={`properties.${property.name}`}
-                          name={`properties.${property.name}`}
-                          value={formik.values.properties[property.name] || ""}
-                          onChange={(e) =>
-                            formik.setFieldValue(
-                              `properties.${property.name}`,
-                              e.target.value || null
-                            )
-                          }
-                          className={`text-lg py-2 px-3 rounded border-2 ${
-                            formik.errors.properties?.[property.name]
-                              ? "border-red-500"
-                              : "border-gray-400"
-                          } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
-                          disabled={isUpdatingProduct}
-                        >
-                          <option value="">Select {property.name}</option>
-                          {property.values.map((value) => (
-                            <option key={value} value={value}>
-                              {value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    ))}
+                    <div className="flex flex-wrap gap-5">
+                      {selectedCategory.properties.map((property) => (
+                        <div key={property.name} className="flex flex-col">
+                          <label
+                            htmlFor={`properties.${property.name}`}
+                            className="text-gray-600 font-semibold"
+                          >
+                            {property.name}
+                          </label>
+                          <select
+                            id={`properties.${property.name}`}
+                            name={`properties.${property.name}`}
+                            value={
+                              formik.values.properties[property.name] || ""
+                            }
+                            onChange={(e) =>
+                              formik.setFieldValue(
+                                `properties.${property.name}`,
+                                e.target.value || null
+                              )
+                            }
+                            className={`text-lg py-2 px-3 rounded border-2 ${
+                              formik.errors.properties?.[property.name]
+                                ? "border-red-500"
+                                : "border-gray-400"
+                            } outline-none text-gray-900 w-full bg-white mt-1 disabled:bg-gray-300 disabled:text-gray-500`}
+                            disabled={isUpdatingProduct}
+                          >
+                            <option value="">Select {property.name}</option>
+                            {property.values.map((value) => (
+                              <option key={value} value={value}>
+                                {value}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -215,27 +225,30 @@ function EditProduct({ productId, setActiveTab }) {
             <ClipLoader />
           </div>
         ) : (
-          <div className="flex flex-wrap gap-2 mt-4">
-            {images.map((img, index) => (
-              <div key={index} className="relative">
-                <img
-                  src={
-                    img?.file instanceof File
-                      ? URL.createObjectURL(img.file)
-                      : img.src
-                  } // Generate URL for File or use img.src
-                  alt={`Image ${index}`}
-                  className="w-28 h-28 object-cover rounded shadow-md"
-                />
-                <button
-                  type="button"
-                  className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-xs"
-                  onClick={() => handleRemoveImage(index)}
-                >
-                  <HiX color="white" size={20} />
-                </button>
-              </div>
-            ))}
+          <div className="mt-2">
+            <h3 className="text-lg font-semibold">Images</h3>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {images.map((img, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={
+                      img?.file instanceof File
+                        ? URL.createObjectURL(img.file)
+                        : img.src
+                    } // Generate URL for File or use img.src
+                    alt={`Image ${index}`}
+                    className="w-28 h-28 object-cover rounded shadow-md"
+                  />
+                  <button
+                    type="button"
+                    className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-xs"
+                    onClick={() => handleRemoveImage(index)}
+                  >
+                    <HiX color="white" size={20} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
@@ -267,14 +280,6 @@ function EditProduct({ productId, setActiveTab }) {
           id="description"
           onChange={formik.handleChange}
           value={formik.values.description}
-          disabled={isProductLoading || isUpdatingProduct}
-        />
-        <FormInput
-          label="Price"
-          name="price"
-          onChange={formik.handleChange}
-          value={formik.values.price}
-          error={formik.errors.price}
           disabled={isProductLoading || isUpdatingProduct}
         />
 

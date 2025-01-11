@@ -8,6 +8,7 @@ export default function useUpdateProduct(productId) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data) => {
+      
       await removeImages(data.removedImages);
       const newImages = await uploadImages(data.newImages);
 

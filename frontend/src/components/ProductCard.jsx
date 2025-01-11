@@ -49,7 +49,7 @@ export default function ProductCard({ data }) {
         </div>
       </div>
       <div>
-        <h5 className="my-1 capitalize text-lg font-semibold">{name}</h5>
+        <h5 className="my-1 capitalize text-lg font-semibold text">{name}</h5>
         <div className="flex justify-between items-center">
           <span className="font-extrabold text-xl">${price}</span>
           <button

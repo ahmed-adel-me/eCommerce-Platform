@@ -89,6 +89,14 @@ function CreateProduct({ setActiveTab }) {
           error={formik.errors.name}
           disabled={isCreatingProduct}
         />
+        <FormInput
+          label={"Price"}
+          name={"price"}
+          onChange={formik.handleChange}
+          value={formik.values.price}
+          error={formik.errors.price}
+          disabled={isCreatingProduct}
+        />
         {!categoriesAreLoading ? (
           <>
             <SelectInput
@@ -213,14 +221,7 @@ function CreateProduct({ setActiveTab }) {
           value={formik.values.description}
           disabled={isCreatingProduct}
         />
-        <FormInput
-          label={"Price"}
-          name={"price"}
-          onChange={formik.handleChange}
-          value={formik.values.price}
-          error={formik.errors.price}
-          disabled={isCreatingProduct}
-        />
+
         <div className="flex gap-5 mt-4">
           <button
             type="submit"

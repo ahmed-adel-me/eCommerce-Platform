@@ -16,12 +16,12 @@ function StyledHeader({ children }) {
   );
 }
 function Body({ children }) {
-  return <ul className="flex flex-col gap-2 py-3 px-5">{children}</ul>;
+  return <ul className="flex flex-col py-3 px-5">{children}</ul>;
 }
 function Row({ border, children }) {
   const { columns } = useContext(TableContext);
   return (
-    <li className={border ? "border-b border-black py-2" : ""}>
+    <li className={border ? "border-b border-gray-300  py-2" : " py-2 "}>
       <div className={`grid ${columns}`}>{children}</div>
     </li>
   );

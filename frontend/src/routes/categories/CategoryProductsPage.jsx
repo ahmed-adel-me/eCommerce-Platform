@@ -18,8 +18,8 @@ export default function CategoryProductsPage() {
         </div>
       )}
       {isSuccess && (
-        <div className="max-w-7xl mx-auto py-10 space-y-10">
-          <div className="flex justify-between">
+        <div className="max-w-sm md:max-w-xl lg:max-w-4xl xl:max-w-7xl mx-auto py-10 space-y-10">
+          <div className="flex justify-between flex-col gap-5 lg:flex-row">
             <h2 className="text-4xl font-bold capitalize">
               {data.category.name}
             </h2>
@@ -42,7 +42,7 @@ export default function CategoryProductsPage() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
             {data.products.map((product) => (
               <ProductCard key={product.id} data={product} />
             ))}

@@ -4,7 +4,8 @@ import { storage } from "../firebase";
 export default async function removeImages(urls) {
   const removePromises = urls.map((url) => {
     // Create a reference to the file using the URL
-    if (!url) return;
+    if (!url || !url.includes("/o/") || url.includes("?alt=")) return;
+
     const storageRef = ref(
       storage,
       decodeURIComponent(url.split("/o/")[1].split("?alt=")[0])

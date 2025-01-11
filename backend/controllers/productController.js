@@ -370,3 +370,33 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
 
   res.status(204).json(null);
 });
+
+
+exports.createMultipleProducts = catchAsync(async (req, res, next) => {
+  const { products } = req.body;
+
+  if (!Array.isArray(products) || products.length === 0) {
+    return next(new AppError("Please provide an array of products.", 400));
+  }
+
+  const formattedProducts = products.map((product) => ({
+    name: product.name,
+    price: product.price,
+    images: Array.isArray(product.images) ? product.images : [],
+    description: product.description,
+    creator: req.user.id,
+    category: {
+      categoryRef: product.category,
+      brand: product.brand,
+      properties: product.properties,
+    },
+  }));
+
+  const newProducts = await Product.insertMany(formattedProducts);
+
+  res.status(201).json({
+    status: "success",
+    count: newProducts.length,
+    data: newProducts,
+  });
+});

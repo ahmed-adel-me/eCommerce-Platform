@@ -8,6 +8,7 @@ export default function useUpdateCategory(categoryId) {
     mutationFn: (values) => updateCategory({ categoryId, values }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["category", categoryId] });
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
       toast.success("Category updated successfully!");
     },
   });

@@ -24,7 +24,7 @@ function CategoriesTable({ setEditedCategory }) {
         {isSuccess &&
           (categories.length > 0 ? (
             categories.map((category) => (
-              <Table.Row key={category._id}>
+              <Table.Row border key={category._id}>
                 <p className="text-lg font-bold">{category.name}</p>
                 <p>{category?.brands ? category.brands.join(", ") : "-"}</p>
                 <div className="flex gap-3">

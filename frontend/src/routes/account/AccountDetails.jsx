@@ -10,7 +10,7 @@ export default function AccountDetails() {
   const { logout } = useLogout();
 
   return (
-    <div className="bg-white  rounded-lg overflow-hidden p-6 place-self-center">
+    <div className="bg-white rounded-lg  p-6 mx-5 place-self-center">
       <h2 className="text-2xl font-semibold mb-5">Account details</h2>
       {isSuccess && <Form user={user} />}
       <button
@@ -59,7 +59,7 @@ function Form({ user }) {
         onChange={formik.handleChange}
         disabled={isLoading}
       />
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-col sm:flex-row">
         <FormInput
           label={"city"}
           type="text"
@@ -77,7 +77,7 @@ function Form({ user }) {
           disabled={isLoading}
         />
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-col sm:flex-row">
         <FormInput
           label={"postal code"}
           type="text"

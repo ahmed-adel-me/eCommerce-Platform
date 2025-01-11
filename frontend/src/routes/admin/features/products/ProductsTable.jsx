@@ -23,7 +23,7 @@ function ProductsTable({ setActiveTab, setEditedProduct }) {
           {isSuccess &&
             (products.length > 0 ? (
               products.map((product) => (
-                <Table.Row key={product._id}>
+                <Table.Row border key={product._id}>
                   <p className="text-lg font-bold">{product.name}</p>
 
                   <div className="flex gap-3 justify-center">

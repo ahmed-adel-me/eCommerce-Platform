@@ -14,10 +14,10 @@ export default function CartInfo({ cart }) {
             <li className="text-sm text-gray-400 font-semibold grow-[2] basis-0 ">
               PRODUCT
             </li>
-            <li className="text-sm text-gray-400 font-semibold grow-[1] basis-0 text-center">
+            <li className="text-sm text-gray-400 font-semibold grow-[1] basis-0 text-center hidden sm:block">
               QUANTITY
             </li>
-            <li className="text-sm text-gray-400 font-semibold grow-[1] basis-0 text-center">
+            <li className="text-sm text-gray-400 font-semibold grow-[1] basis-0 text-center hidden sm:block">
               PRICE
             </li>
           </ul>

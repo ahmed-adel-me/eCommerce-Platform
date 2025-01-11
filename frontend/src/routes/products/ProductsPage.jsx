@@ -16,11 +16,11 @@ export default function ProductsPage() {
 
   return (
     <section>
-      <div className="max-w-7xl  mx-auto py-10">
+      <div className="max-w-sm mx-auto py-10 md:max-w-xl lg:max-w-4xl xl:max-w-7xl">
         {products.length > 0 ? (
           <>
             <h2 className="text-3xl font-bold capitalize">All Products</h2>
-            <div className="grid grid-cols-4 gap-10 my-10">
+            <div className="grid grid-cols-1 mx-2 gap-10 my-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products.map((prod) => (
                 <ProductCard key={prod.id} data={prod} />
               ))}

@@ -9,6 +9,7 @@ const {
   deleteProduct,
   getCategoriesWithProducts,
   editProduct,
+  createMultipleProducts,
 } = require("../controllers/productController");
 const { protect } = require("../controllers/authController");
 const reviewRouter = require("./reviewRoutes");
@@ -24,7 +25,7 @@ router.get("/categorized", getCategoriesWithProducts);
 router.get("/categorized/:categoryId", getCategoryWithProducts);
 router.get("/wishlist", getWishlist);
 router.route("/").get(getProducts).post(createProduct);
-
+router.post("/multi",createMultipleProducts)
 router.route("/featured").get(getFeaturedProduct).post(setFeaturedProduct);
 router.use("/:productId/reviews", reviewRouter);
 router

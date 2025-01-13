@@ -21,6 +21,12 @@ This project is a full-stack eCommerce platform designed to provide a seamless o
 - API-driven architecture
 - Authentication with JWT
 - State management with React Context
+- Authorization and protected routes
+- Comprehensive error handling
+
+## Video Demonstrations
+- **Backend Overview:** [Watch Video](https://github.com/user-attachments/assets/b57a809c-3102-4dfb-b0ab-359fb2e4f29a)
+- **Frontend Overview:** [Watch Video](https://github.com/user-attachments/assets/6aa5abbf-b75f-49e5-94c6-f07733c9779d)
 
 ---
 
@@ -31,7 +37,8 @@ As the sole developer of this project, I was responsible for:
 - Integrating MongoDB for data storage and Mongoose for schema management.
 - Developing reusable React components and custom hooks.
 - Implementing JWT-based authentication and protected routes.
-- Deploying both the backend and frontend to production environments.
+- Adding authorization mechanisms to ensure role-based access control.
+- Implementing error handling for a robust and user-friendly experience.
 
 ---
 
@@ -62,6 +69,8 @@ As the sole developer of this project, I was responsible for:
 #### Admin Dashboard
 ![Admin Dashboard](https://github.com/user-attachments/assets/75317816-42f6-4c70-95b3-3bc61a74f44c)  
 
+---
+
 ## Project Structure
 
 ### Backend
@@ -84,6 +93,18 @@ backend/
 - **models/**: Defines schemas for `User`, `Product`, `Order`, etc.
 - **routes/**: Includes route files for categories, orders, users, and products.
 - **utils/**: Utility functions for error handling and asynchronous operations.
+
+#### Environment Variables (local.env)
+The backend requires the following variables in a `local.env` file:
+```
+SERVER_PORT=4000
+DATABASE=<Your MongoDB Connection String>
+JWT_SECRET=<Your JWT Secret>
+JWT_EXPIRES_IN=1d
+JWT_COOKIE_EXPIRES_IN=90
+STRIPE_PRIVATE_KEY=<Your Stripe Private Key>
+CLIENT_DOMAIN=http://localhost:5173
+```
 
 ### Frontend
 The frontend is built with React.js and utilizes Vite for fast development builds.
@@ -112,6 +133,18 @@ frontend/
 - **hooks/**: Provides custom hooks for handling categories, products, and user authentication.
 - **api/**: Contains modularized API calls for authentication, orders, products, etc.
 
+#### Environment Variables (.env)
+The frontend requires the following variables in a `.env` file:
+```
+VITE_BASE_URL=http://localhost:4000/api
+VITE_FIREBASE_API_KEY=<Your Firebase API Key>
+VITE_FIREBASE_AUTH_DOMAIN=<Your Firebase Auth Domain>
+VITE_FIREBASE_PROJECT_ID=<Your Firebase Project ID>
+VITE_FIREBASE_STORAGE_BUCKET=<Your Firebase Storage Bucket>
+VITE_FIREBASE_MESSAGING_SENDER_ID=<Your Firebase Messaging Sender ID>
+VITE_FIREBASE_APP_ID=<Your Firebase App ID>
+```
+
 ---
 
 ## Setup and Installation
@@ -130,10 +163,10 @@ frontend/
    ```bash
    npm install
    ```
-3. Configure environment variables in `config.env`.
+3. Configure environment variables in `local.env`.
 4. Start the server:
    ```bash
-   npm run dev
+   npm start
    ```
 
 ### Frontend Setup
@@ -175,32 +208,6 @@ frontend/
 
 ---
 
-## Deployment
-### Backend:
-- Use a platform like Heroku or AWS for deployment.
-- Ensure environment variables are configured in the production environment.
-
-### Frontend:
-- Deploy using Vercel or Netlify.
-- Ensure API endpoints are updated to match the deployed backend.
-
----
-
-## Contribution Guidelines
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes with clear messages.
-4. Push your branch and open a pull request.
-
----
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for more information.
-
----
 
 ## Contact
 For any inquiries or collaboration, feel free to contact me at ahmed.adel.dev@hotmail.com.

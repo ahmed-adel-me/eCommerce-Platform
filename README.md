@@ -26,7 +26,7 @@ This project is a full-stack eCommerce platform designed to provide a seamless o
 
 ## Video Demonstrations
 - **Frontend Overview:** [Watch Video](https://github.com/user-attachments/assets/b57a809c-3102-4dfb-b0ab-359fb2e4f29a)
-- **Backend Overview:** [Watch Video](https://github.com/user-attachments/assets/6aa5abbf-b75f-49e5-94c6-f07733c9779d)
+- **Dashboard Overview:** [Watch Video](https://github.com/user-attachments/assets/6aa5abbf-b75f-49e5-94c6-f07733c9779d)
 
 ---
 
